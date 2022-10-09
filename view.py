@@ -3,9 +3,11 @@ from typing import Callable
 
 import tkinter as tk
 
+from game_engine import Root
+
 
 class View(ABC):
-    def __init__(self, root: tk.Tk):
+    def __init__(self, root: Root):
         self.root = root
 
     def set_listen(self, eventname: str, command: Callable):
@@ -14,7 +16,7 @@ class View(ABC):
 
 
 class MenuView(View):
-    def __init__(self, root: tk.Tk, on_new_game: Callable,
+    def __init__(self, root: Root, on_new_game: Callable,
                  on_quit: Callable):
         """" Initialisation de la vue du menu """
         # Initialise la classe parente (View) pour les éléments communs
