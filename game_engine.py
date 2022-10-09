@@ -4,7 +4,7 @@ from controller import MenuController, GameController
 
 class Root(tk.Tk):
     def __init__(self):
-        """ Initialisation du root """
+        """Initialisation du root"""
         super().__init__()
         self.title("Jeu du carré rouge")
 
