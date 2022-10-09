@@ -18,7 +18,7 @@ class Controller(ABC):
 
 
 class MenuController(Controller):
-    def __init__(self, root: Root, game_controller: Controller):
+    def __init__(self, root: Root, game_controller: GameController):
         """Initialisation du controlleur du menu"""
         super().__init__(root)
         self.view = MenuView(root, self.new_game, self.on_quit)
@@ -37,7 +37,7 @@ class MenuController(Controller):
 
 
 class GameController(Controller):
-    def __init__(self, root: tk.Tk):
+    def __init__(self, root: Root):
         """Initialisation du controlleur du jeu"""
         super().__init__(root)
         self.view = GameView(root)
