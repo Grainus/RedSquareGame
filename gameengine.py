@@ -1,5 +1,5 @@
 import tkinter as tk
-from menu.controlleur import MenuController
+from controlleur import MenuController, GameController
 
 
 class Root(tk.Tk):
@@ -12,10 +12,9 @@ class Root(tk.Tk):
         self.menu_frame.pack()
 
         self.game_frame = tk.Frame(self)
-        self.game_frame.pack()
 
-        game = None  # TODO : game_controller(self.game_frame, None)
-        self.menu = MenuController(self, game)
+        self.game_controller = GameController(self)
+        self.menu = MenuController(self, self.game_controller)
 
 
 if __name__ == "__main__":
