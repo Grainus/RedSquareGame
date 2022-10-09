@@ -1,10 +1,10 @@
 import tkinter as tk
-from controlleur import MenuController, GameController
+from controller import MenuController, GameController
 
 
 class Root(tk.Tk):
     def __init__(self):
-        """Initialisation de la fenêtre principale -> Le menu"""
+        """ Initialisation du root """
         super().__init__()
         self.title("Jeu du carré rouge")
 

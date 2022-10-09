@@ -6,4 +6,3 @@ class Difficulty(Enum):
     EASY = 1
     MEDIUM = 2  # -> Default for production
     HARD = 3
-    

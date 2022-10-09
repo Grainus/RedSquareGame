@@ -1,7 +1,7 @@
 from abc import ABC # Abstract Base Class
 import tkinter as tk
 
-from vues import MenuView, GameView
+from view import MenuView, GameView
 
 
 class Controller(ABC):
