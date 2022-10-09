@@ -3,11 +3,10 @@ from typing import Callable
 
 import tkinter as tk
 
-from game_engine import Root
 
 
 class View(ABC):
-    def __init__(self, root: Root):
+    def __init__(self, root):
         self.root = root
 
     def set_listen(self, eventname: str, command: Callable):
@@ -16,7 +15,7 @@ class View(ABC):
 
 
 class MenuView(View):
-    def __init__(self, root: Root, on_new_game: Callable,
+    def __init__(self, root, on_new_game: Callable,
                  on_quit: Callable):
         """" Initialisation de la vue du menu """
         # Initialise la classe parente (View) pour les éléments communs
@@ -53,6 +52,7 @@ class MenuView(View):
 
 
 class GameView(View):
+    # todo : the whole thing here ! :)
     def draw(self):
         """" Fonction appelée pour dessiner le jeu """
         self.root.game_frame.pack()
