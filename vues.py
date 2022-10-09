@@ -1,17 +1,21 @@
+from abc import ABC # Abstract Base Class
+from typing import Callable
+
 import tkinter as tk
 
 
-class View:
-    def __init__(self, root):
+class View(ABC):
+    def __init__(self, root: tk.Tk):
         self.root = root
 
-    def set_listen(self, eventname, command):
+    def set_listen(self, eventname: str, command: Callable):
         """" Fonction permettant de lier un événement à une fonction """
         self.root.bind(eventname, command)
 
 
 class MenuView(View):
-    def __init__(self, root, on_new_game, on_quit):
+    def __init__(self, root: tk.Tk, on_new_game: Callable,
+                 on_quit: Callable):
         """" Initialisation de la vue du menu """
         # Initialise la classe parente (View) pour les éléments communs
         super().__init__(root)
@@ -47,9 +51,6 @@ class MenuView(View):
 
 
 class GameView(View):
-    def __init__(self, root):
-        super().__init__(root)
-
     def draw(self):
         """" Fonction appelée pour dessiner le jeu """
         self.root.game_frame.pack()
