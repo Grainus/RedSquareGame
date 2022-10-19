@@ -3,10 +3,11 @@ from typing import Callable
 
 import tkinter as tk
 
+from game_engine import Root
 
 
 class View(ABC):
-    def __init__(self, root):
+    def __init__(self, root: Root):
         self.root = root
 
     def set_listen(self, eventname: str, command: Callable):

@@ -1,11 +1,14 @@
+from __future__ import annotations
+
 from abc import ABC # Abstract Base Class
 import tkinter as tk
 
+from game_engine import Root
 from view import MenuView, GameView
 
 
 class Controller(ABC):
-    def __init__(self, root):
+    def __init__(self, root: Root):
         """Initialisation du controlleur"""
         self.root = root
 
@@ -17,7 +20,7 @@ class Controller(ABC):
 
 
 class MenuController(Controller):
-    def __init__(self, root, game_controller):
+    def __init__(self, root: Root, game_controller: GameController):
         """Initialisation du controlleur du menu"""
         super().__init__(root)
         self.view = MenuView(root, self.new_game, self.on_quit)
@@ -37,7 +40,7 @@ class MenuController(Controller):
 
 class GameController(Controller):
     # todo : the whole thing here ! :)
-    def __init__(self, root):
+    def __init__(self, root: Root):
         """Initialisation du controlleur du jeu"""
         super().__init__(root)
         self.view = GameView(root)
