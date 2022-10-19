@@ -1,10 +1,15 @@
+# Type hinting
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
+# Modules standards
 from abc import ABC # Abstract Base Class
-import tkinter as tk
 
-from game_engine import Root
+# Modules du projet
 from view import MenuView, GameView
+
+if TYPE_CHECKING:
+    from game_engine import Root
 
 
 class Controller(ABC):

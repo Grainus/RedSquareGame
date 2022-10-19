@@ -1,9 +1,14 @@
+# Type hinting
+from __future__ import annotations
+from typing import TYPE_CHECKING, Callable
+
+# Modules standards
 from abc import ABC # Abstract Base Class
-from typing import Callable
 
 import tkinter as tk
 
-from game_engine import Root
+if TYPE_CHECKING:
+    from game_engine import Root
 
 
 class View(ABC):
