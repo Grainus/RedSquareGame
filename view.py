@@ -1,16 +1,21 @@
+# Type hinting
+from __future__ import annotations
+from typing import TYPE_CHECKING, Callable
+
+# Modules standards
 from abc import ABC # Abstract Base Class
-from typing import Callable
 
 import tkinter as tk
 
-from game_engine import Root
+if TYPE_CHECKING:
+    from game_engine import Root
 
 
 class View(ABC):
     def __init__(self, root: Root):
         self.root = root
 
-    def set_listen(self, eventname: str, command: Callable):
+    def set_listen(self, eventname: str, command: Callable) -> None:
         """" Fonction permettant de lier un événement à une fonction """
         self.root.bind(eventname, command)
 
@@ -29,20 +34,25 @@ class MenuView(View):
         # Création des boutons et des informations de la fenetre
         self.root.title("Jeu du carré rouge - Menu")
         self.root.geometry("900x600")
-        self.btn_new_game = tk.Button(self.root.menu_frame, text='New game',
-                                      command=self.on_new_game,
-                                      width=20, height=5,
-                                      font=('Helvetica', 20),
-                                      bg='green', fg='white')
+        self.btn_new_game = tk.Button(
+            self.root.menu_frame,
+            text='New game',
+            command=self.on_new_game,
+            width=20, height=5,
+            font=('Helvetica', 20),
+            bg='green', fg='white'
+        )
 
-        self.btn_quit = tk.Button(self.root.menu_frame, text='Quit',
-                                  command=self.on_quit,
-                                  width=20, height=5,
-                                  font=('Helvetica', 20),
-                                  bg='red', fg='white'
-                                  )
+        self.btn_quit = tk.Button(
+            self.root.menu_frame,
+            text='Quit',
+            command=self.on_quit,
+            width=20, height=5,
+            font=('Helvetica', 20),
+            bg='red', fg='white'
+        )
 
-    def destroy(self):
+    def destroy(self) -> None:
         """" Fonction appelée pour détruire le menu """
         self.root.menu_frame.destroy()
 
@@ -53,6 +63,7 @@ class MenuView(View):
 
 
 class GameView(View):
+    # todo : the whole thing here ! :)
     def draw(self):
         """" Fonction appelée pour dessiner le jeu """
         self.root.game_frame.pack()
