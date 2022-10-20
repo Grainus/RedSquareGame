@@ -33,7 +33,7 @@ from view import MenuView, GameView
 if TYPE_CHECKING:
     from game_engine import Root
 
-from model import Player
+from model import Player, Enemy, collider
 
 class Controller(ABC):
     def __init__(self, root: Root):
@@ -75,8 +75,21 @@ class GameController(Controller):
 
     def start(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
-        canvas = tk.Canvas(self.root, width=500, height=500, bg="blue")
+        WIDTH = HEIGHT = 450
+        BORDER = 50
+        PLAYERSIZE = 50
+        canvas = tk.Canvas(
+            self.root,
+            width=WIDTH,
+            height=HEIGHT,
+        )
         canvas.pack()
         self.root.update()
-        player = Player(canvas, 50, 50, 50, 100, 100, "red")
+        player = Player(
+            canvas,
+            BORDER,
+            (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
+            (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
+            "red"
+        )
         self.view.draw()

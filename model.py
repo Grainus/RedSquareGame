@@ -87,7 +87,6 @@ class Player:
         self.canvas = canvas
         
         # Affichage de la bordure
-        print(canvas.winfo_width())
         self.canvas.create_rectangle(
             0, 0,
             canvas.winfo_width(), canvas.winfo_height(),
@@ -126,20 +125,20 @@ class Player:
         
         # Position du joueur
         x1, y1, x2, y2 = self.canvas.coords(self.player)
-        pos_middle_x = int((x1 + x2) / 2)
-        pos_middle_y = int((y1 + y2) / 2)
+        self.pos_middle_x = int((x1 + x2) / 2)
+        self.pos_middle_y = int((y1 + y2) / 2)
             
         """Dimensions du canvas."""
         height = (self.canvas.winfo_height() - self.border)
         width = (self.canvas.winfo_width() - self.border)
 
         """Coins supérieurs"""
-        cs_y = (pos_middle_y) - self.heigth/2
-        cs_x = (pos_middle_x) - self.width/2
+        cs_y = (self.pos_middle_y) - self.heigth/2
+        cs_x = (self.pos_middle_x) - self.width/2
 
         """Coins inférieurs"""
-        ci_y = (pos_middle_y) + self.heigth/2
-        ci_x = (pos_middle_x) + self.width/2
+        ci_y = (self.pos_middle_y) + self.heigth/2
+        ci_x = (self.pos_middle_x) + self.width/2
 
         """Détecte la collision."""
         if ci_y > height or cs_y < 0 + self.border:
@@ -151,7 +150,7 @@ class Player:
 
     def _move(self, event) -> None:
         """Arrète le joueur si il touche aux murs."""
-        if (self.wall_collision() == False):
+        if not self.wall_collision():
             self.canvas.moveto(
                 self.player,
                 event.x - self.width/2,
