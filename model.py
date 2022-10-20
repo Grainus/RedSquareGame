@@ -127,7 +127,6 @@ class Player:
         x1, y1, x2, y2 = self.canvas.coords(self.player)
         self.pos_middle_x = int((x1 + x2) / 2)
         self.pos_middle_y = int((y1 + y2) / 2)
-            
         """Dimensions du canvas."""
         height = (self.canvas.winfo_height() - self.border)
         width = (self.canvas.winfo_width() - self.border)
