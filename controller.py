@@ -17,12 +17,21 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
+"""TODO: DOCSTRING"""
 
+# Type hinting
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+# Modules standards
 from abc import ABC # Abstract Base Class
 import tkinter as tk
 
+# Modules du projet
 from view import MenuView, GameView
-from game_engine import Root
+
+if TYPE_CHECKING:
+    from game_engine import Root
 
 from model import Player
 
@@ -58,6 +67,7 @@ class MenuController(Controller):
 
 
 class GameController(Controller):
+    # todo : the whole thing here ! :)
     def __init__(self, root: Root):
         """Initialisation du controlleur du jeu"""
         super().__init__(root)
