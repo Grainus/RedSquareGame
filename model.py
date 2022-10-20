@@ -87,25 +87,30 @@ class Player:
         self.y_stop = self.pos_middle_y + abs(y1 - y2) + 1
 
         """Lorsque le joueur clique sur le carre rouge fonction move()."""
-        canvas.bind("<B1-Motion>", self.move)
+        canvas.tag_bind(self.player, "<B1-Motion>", self._move)
 
     """Détecte une collision avec les murs."""
 
     def wall_collision(self):
 
         collision = False
-
+        
+        # Position du joueur
+        x1, y1, x2, y2 = self.canvas.coords(self.player)
+        pos_middle_x = int((x1 + x2) / 2)
+        pos_middle_y = int((y1 + y2) / 2)
+            
         """Dimensions du canvas."""
         height = (self.canvas.winfo_height() - self.border)
         width = (self.canvas.winfo_width() - self.border)
 
         """Coins supérieurs"""
-        cs_y = (self.pos_middle_y) - self.heigth/2
-        cs_x = (self.pos_middle_x) - self.width/2
+        cs_y = (pos_middle_y) - self.heigth/2
+        cs_x = (pos_middle_x) - self.width/2
 
         """Coins inférieurs"""
-        ci_y = (self.pos_middle_y) + self.heigth/2
-        ci_x = (self.pos_middle_x) + self.width/2
+        ci_y = (pos_middle_y) + self.heigth/2
+        ci_x = (pos_middle_x) + self.width/2
 
         """Détecte la collision."""
         if ci_y > height or cs_y < 0 + self.border:
@@ -115,31 +120,17 @@ class Player:
 
         return collision
 
-    def move(self, event) -> None:
-        """Vérifie si on clique bien sur le joueur."""
-        if int(event.x) in range(int(self.x_start), int(self.x_stop)):
-            if int(event.y) in range(int(self.y_start), int(self.y_stop)):
-                """Arrète le joueur si il touche aux murs."""
-                if (self.wall_collision() == False):
-
-                    """Global pour avoir l'info joueur.pos_milieu_xy dans la boucle."""
-                    global player
-
-                    """Pour avoir les (x,y) des coins du rectangle."""
-                    player_pos = self.canvas.coords(self.player)
-                    x1, y1, x2, y2 = player_pos
-
-                    """Enlève l'ancien rectangle du canvas de jeu."""
-                    self.canvas.delete(self.player)
-
-                    """Creer un nouveau joueur."""
-                    player = Player(self.canvas, self.border,
-                                    x1/2 + event.x - x2/2,
-                                    y1/2 + event.y - y2/2,
-                                    x2/2 + event.x - x1/2,
-                                    y2/2 + event.y - y1/2, color="#f00")
-                else:
-                    """Game Over."""
+    def _move(self, event) -> None:
+        """Arrète le joueur si il touche aux murs."""
+        if (self.wall_collision() == False):
+            self.canvas.moveto(
+                self.player,
+                event.x - self.width/2,
+                event.y - self.heigth/2
+            )
+            
+        else:
+            """Game Over."""
 
 
 """Vérifie un collision entre deux objets."""
