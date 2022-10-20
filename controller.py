@@ -75,7 +75,8 @@ class GameController(Controller):
 
     def start(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
-        canvas = tk.Canvas(self.root, width=500, height=500)
-        player = Player(canvas, 50, 50, 50, 100, 100, "red")
+        canvas = tk.Canvas(self.root, width=500, height=500, bg="blue")
         canvas.pack()
+        self.root.update()
+        player = Player(canvas, 50, 50, 50, 100, 100, "red")
         self.view.draw()

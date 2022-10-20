@@ -19,7 +19,7 @@
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 
 from enum import Enum
-from tkinter import Canvas
+import tkinter as tk
 
 
 class Difficulty(Enum):
@@ -82,9 +82,18 @@ class Enemy:
 
 class Player:
 
-    def __init__(self, canvas, border, x1, y1, x2, y2, color) -> None:
+    def __init__(self, canvas: tk.Canvas, border, x1, y1, x2, y2, color) -> None:
         """Canvas du jeu (celui que le joueur ne peut pas dépasser)."""
         self.canvas = canvas
+        
+        # Affichage de la bordure
+        print(canvas.winfo_width())
+        self.canvas.create_rectangle(
+            0, 0,
+            canvas.winfo_width(), canvas.winfo_height(),
+            outline="black",
+            width=border*2,
+        )
 
         """Crée le rectangle du Joueur."""
         self.player = canvas.create_rectangle(x1, y1, x2, y2, fill=color)
