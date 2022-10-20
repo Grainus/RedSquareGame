@@ -4,6 +4,7 @@ import tkinter as tk
 from view import MenuView, GameView
 from game_engine import Root
 
+from model import Player
 
 class Controller(ABC):
     def __init__(self, root: Root):
@@ -44,4 +45,7 @@ class GameController(Controller):
 
     def start(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
+        canvas = tk.Canvas(self.root, width=500, height=500)
+        player = Player(canvas, 50, 50, 50, 100, 100, "red")
+        canvas.pack()
         self.view.draw()
