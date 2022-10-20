@@ -1,5 +1,25 @@
+# Copyright (c) 2022 Grainus, WyllasSidjeno, AsadPug, Phil-DB
+# Licence Libre MIT
+
+# L’autorisation est accordée, gracieusement, à toute personne acquérant une copie
+# de ce logiciel et des fichiers de documentation associés (le « logiciel »), de commercialiser
+# le logiciel sans restriction, notamment les droits d’utiliser, de copier, de modifier,
+# de fusionner, de publier, de distribuer, de sous-licencier et / ou de vendre des copies du logiciel,
+# ainsi que d’autoriser les personnes auxquelles la logiciel est fournie à le faire,
+# sous réserve des conditions suivantes :
+# 
+# La déclaration de copyright ci-dessus et la présente autorisation doivent être incluses dans
+# toutes copies ou parties substantielles du logiciel.
+# 
+# LE LOGICIEL EST FOURNI « TEL QUEL », SANS GARANTIE D’AUCUNE SORTE, EXPLICITE OU IMPLICITE,
+# NOTAMMENT SANS GARANTIE DE QUALITÉ MARCHANDE, D’ADÉQUATION À UN USAGE PARTICULIER ET D’ABSENCE
+# DE CONTREFAÇON. EN AUCUN CAS, LES AUTEURS OU TITULAIRES DU DROIT D’AUTEUR NE SERONT RESPONSABLES
+# DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
+# D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
+# OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
+
 from enum import Enum
-from tkinter import Canvas
+import tkinter as tk
 
 
 class Difficulty(Enum):
@@ -62,9 +82,17 @@ class Enemy:
 
 class Player:
 
-    def __init__(self, canvas, border, x1, y1, x2, y2, color) -> None:
+    def __init__(self, canvas: tk.Canvas, border, x1, y1, x2, y2, color) -> None:
         """Canvas du jeu (celui que le joueur ne peut pas dépasser)."""
         self.canvas = canvas
+        
+        # Affichage de la bordure
+        self.canvas.create_rectangle(
+            0, 0,
+            canvas.winfo_width(), canvas.winfo_height(),
+            outline="black",
+            width=border*2,
+        )
 
         """Crée le rectangle du Joueur."""
         self.player = canvas.create_rectangle(x1, y1, x2, y2, fill=color)
@@ -87,14 +115,18 @@ class Player:
         self.y_stop = self.pos_middle_y + abs(y1 - y2) + 1
 
         """Lorsque le joueur clique sur le carre rouge fonction move()."""
-        canvas.bind("<B1-Motion>", self.move)
+        canvas.tag_bind(self.player, "<B1-Motion>", self._move)
 
     """Détecte une collision avec les murs."""
 
     def wall_collision(self):
 
         collision = False
-
+        
+        # Position du joueur
+        x1, y1, x2, y2 = self.canvas.coords(self.player)
+        self.pos_middle_x = int((x1 + x2) / 2)
+        self.pos_middle_y = int((y1 + y2) / 2)
         """Dimensions du canvas."""
         height = (self.canvas.winfo_height() - self.border)
         width = (self.canvas.winfo_width() - self.border)
@@ -115,31 +147,17 @@ class Player:
 
         return collision
 
-    def move(self, event) -> None:
-        """Vérifie si on clique bien sur le joueur."""
-        if int(event.x) in range(int(self.x_start), int(self.x_stop)):
-            if int(event.y) in range(int(self.y_start), int(self.y_stop)):
-                """Arrète le joueur si il touche aux murs."""
-                if (self.wall_collision() == False):
-
-                    """Global pour avoir l'info joueur.pos_milieu_xy dans la boucle."""
-                    global player
-
-                    """Pour avoir les (x,y) des coins du rectangle."""
-                    player_pos = self.canvas.coords(self.player)
-                    x1, y1, x2, y2 = player_pos
-
-                    """Enlève l'ancien rectangle du canvas de jeu."""
-                    self.canvas.delete(self.player)
-
-                    """Creer un nouveau joueur."""
-                    player = Player(self.canvas, self.border,
-                                    x1/2 + event.x - x2/2,
-                                    y1/2 + event.y - y2/2,
-                                    x2/2 + event.x - x1/2,
-                                    y2/2 + event.y - y1/2, color="#f00")
-                else:
-                    """Game Over."""
+    def _move(self, event) -> None:
+        """Arrète le joueur si il touche aux murs."""
+        if not self.wall_collision():
+            self.canvas.moveto(
+                self.player,
+                event.x - self.width/2,
+                event.y - self.heigth/2
+            )
+            
+        else:
+            """Game Over."""
 
 
 """Vérifie un collision entre deux objets."""
