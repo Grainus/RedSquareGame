@@ -85,11 +85,12 @@ class GameController(Controller):
         )
         canvas.pack()
         self.root.update()
-        player = Player(
-            canvas,
-            BORDER,
-            (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
-            (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
-            "red"
-        )
+        # player = Player(
+        #     canvas,
+        #     BORDER,
+        #     (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
+        #     (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
+        #     "red"
+        # )
+        player = Player(canvas, BORDER, PLAYERSIZE, PLAYERSIZE, "red")
         self.view.draw()

@@ -18,9 +18,10 @@
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 
+from ctypes import HRESULT
 from enum import Enum
 import tkinter as tk
-
+import c31Geometry.c31Geometry2 as geo
 
 class Difficulty(Enum):
     """Enumération des difficultés de jeu"""
@@ -34,24 +35,33 @@ class Difficulty(Enum):
 
 class Enemy:
 
-    def __init__(self, canvas, x1, y1, x2, y2, color, speed_x, speed_y) -> None:
+    def __init__(self, canvas: tk.Canvas,
+            startpos: geo.Point,
+            endpos: geo.Point,
+            color: str,
+            speed: geo.Vecteur,
+    ):
         """Canvas du jeu (peut-être root)."""
         self.canvas = canvas
 
         """Crée l'image de l'enemy"""
-        self.enemy = canvas.create_rectangle(x1, y1, x2, y2, fill=color)
+        self.enemy = canvas.create_rectangle(
+            startpos.x, startpos.y,
+            endpos.x, endpos.y,
+            fill=color,
+        )
 
         """La vitesse et direction de l'animation (ex: -2, 2)."""
-        self.speed_x = speed_x
-        self.speed_y = speed_y
+        self.speed_x = speed.real
+        self.speed_y = speed.imag
 
         """Calcule le milieu d'un segment/vecteur."""
-        self.pos_middle_x = int((x1 + x2) / 2)
-        self.pos_middle_y = int((y1 + y2) / 2)
+        self.pos_middle_x = (startpos.x + endpos.x) / 2
+        self.pos_middle_y = (startpos.y - endpos.y) / 2
 
         """Pour collider()."""
-        self.heigth = abs(y1 - y2)
-        self.width = abs(x1 - x2)
+        self.heigth = abs(startpos.y - endpos.y)
+        self.width = abs(startpos.x - endpos.x)
 
     """La logique du déplacement des ennemis, peut en faire plusieurs."""
 
@@ -82,7 +92,12 @@ class Enemy:
 
 class Player:
 
-    def __init__(self, canvas: tk.Canvas, border, x1, y1, x2, y2, color) -> None:
+    def __init__(self, canvas: tk.Canvas,
+            border: float,
+            width: float,
+            height: float,
+            color: str,
+    ):
         """Canvas du jeu (celui que le joueur ne peut pas dépasser)."""
         self.canvas = canvas
         
@@ -94,6 +109,11 @@ class Player:
             width=border*2,
         )
 
+        x1 = (canvas.winfo_width() - width) / 2
+        x2 = (canvas.winfo_width() + width) / 2
+        y1 = (canvas.winfo_height() - height) / 2
+        y2 = (canvas.winfo_height() + height) / 2
+        
         """Crée le rectangle du Joueur."""
         self.player = canvas.create_rectangle(x1, y1, x2, y2, fill=color)
 
@@ -119,7 +139,7 @@ class Player:
 
     """Détecte une collision avec les murs."""
 
-    def wall_collision(self):
+    def wall_collision(self, bordersize: float = NotImplemented):
 
         collision = False
         
