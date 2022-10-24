@@ -1,2 +1,2 @@
 # RedSquareGame
-Survive as long as you can while dangerous rectangles bounce around you.
+Simple jeu style arcade où le joueur doit déplacer un carré rouge afin d'éviter des rectangles de plus en plus vites.
