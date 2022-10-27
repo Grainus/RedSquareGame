@@ -130,12 +130,12 @@ class Player:
         width = (self.canvas.winfo_width() - self.border)
 
         # Coins supérieurs
-        cs_y = (self.pos_middle_y) - self.heigth/2
-        cs_x = (self.pos_middle_x) - self.width/2
+        cs_y = self.pos_middle_y - self.heigth / 2
+        cs_x = self.pos_middle_x - self.width / 2
 
         # Coins inférieurs
-        ci_y = (self.pos_middle_y) + self.heigth/2
-        ci_x = (self.pos_middle_x) + self.width/2
+        ci_y = self.pos_middle_y + self.heigth / 2
+        ci_x = self.pos_middle_x + self.width / 2
 
         # Détecte la collision.
         if ci_y > height or cs_y < 0 + self.border:
@@ -192,21 +192,21 @@ def collider(object1, object2):
     y_diff_min = (object1.heigth/2) + (object2.heigth/2)
 
     # Distance entre les deux côtés.
-    if (top_y_obj1 - bottom_y_obj2 == 0):
-        if (abs(top_x_obj1 - bottom_x_obj2) < x_diff_min):
+    if top_y_obj1 - bottom_y_obj2 == 0:
+        if abs(top_x_obj1 - bottom_x_obj2) < x_diff_min:
             collision = "top"
 
-    elif (bottom_y_obj1 - top_y_obj2 == 0):
-        if (abs(bottom_x_obj1 - top_x_obj2) < x_diff_min):
+    elif bottom_y_obj1 - top_y_obj2 == 0:
+        if abs(bottom_x_obj1 - top_x_obj2) < x_diff_min:
 
             collision = "bottom"
 
-    elif (right_x_obj1 - left_x_obj2 == 0):
-        if (abs(right_y_obj1 - left_y_obj2) < y_diff_min):
+    elif right_x_obj1 - left_x_obj2 == 0:
+        if abs(right_y_obj1 - left_y_obj2) < y_diff_min:
             collision = "right"
 
-    elif (left_x_obj1 - right_x_obj2 == 0):
-        if (abs(left_y_obj1 - right_y_obj2) < y_diff_min):
+    elif left_x_obj1 - right_x_obj2 == 0:
+        if abs(left_y_obj1 - right_y_obj2) < y_diff_min:
             collision = "left"
 
     #Return le coin de collision de l'objet1
