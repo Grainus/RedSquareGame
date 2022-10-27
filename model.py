@@ -29,7 +29,8 @@ class Difficulty(Enum):
     HARD = 3
 
 
-"""window.update() time.sleep(0.01) dans loop jeu pour animation ennemi"""
+# window.update() time.sleep(0.01) dans loop jeu pour animation ennemi
+# C'est pourquoi ça ?
 
 
 class Enemy:
