@@ -26,7 +26,7 @@ from typing import TYPE_CHECKING, Callable
 # Modules standards
 from abc import ABC  # Abstract Base Class
 import tkinter as tk
-from tkinter import PhotoImage,TOP
+from tkinter import PhotoImage
 
 if TYPE_CHECKING:
     from game_engine import Root
