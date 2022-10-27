@@ -33,8 +33,9 @@ class Difficulty(Enum):
 
 
 class Enemy:
-
+    """"Initalise la classe ennemi"""
     def __init__(self, canvas, x1, y1, x2, y2, color, speed_x, speed_y) -> None:
+        """Initialise les variables de la classe."""
         # Canvas du jeu (peut-être root).
         self.canvas = canvas
 
@@ -82,8 +83,9 @@ class Enemy:
 
 
 class Player:
-
+    """"Initalise la classe joueur"""
     def __init__(self, canvas: tk.Canvas, border, x1, y1, x2, y2, color) -> None:
+        """Initialise les variables de la classe."""
         # Canvas du jeu (celui que le joueur ne peut pas dépasser).
         self.canvas = canvas
         
