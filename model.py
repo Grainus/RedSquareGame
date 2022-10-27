@@ -209,5 +209,5 @@ def collider(object1, object2):
         if abs(left_y_obj1 - right_y_obj2) < y_diff_min:
             collision = "left"
 
-    #Return le coin de collision de l'objet1
+    # Return le coin de collision de l'objet1
     return collision
