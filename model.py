@@ -53,9 +53,10 @@ class Enemy:
         self.heigth = abs(y1 - y2)
         self.width = abs(x1 - x2)
 
-    """La logique du déplacement des ennemis, peut en faire plusieurs."""
+
 
     def animate_enemy_bounce(self) -> None:
+        """La logique du déplacement des ennemis, peut en faire plusieurs."""
         # Dimensions du canvas.
         height = (self.canvas.winfo_height())
         width = (self.canvas.winfo_width())
@@ -117,10 +118,10 @@ class Player:
         # Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.player, "<B1-Motion>", self._move)
 
-    """Détecte une collision avec les murs."""
+
 
     def wall_collision(self):
-
+        """Détecte une collision avec les murs."""
         collision = False
         
         # Position du joueur
@@ -160,11 +161,11 @@ class Player:
             # Game Over.
 
 
-"""Vérifie un collision entre deux objets."""
+
 
 
 def collider(object1, object2):
-
+    """Vérifie un collision entre deux objets."""
     collision = ""
 
     top_x_obj1 = object1.pos_middle_x
