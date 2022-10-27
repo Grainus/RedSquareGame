@@ -27,8 +27,6 @@ class Difficulty(Enum):
     EASY = 1
     MEDIUM = 2  # -> Default for production
     HARD = 3
-
-
 # window.update() time.sleep(0.01) dans loop jeu pour animation ennemi
 # C'est pourquoi ça ?
 
@@ -54,8 +52,6 @@ class Enemy:
         # Pour collider().
         self.heigth = abs(y1 - y2)
         self.width = abs(x1 - x2)
-
-
 
     def animate_enemy_bounce(self) -> None:
         """La logique du déplacement des ennemis, peut en faire plusieurs."""
@@ -121,8 +117,6 @@ class Player:
         # Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.player, "<B1-Motion>", self._move)
 
-
-
     def wall_collision(self):
         """Détecte une collision avec les murs."""
         collision = False
@@ -163,9 +157,6 @@ class Player:
         else:
             pass
             # Game Over.
-
-
-
 
 
 def collider(object1, object2):

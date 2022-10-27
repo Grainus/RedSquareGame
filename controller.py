@@ -35,6 +35,7 @@ if TYPE_CHECKING:
 
 from model import Player, Enemy, collider
 
+
 class Controller(ABC):
     def __init__(self, root: Root):
         """Initialisation du controlleur"""
