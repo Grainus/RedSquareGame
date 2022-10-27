@@ -35,45 +35,45 @@ class Difficulty(Enum):
 class Enemy:
 
     def __init__(self, canvas, x1, y1, x2, y2, color, speed_x, speed_y) -> None:
-        """Canvas du jeu (peut-être root)."""
+        # Canvas du jeu (peut-être root).
         self.canvas = canvas
 
-        """Crée l'image de l'enemy"""
+        # Crée l'image de l'enemy.
         self.enemy = canvas.create_rectangle(x1, y1, x2, y2, fill=color)
 
-        """La vitesse et direction de l'animation (ex: -2, 2)."""
+        # La vitesse et direction de l'animation (ex: -2, 2).
         self.speed_x = speed_x
         self.speed_y = speed_y
 
-        """Calcule le milieu d'un segment/vecteur."""
+        # Calcule le milieu d'un segment/vecteur.
         self.pos_middle_x = int((x1 + x2) / 2)
         self.pos_middle_y = int((y1 + y2) / 2)
 
-        """Pour collider()."""
+        # Pour collider().
         self.heigth = abs(y1 - y2)
         self.width = abs(x1 - x2)
 
     """La logique du déplacement des ennemis, peut en faire plusieurs."""
 
     def animate_enemy_bounce(self) -> None:
-        """Dimensions du canvas."""
+        # Dimensions du canvas.
         height = (self.canvas.winfo_height())
         width = (self.canvas.winfo_width())
 
-        """Bouge le rectangle dans la direction indiquée."""
+        # Bouge le rectangle dans la direction indiquée.
         self.canvas.move(self.enemy, self.speed_x, self.speed_y)
 
-        """Pour avoir les (x,y) des coins du rectangle."""
+        # Pour avoir les (x,y) des coins du rectangle.
         carre_pos = self.canvas.coords(self.enemy)
         x1, y1, x2, y2 = carre_pos
 
-        """Met à jour pos_milieu_xy."""
+        # Met à jour pos_milieu_xy.
         self.pos_middle_x = int((x1 + x2) / 2)
         self.pos_middle_y = int((y1 + y2) / 2)
         self.height = abs(x1 - x2)
         self.width = abs(y1 - y2)
 
-        """Si l'objet touche à un mur il change de direction."""
+        # Si l'objet touche à un mur il change de direction.
         if y1 < abs(self.speed_y) or y2 > height - abs(self.speed_y):
             self.speed_y = - self.speed_y
         if x1 < abs(self.speed_x) or x2 > width - abs(self.speed_x):
@@ -83,7 +83,7 @@ class Enemy:
 class Player:
 
     def __init__(self, canvas: tk.Canvas, border, x1, y1, x2, y2, color) -> None:
-        """Canvas du jeu (celui que le joueur ne peut pas dépasser)."""
+        # Canvas du jeu (celui que le joueur ne peut pas dépasser).
         self.canvas = canvas
         
         # Affichage de la bordure
@@ -94,27 +94,27 @@ class Player:
             width=border*2,
         )
 
-        """Crée le rectangle du Joueur."""
+        # Crée le rectangle du Joueur.
         self.player = canvas.create_rectangle(x1, y1, x2, y2, fill=color)
 
-        """Pour wall_collision()."""
+        # Pour wall_collision().
         self.border = border
 
-        """Calcule le milieu d'un segment/vecteur."""
+        # Calcule le milieu d'un segment/vecteur.
         self.pos_middle_x = int((x1 + x2) / 2)
         self.pos_middle_y = int((y1 + y2) / 2)
 
-        """Pour collider()."""
+        # Pour collider().
         self.heigth = abs(y1 - y2)
         self.width = abs(x1 - x2)
 
-        """Pour la vérification du clique."""
+        # Pour la vérification du clique.
         self.x_start = self.pos_middle_x - abs(x1 - x2)
         self.x_stop = self.pos_middle_x + abs(x1 - x2) + 1
         self.y_start = self.pos_middle_y - abs(y1 - y2)
         self.y_stop = self.pos_middle_y + abs(y1 - y2) + 1
 
-        """Lorsque le joueur clique sur le carre rouge fonction move()."""
+        # Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.player, "<B1-Motion>", self._move)
 
     """Détecte une collision avec les murs."""
@@ -127,19 +127,19 @@ class Player:
         x1, y1, x2, y2 = self.canvas.coords(self.player)
         self.pos_middle_x = int((x1 + x2) / 2)
         self.pos_middle_y = int((y1 + y2) / 2)
-        """Dimensions du canvas."""
+        # Dimensions du canvas.
         height = (self.canvas.winfo_height() - self.border)
         width = (self.canvas.winfo_width() - self.border)
 
-        """Coins supérieurs"""
+        # Coins supérieurs
         cs_y = (self.pos_middle_y) - self.heigth/2
         cs_x = (self.pos_middle_x) - self.width/2
 
-        """Coins inférieurs"""
+        # Coins inférieurs
         ci_y = (self.pos_middle_y) + self.heigth/2
         ci_x = (self.pos_middle_x) + self.width/2
 
-        """Détecte la collision."""
+        # Détecte la collision.
         if ci_y > height or cs_y < 0 + self.border:
             collision = True
         elif ci_x > width or cs_x < 0 + self.border:
@@ -148,7 +148,7 @@ class Player:
         return collision
 
     def _move(self, event) -> None:
-        """Arrète le joueur si il touche aux murs."""
+        # Arrète le joueur si il touche aux murs.
         if not self.wall_collision():
             self.canvas.moveto(
                 self.player,
@@ -157,7 +157,7 @@ class Player:
             )
             
         else:
-            """Game Over."""
+            # Game Over.
 
 
 """Vérifie un collision entre deux objets."""
@@ -191,11 +191,11 @@ def collider(object1, object2):
     right_x_obj2 = object2.pos_middle_x + (object2.width/2)
     right_y_obj2 = object2.pos_middle_y
 
-    """Distance minimum entre les deux objets."""
+    # Distance minimum entre les deux objets.
     x_diff_min = (object1.width/2) + (object2.width/2)
     y_diff_min = (object1.heigth/2) + (object2.heigth/2)
 
-    """Distance entre les deux côtés."""
+    # Distance entre les deux côtés.
     if (top_y_obj1 - bottom_y_obj2 == 0):
         if (abs(top_x_obj1 - bottom_x_obj2) < x_diff_min):
             collision = "top"
@@ -213,5 +213,5 @@ def collider(object1, object2):
         if (abs(left_y_obj1 - right_y_obj2) < y_diff_min):
             collision = "left"
 
-    """Return le coin de collision de l'objet1"""
+    #Return le coin de collision de l'objet1
     return collision
