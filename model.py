@@ -41,7 +41,7 @@ class RectSprite:
     ):
         """
         Args:
-            canvas: Canvas où l'on dessine l'objet.
+            canvas: Canvas où est dessiné l'objet.
             pos: Position du centre de l'objet.
             width: Largeur.
             height: Hauteur.
@@ -51,19 +51,19 @@ class RectSprite:
         self.pos_middle = pos
         self.height = height
         self.width = width
-        
+
         halfsize = geo.Vecteur(width, height) / 2
         self.p1 = pos - halfsize
         "Coin supérieur gauche ↖ du rectangle."
         self.p2 = pos + halfsize
         "Coin inférieur droit ↘ du rectangle."
-        
+
         # Crée le rectangle de l'entité.
         self.sprite = canvas.create_rectangle(*self.p1, *self.p2, fill=color)
-        
+
     def update_pos(self) -> None:
         """Met à jour les attributs de position de l'objet.
-        
+
         Note:
             Ne déplace pas le rectangle sur le canvas. Seules les
             variables `self.p1`, `self.p2`, et `self.pos_middle` sont
@@ -73,7 +73,7 @@ class RectSprite:
         self.p1, self.p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
         # Centre: Coin ↖ plus la moitié du vecteur entre les deux coins
         self.pos_middle = self.p1 + (self.p2 - self.p1) / 2
-        
+
 
 
 class Enemy(RectSprite):
@@ -125,7 +125,16 @@ class Player(RectSprite):
             height: float,
             color: str,
             enemy: Enemy # TESTING
-    ):  
+    ):
+        """Initialise le modèle du joueur.
+
+        Args:
+            canvas: Canvas où est dessiné l'objet.
+            pos: Position du centre de l'objet.
+            width: Largeur.
+            height: Hauteur.
+            color: Couleur de remplissage.
+        """
         self.enemy = enemy # TESTING
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
         pos = geo.Point(cwidth / 2, cheight / 2)
@@ -149,7 +158,7 @@ class Player(RectSprite):
     def wall_collision(self, bordersize: float = None):
         if bordersize is None:
             bordersize = self.border
-            
+
         self.update_pos()
 
         """Dimensions du canvas."""
@@ -169,7 +178,7 @@ class Player(RectSprite):
                 event.x - self.width/2,
                 event.y - self.height/2
             )
-            
+
         else:
             print("""Game Over.""")
         collider(self, self.enemy) # TESTING
