@@ -19,6 +19,7 @@
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 
 import tkinter as tk
+from turtle import back
 from controller import MenuController, GameController
 
 
@@ -28,8 +29,8 @@ class Root(tk.Tk):
         super().__init__()
         self.title("Jeu du carré rouge")
 
-        self.menu_frame = tk.Frame(self)
-        self.menu_frame.pack()
+        self.menu_frame = tk.Frame(self, height=450,width=450)
+        self.menu_frame.place(x=0,y=0)
 
         self.game_frame = tk.Frame(self)
 
