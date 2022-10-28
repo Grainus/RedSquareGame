@@ -155,7 +155,9 @@ class Player:
                 event.x - self.width/2,
                 event.y - self.heigth/2
             )
-            
+            # update position player pour collider
+	        self.pos_middle_x = event.x
+            self.pos_middle_y = event.y
         else:
             """Game Over."""
 
@@ -165,53 +167,18 @@ class Player:
 
 def collider(object1, object2):
 
-    collision = ""
-
-    top_x_obj1 = object1.pos_middle_x
-    top_y_obj1 = object1.pos_middle_y - (object1.heigth/2)
-
-    bottom_x_obj1 = object1.pos_middle_x
-    bottom_y_obj1 = object1.pos_middle_y + (object1.heigth/2)
-
-    left_x_obj1 = object1.pos_middle_x - (object1.width/2)
-    left_y_obj1 = object1.pos_middle_y
-
-    right_x_obj1 = object1.pos_middle_x + (object1.width/2)
-    right_y_obj1 = object1.pos_middle_y
-
-    top_x_obj2 = object2.pos_middle_x
-    top_y_obj2 = object2.pos_middle_y - (object2.heigth/2)
-
-    bottom_x_obj2 = object2.pos_middle_x
-    bottom_y_obj2 = object2.pos_middle_y + (object2.heigth/2)
-
-    left_x_obj2 = object2.pos_middle_x - (object2.width/2)
-    left_y_obj2 = object2.pos_middle_y
-
-    right_x_obj2 = object2.pos_middle_x + (object2.width/2)
-    right_y_obj2 = object2.pos_middle_y
-
-    """Distance minimum entre les deux objets."""
+    collision = False        
+    
+    # Distance minimum entre les deux objets.
     x_diff_min = (object1.width/2) + (object2.width/2)
     y_diff_min = (object1.heigth/2) + (object2.heigth/2)
 
-    """Distance entre les deux côtés."""
-    if (top_y_obj1 - bottom_y_obj2 == 0):
-        if (abs(top_x_obj1 - bottom_x_obj2) < x_diff_min):
-            collision = "top"
+    # Distance entre les deux objets.
+    x_diff = abs(object1.pos_middle_x - object2.pos_middle_x)
+    y_diff = abs(object1.pos_middle_y - object1.pos_middle_y)
 
-    elif (bottom_y_obj1 - top_y_obj2 == 0):
-        if (abs(bottom_x_obj1 - top_x_obj2) < x_diff_min):
+    if x_diff < x_diff_min:
+        if y_diff < y_diff_min:
+            collision = True
 
-            collision = "bottom"
-
-    elif (right_x_obj1 - left_x_obj2 == 0):
-        if (abs(right_y_obj1 - left_y_obj2) < y_diff_min):
-            collision = "right"
-
-    elif (left_x_obj1 - right_x_obj2 == 0):
-        if (abs(left_y_obj1 - right_y_obj2) < y_diff_min):
-            collision = "left"
-
-    """Return le coin de collision de l'objet1"""
     return collision
