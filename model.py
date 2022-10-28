@@ -18,7 +18,6 @@
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 
-from ctypes import HRESULT
 from enum import Enum
 import tkinter as tk
 import c31Geometry.c31Geometry2 as geo
@@ -108,76 +107,67 @@ class Player:
             outline="black",
             width=border*2,
         )
+        
+        cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
 
-        x1 = (canvas.winfo_width() - width) / 2
-        x2 = (canvas.winfo_width() + width) / 2
-        y1 = (canvas.winfo_height() - height) / 2
-        y2 = (canvas.winfo_height() + height) / 2
+        p1 = geo.Point((cwidth - width) / 2, (cheight - height) / 2)
+        p2 = geo.Point((cwidth + width) / 2, (cheight + height) / 2)
         
         """Crée le rectangle du Joueur."""
-        self.player = canvas.create_rectangle(x1, y1, x2, y2, fill=color)
+        self.player = canvas.create_rectangle(*p1, *p2, fill=color)
 
         """Pour wall_collision()."""
         self.border = border
 
         """Calcule le milieu d'un segment/vecteur."""
-        self.pos_middle_x = int((x1 + x2) / 2)
-        self.pos_middle_y = int((y1 + y2) / 2)
+        self.pos_middle = p1 + (p2 - p1) / 2
 
         """Pour collider()."""
-        self.heigth = abs(y1 - y2)
-        self.width = abs(x1 - x2)
-
-        """Pour la vérification du clique."""
-        self.x_start = self.pos_middle_x - abs(x1 - x2)
-        self.x_stop = self.pos_middle_x + abs(x1 - x2) + 1
-        self.y_start = self.pos_middle_y - abs(y1 - y2)
-        self.y_stop = self.pos_middle_y + abs(y1 - y2) + 1
+        self.height = height
+        self.width = width
 
         """Lorsque le joueur clique sur le carre rouge fonction move()."""
         canvas.tag_bind(self.player, "<B1-Motion>", self._move)
 
     """Détecte une collision avec les murs."""
 
-    def wall_collision(self, bordersize: float = NotImplemented):
-
-        collision = False
-        
+    def wall_collision(self, bordersize: float = None):
+        if bordersize is None:
+            bordersize = self.border
         # Position du joueur
-        x1, y1, x2, y2 = self.canvas.coords(self.player)
-        self.pos_middle_x = int((x1 + x2) / 2)
-        self.pos_middle_y = int((y1 + y2) / 2)
+        #x1, y1, x2, y2 = self.canvas.coords(self.player)
+        coords = self.canvas.coords(self.player)
+        p1, p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
+        self.pos_middle = p1 + (p2 - p1) / 2
+
         """Dimensions du canvas."""
-        height = (self.canvas.winfo_height() - self.border)
-        width = (self.canvas.winfo_width() - self.border)
+        cheight = self.canvas.winfo_height() - bordersize
+        cwidth = self.canvas.winfo_width() - bordersize
 
-        """Coins supérieurs"""
-        cs_y = (self.pos_middle_y) - self.heigth/2
-        cs_x = (self.pos_middle_x) - self.width/2
+        # Coins
+        halfsize = geo.Vecteur(self.width, self.height) / 2
 
-        """Coins inférieurs"""
-        ci_y = (self.pos_middle_y) + self.heigth/2
-        ci_x = (self.pos_middle_x) + self.width/2
+        # Coin ↖
+        corner_ul = self.pos_middle - halfsize
+        # Coin ↘
+        corner_dr = self.pos_middle + halfsize
 
         """Détecte la collision."""
-        if ci_y > height or cs_y < 0 + self.border:
-            collision = True
-        elif ci_x > width or cs_x < 0 + self.border:
-            collision = True
-
-        return collision
+        return (not bordersize < corner_ul.y < corner_dr.y < cheight
+                or not bordersize < corner_ul.x < corner_dr.x < cwidth)
 
     def _move(self, event) -> None:
+        #TODO: This doc is irrelevant to the actual effect of the method
         """Arrète le joueur si il touche aux murs."""
         if not self.wall_collision():
             self.canvas.moveto(
                 self.player,
                 event.x - self.width/2,
-                event.y - self.heigth/2
+                event.y - self.height/2
             )
             
         else:
-            """Game Over."""
+            print("""Game Over.""")
 
 
 """Vérifie un collision entre deux objets."""
