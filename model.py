@@ -20,7 +20,7 @@
 
 from enum import Enum
 import tkinter as tk
-import c31Geometry.c31Geometry2 as geo
+import c31Geometry.c31Geometry2 as geo # type: ignore
 
 class Difficulty(Enum):
     """Enumération des difficultés de jeu"""
@@ -31,16 +31,15 @@ class Difficulty(Enum):
 
 """window.update() time.sleep(0.01) dans loop jeu pour animation ennemi"""
 
-
-class BaseSprite:
+class RectSprite:
+    """Classe de base pour les entités rectangulaires dans le canvas."""
     def __init__(self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
             height: float,
             color: str,
     ):
-        """Initialise une entité rectangulaire dans le jeu.
-
+        """
         Args:
             canvas: Canvas où l'on dessine l'objet.
             pos: Position du centre de l'objet.
@@ -54,14 +53,30 @@ class BaseSprite:
         self.width = width
         
         halfsize = geo.Vecteur(width, height) / 2
-        p1 = pos - halfsize
-        p2 = pos + halfsize
+        self.p1 = pos - halfsize
+        "Coin supérieur gauche ↖ du rectangle."
+        self.p2 = pos + halfsize
+        "Coin inférieur droit ↘ du rectangle."
         
         # Crée le rectangle de l'entité.
-        self.sprite = canvas.create_rectangle(*p1, *p2, fill=color)
+        self.sprite = canvas.create_rectangle(*self.p1, *self.p2, fill=color)
+        
+    def update_pos(self) -> None:
+        """Met à jour les attributs de position de l'objet.
+        
+        Note:
+            Ne déplace pas le rectangle sur le canvas. Seules les
+            variables `self.p1`, `self.p2`, et `self.pos_middle` sont
+            modifiées.
+        """
+        coords = self.canvas.coords(self.sprite)
+        self.p1, self.p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
+        # Centre: Coin ↖ plus la moitié du vecteur entre les deux coins
+        self.pos_middle = self.p1 + (self.p2 - self.p1) / 2
+        
 
 
-class Enemy(BaseSprite):
+class Enemy(RectSprite):
 
     def __init__(self, canvas: tk.Canvas,
             pos: geo.Point,
@@ -86,39 +101,32 @@ class Enemy(BaseSprite):
 
     def animate_enemy_bounce(self) -> None:
         """La logique du déplacement des ennemis, peut en faire plusieurs."""
-        # Note: confusing docstring               ^^^^^^^^^^^^^^^^^^^^^^^^ ???
-        """Bouge le rectangle dans la direction indiquée."""
+        # NOTE: confusing docstring               ^^^^^^^^^^^^^^^^^^^^^^^^ ???
+        # Bouge le rectangle dans la direction indiquée.
         self.canvas.move(self.sprite, *self.speed)
-
-        """Pour avoir les (x,y) des coins du rectangle."""
-        coords = self.canvas.coords(self.sprite)
-        p1, p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
-        self.pos_middle = p1 + (p2 - p1) / 2
+        self.update_pos()
 
         # Dimensions du canvas.
         cheight = self.canvas.winfo_height()
         cwidth = self.canvas.winfo_width()
 
-        # Si l'objet touche à un mur il change de direction.
-        if not 0 < p1.y < p2.y < cheight:
+        # Si l'objet touche à un mur, il change de direction.
+        if not 0 < self.p1.y < self.p2.y < cheight:
             self.speed = self.speed.conjugate()
-        if not 0 < p1.x < p2.x < cwidth:
+        if not 0 < self.p1.x < self.p2.x < cwidth:
             self.speed = -self.speed.conjugate()
-        # if y1 < abs(self.speed_y) or y2 > height - abs(self.speed_y):
-        #     self.speed_y = - self.speed_y
-        # if x1 < abs(self.speed_x) or x2 > width - abs(self.speed_x):
-        #     self.speed_x = - self.speed_x
 
 
-class Player(BaseSprite):
+class Player(RectSprite):
 
     def __init__(self, canvas: tk.Canvas,
             border: float,
             width: float,
             height: float,
             color: str,
+            enemy: Enemy # TESTING
     ):  
-        
+        self.enemy = enemy # TESTING
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
         pos = geo.Point(cwidth / 2, cheight / 2)
         super().__init__(canvas, pos, width, height, color)
@@ -141,21 +149,18 @@ class Player(BaseSprite):
     def wall_collision(self, bordersize: float = None):
         if bordersize is None:
             bordersize = self.border
-        # Position du joueur
-        #x1, y1, x2, y2 = self.canvas.coords(self.player)
-        coords = self.canvas.coords(self.sprite)
-        p1, p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
-        self.pos_middle = p1 + (p2 - p1) / 2
+            
+        self.update_pos()
 
         """Dimensions du canvas."""
         cheight = self.canvas.winfo_height() - bordersize
         cwidth = self.canvas.winfo_width() - bordersize
 
-        """Détecte la collision."""
-        return (not bordersize < p1.y < p2.y < cheight
-                or not bordersize < p1.x < p2.x < cwidth)
+        # Détecte la collision.
+        return (not bordersize < self.p1.y < self.p2.y < cheight
+                or not bordersize < self.p1.x < self.p2.x < cwidth)
 
-    def _move(self, event) -> None:
+    def _move(self, event: tk.Event) -> None:
         #TODO: This doc is irrelevant to the actual effect of the method
         """Arrète le joueur si il touche aux murs."""
         if not self.wall_collision():
@@ -167,60 +172,12 @@ class Player(BaseSprite):
             
         else:
             print("""Game Over.""")
+        collider(self, self.enemy) # TESTING
 
 
-"""Vérifie un collision entre deux objets."""
-
-
-def collider(object1, object2):
-
-    collision = ""
-
-    top_x_obj1 = object1.pos_middle_x
-    top_y_obj1 = object1.pos_middle_y - (object1.heigth/2)
-
-    bottom_x_obj1 = object1.pos_middle_x
-    bottom_y_obj1 = object1.pos_middle_y + (object1.heigth/2)
-
-    left_x_obj1 = object1.pos_middle_x - (object1.width/2)
-    left_y_obj1 = object1.pos_middle_y
-
-    right_x_obj1 = object1.pos_middle_x + (object1.width/2)
-    right_y_obj1 = object1.pos_middle_y
-
-    top_x_obj2 = object2.pos_middle_x
-    top_y_obj2 = object2.pos_middle_y - (object2.heigth/2)
-
-    bottom_x_obj2 = object2.pos_middle_x
-    bottom_y_obj2 = object2.pos_middle_y + (object2.heigth/2)
-
-    left_x_obj2 = object2.pos_middle_x - (object2.width/2)
-    left_y_obj2 = object2.pos_middle_y
-
-    right_x_obj2 = object2.pos_middle_x + (object2.width/2)
-    right_y_obj2 = object2.pos_middle_y
-
-    """Distance minimum entre les deux objets."""
-    x_diff_min = (object1.width/2) + (object2.width/2)
-    y_diff_min = (object1.heigth/2) + (object2.heigth/2)
-
-    """Distance entre les deux côtés."""
-    if (top_y_obj1 - bottom_y_obj2 == 0):
-        if (abs(top_x_obj1 - bottom_x_obj2) < x_diff_min):
-            collision = "top"
-
-    elif (bottom_y_obj1 - top_y_obj2 == 0):
-        if (abs(bottom_x_obj1 - top_x_obj2) < x_diff_min):
-
-            collision = "bottom"
-
-    elif (right_x_obj1 - left_x_obj2 == 0):
-        if (abs(right_y_obj1 - left_y_obj2) < y_diff_min):
-            collision = "right"
-
-    elif (left_x_obj1 - right_x_obj2 == 0):
-        if (abs(left_y_obj1 - right_y_obj2) < y_diff_min):
-            collision = "left"
-
-    """Return le coin de collision de l'objet1"""
-    return collision
+def collider(object1: RectSprite, object2: RectSprite) -> bool:
+    """Vérifie une collision entre deux objets."""
+    overlaps = object1.canvas.find_overlapping(*object1.p1, *object1.p2)
+    if object2.sprite in overlaps: # TESTING
+        print("collide") # TESTING
+    return object2.sprite in overlaps
