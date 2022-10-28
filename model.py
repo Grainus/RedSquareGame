@@ -156,7 +156,7 @@ class Player:
                 event.y - self.heigth/2
             )
             # update position player pour collider
-	        self.pos_middle_x = event.x
+	    self.pos_middle_x = event.x
             self.pos_middle_y = event.y
         else:
             """Game Over."""
