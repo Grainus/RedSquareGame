@@ -32,6 +32,35 @@ class Difficulty(Enum):
 """window.update() time.sleep(0.01) dans loop jeu pour animation ennemi"""
 
 
+class BaseSprite:
+    def __init__(self, canvas: tk.Canvas,
+            pos: geo.Point,
+            width: float,
+            height: float,
+            color: str
+    ):
+        """Initialise une entité rectangulaire dans le jeu.
+
+        Args:
+            canvas: Canvas où l'on dessine l'objet.
+            pos: Position du centre de l'objet.
+            width: Largeur.
+            height: Hauteur.
+            color: Couleur de remplissage.
+        """
+        self.canvas = canvas
+        self.pos_middle = pos
+        self.height = height
+        self.width = width
+        
+        halfsize = geo.Vecteur(width, height) / 2
+        p1 = pos - halfsize
+        p2 = pos + halfsize
+        
+        # Crée le rectangle de l'entité.
+        self.sprite = canvas.create_rectangle(*p1, *p2, fill=color)
+
+
 class Enemy:
 
     def __init__(self, canvas: tk.Canvas,
