@@ -37,7 +37,7 @@ class BaseSprite:
             pos: geo.Point,
             width: float,
             height: float,
-            color: str
+            color: str,
     ):
         """Initialise une entité rectangulaire dans le jeu.
 
@@ -61,74 +61,70 @@ class BaseSprite:
         self.sprite = canvas.create_rectangle(*p1, *p2, fill=color)
 
 
-class Enemy:
+class Enemy(BaseSprite):
 
     def __init__(self, canvas: tk.Canvas,
-            startpos: geo.Point,
-            endpos: geo.Point,
+            pos: geo.Point,
+            width: float,
+            height: float,
             color: str,
             speed: geo.Vecteur,
     ):
-        """Canvas du jeu (peut-être root)."""
-        self.canvas = canvas
+        """Initialise un ennemi.
 
-        """Crée l'image de l'enemy"""
-        self.enemy = canvas.create_rectangle(
-            startpos.x, startpos.y,
-            endpos.x, endpos.y,
-            fill=color,
-        )
+        Args:
+            canvas: Canvas où est dessiné l'objet.
+            pos: Position du centre de l'objet.
+            width: Largeur.
+            height: Hauteur.
+            color: Couleur de remplissage.
+            speed: Déplacement effectué par l'ennemi à chaque tick.
+        """
+        super().__init__(canvas, pos, width, height, color)
+        self.speed = speed
 
-        """La vitesse et direction de l'animation (ex: -2, 2)."""
-        self.speed_x = speed.real
-        self.speed_y = speed.imag
-
-        """Calcule le milieu d'un segment/vecteur."""
-        self.pos_middle_x = (startpos.x + endpos.x) / 2
-        self.pos_middle_y = (startpos.y - endpos.y) / 2
-
-        """Pour collider()."""
-        self.heigth = abs(startpos.y - endpos.y)
-        self.width = abs(startpos.x - endpos.x)
-
-    """La logique du déplacement des ennemis, peut en faire plusieurs."""
 
     def animate_enemy_bounce(self) -> None:
-        """Dimensions du canvas."""
-        height = (self.canvas.winfo_height())
-        width = (self.canvas.winfo_width())
-
+        """La logique du déplacement des ennemis, peut en faire plusieurs."""
+        # Note: confusing docstring               ^^^^^^^^^^^^^^^^^^^^^^^^ ???
         """Bouge le rectangle dans la direction indiquée."""
-        self.canvas.move(self.enemy, self.speed_x, self.speed_y)
+        self.canvas.move(self.sprite, *self.speed)
 
         """Pour avoir les (x,y) des coins du rectangle."""
-        carre_pos = self.canvas.coords(self.enemy)
-        x1, y1, x2, y2 = carre_pos
+        coords = self.canvas.coords(self.sprite)
+        p1, p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
+        self.pos_middle = p1 + (p2 - p1) / 2
 
-        """Met à jour pos_milieu_xy."""
-        self.pos_middle_x = int((x1 + x2) / 2)
-        self.pos_middle_y = int((y1 + y2) / 2)
-        self.height = abs(x1 - x2)
-        self.width = abs(y1 - y2)
+        # Dimensions du canvas.
+        cheight = self.canvas.winfo_height()
+        cwidth = self.canvas.winfo_width()
 
-        """Si l'objet touche à un mur il change de direction."""
-        if y1 < abs(self.speed_y) or y2 > height - abs(self.speed_y):
-            self.speed_y = - self.speed_y
-        if x1 < abs(self.speed_x) or x2 > width - abs(self.speed_x):
-            self.speed_x = - self.speed_x
+        # Si l'objet touche à un mur il change de direction.
+        if not 0 < p1.y < p2.y < cheight:
+            self.speed = self.speed.conjugate()
+        if not 0 < p1.x < p2.x < cwidth:
+            self.speed = -self.speed.conjugate()
+        # if y1 < abs(self.speed_y) or y2 > height - abs(self.speed_y):
+        #     self.speed_y = - self.speed_y
+        # if x1 < abs(self.speed_x) or x2 > width - abs(self.speed_x):
+        #     self.speed_x = - self.speed_x
 
 
-class Player:
+class Player(BaseSprite):
 
     def __init__(self, canvas: tk.Canvas,
             border: float,
             width: float,
             height: float,
             color: str,
-    ):
-        """Canvas du jeu (celui que le joueur ne peut pas dépasser)."""
-        self.canvas = canvas
+    ):  
         
+        cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
+        pos = geo.Point(cwidth / 2, cheight / 2)
+        super().__init__(canvas, pos, width, height, color)
+
+        self.border = border
+
         # Affichage de la bordure
         self.canvas.create_rectangle(
             0, 0,
@@ -136,27 +132,9 @@ class Player:
             outline="black",
             width=border*2,
         )
-        
-        cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
-
-        p1 = geo.Point((cwidth - width) / 2, (cheight - height) / 2)
-        p2 = geo.Point((cwidth + width) / 2, (cheight + height) / 2)
-        
-        """Crée le rectangle du Joueur."""
-        self.player = canvas.create_rectangle(*p1, *p2, fill=color)
-
-        """Pour wall_collision()."""
-        self.border = border
-
-        """Calcule le milieu d'un segment/vecteur."""
-        self.pos_middle = p1 + (p2 - p1) / 2
-
-        """Pour collider()."""
-        self.height = height
-        self.width = width
 
         """Lorsque le joueur clique sur le carre rouge fonction move()."""
-        canvas.tag_bind(self.player, "<B1-Motion>", self._move)
+        canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
 
     """Détecte une collision avec les murs."""
 
@@ -165,7 +143,7 @@ class Player:
             bordersize = self.border
         # Position du joueur
         #x1, y1, x2, y2 = self.canvas.coords(self.player)
-        coords = self.canvas.coords(self.player)
+        coords = self.canvas.coords(self.sprite)
         p1, p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
         self.pos_middle = p1 + (p2 - p1) / 2
 
@@ -173,24 +151,16 @@ class Player:
         cheight = self.canvas.winfo_height() - bordersize
         cwidth = self.canvas.winfo_width() - bordersize
 
-        # Coins
-        halfsize = geo.Vecteur(self.width, self.height) / 2
-
-        # Coin ↖
-        corner_ul = self.pos_middle - halfsize
-        # Coin ↘
-        corner_dr = self.pos_middle + halfsize
-
         """Détecte la collision."""
-        return (not bordersize < corner_ul.y < corner_dr.y < cheight
-                or not bordersize < corner_ul.x < corner_dr.x < cwidth)
+        return (not bordersize < p1.y < p2.y < cheight
+                or not bordersize < p1.x < p2.x < cwidth)
 
     def _move(self, event) -> None:
         #TODO: This doc is irrelevant to the actual effect of the method
         """Arrète le joueur si il touche aux murs."""
         if not self.wall_collision():
             self.canvas.moveto(
-                self.player,
+                self.sprite,
                 event.x - self.width/2,
                 event.y - self.height/2
             )
