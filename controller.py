@@ -94,11 +94,18 @@ class GameController(Controller):
         )
         canvas.pack()
         self.root.update()
-        player = Player(
-            canvas,
-            BORDER,
-            (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
-            (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
-            "red"
-        )
+        # player = Player(
+        #     canvas,
+        #     BORDER,
+        #     (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
+        #     (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
+        #     "red"
+        # )
+        ############################### TESTING ###############################
+        import c31Geometry.c31Geometry2 as geo # type: ignore                 #
+        enemy = Enemy(                                                        #
+            canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
+        )                                                                     #
+        player = Player(canvas, BORDER, PLAYERSIZE, PLAYERSIZE, "red", enemy) #
+        ############################### TESTING ###############################
         self.view.draw()
