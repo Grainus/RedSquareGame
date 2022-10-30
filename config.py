@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from configparser import ConfigParser
 import os
 
@@ -14,19 +16,26 @@ class Multiton(type):
         return Multiton._instances[name]
 
 
-class Config(metaclass=Multiton):
+class Config(ConfigParser, metaclass=Multiton):
+    """Interface de configuration du programme.
+    La méthode `get_instance` est utilisée pour obtenir un objet.
+    """
     def __init__(self, name):
-        self.configfile = os.path.join(
-                os.path.dirname(__file__),
-                "Data", name + '.ini'
-        )
-        self.config = ConfigParser()
-        self.config.read(self.configfile)
-        
+        super().__init__()
+        currentdir = os.path.dirname(__file__)
+        configdir = os.path.join(currentdir, "Data")
+        self.configfile = os.path.join(configdir, name + '.ini')
+
+        if not self.read(self.configfile):
+            if not os.path.exists(configdir):
+                os.mkdir(configdir)
+            open(self.configfile, 'a').close() # Crée le fichier
+            if not self.read(self.configfile):
+                raise OSError("Could not read config file.")
 
     @classmethod
     def get_instance(cls, name: str = "settings"):
         return cls(name)
 
-
-a = Config.get_instance("settings")
+    def save(self):
+        self.write(self.configfile)
