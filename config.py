@@ -27,9 +27,11 @@ class Config(metaclass=Multiton):
         super().__init__()
         currentdir = os.path.dirname(__file__)
         configdir = os.path.join(currentdir, "Data")
-        self.configfile = os.path.join(configdir, name + '.ini')
+        configfile = os.path.join(configdir, name + '.ini')
 
-        self.config = ConfigParser()
+        config = ConfigParser()
+        self.config = config
+        self.configfile = configfile
 
         # Lecture du fichier
         if not self.config.read(self.configfile):
@@ -38,12 +40,26 @@ class Config(metaclass=Multiton):
             open(self.configfile, 'a').close() # Crée le fichier
             if not self.config.read(self.configfile):
                 raise OSError("Could not read config file.")
+
+        # Vérification de collisions
+        reserved_names = ('config', 'configfile')
+        for name_ in reserved_names:
+            if config.has_section(name_):
+                raise RuntimeError(f"Config file ({configfile}) has "
+                    f"illegal section name: {name_}")
         
         # Remplacement des proxy
         for section in self.config._proxies.keys():
             self.config._proxies[section] = (
                     ConfigSection(self.config, section)
             )
+        
+        # Patch add_section pour utiliser ConfigSection
+        def add_section(self_, section):
+            ConfigParser.add_section(self_, section)
+            self_._proxies[section] = ConfigSection(self_, section)
+        # Bind (pour que self soit passé comme premier argument)
+        self.config.add_section = add_section.__get__(self.config)
             
 
     @classmethod
@@ -62,7 +78,8 @@ class Config(metaclass=Multiton):
         return config[__name]
 
     def save(self):
-        self.config.write(self.configfile)
+        with open(self.configfile, 'w') as file:
+            self.config.write(file)
 
 class ConfigSection(SectionProxy):
     """Ajoute l'accès en « dot notation » comme alternative au
@@ -105,7 +122,26 @@ def test_access():
     d = config.Game.Difficulty
     e = config.config["Game"].Difficulty
     f = config.config["Game"]["Difficulty"]
-    print(a, a is b is c is d is e is f)
+    assert a is b is c is d is e is f
+
+def test_creation():
+    config = Config.get_instance("settings")
+    otherconfig = Config.get_instance("settings")
+    lastconfig = Config.get_instance("testing")
+    assert config is otherconfig and config is not lastconfig
+
+def test_save():
+    os.remove("Data/testing.ini")
+    config = Config.get_instance("testing")
+    config.config.add_section("Sect")
+    config.config["Sect"]["Val"] = "Hello"
+    config.save()
+    otherconfig = Config.get_instance("testing")
+    assert otherconfig.Sect.val == "Hello"
+    os.remove("Data/testing.ini")
 
 if __name__ == "__main__":
     test_access()
+    test_creation()
+    test_save()
+    print("All test passed")
