@@ -1,7 +1,8 @@
 from __future__ import annotations
-from typing import TypeVar, Type, Self, Any
+from typing import Sequence, TypeVar, Type, Self, Any
 
 from configparser import ConfigParser, RawConfigParser, SectionProxy
+from functools import reduce
 import json
 import os
 
@@ -27,28 +28,91 @@ class ConfigJson(metaclass=Multiton):
         self.filepath = os.path.join(configdir, name + '.json')
 
         # Charge les valeurs par défaut d'abord
-        if name is not "defaults":
+        self.config: dict[str, Any] = {}
+        if name != "defaults":
             defaults = ConfigJson.get_instance("defaults").filepath
             with open(defaults) as file:
-                self.config: dict = json.load(file)
-            try:
-                with open(self.filepath) as file:
-                    self.config.update(json.load(file))
-            except OSError:
-                open(self.filepath, 'a').close() # Crée le fichier
+                self.config = json.load(file)
+        try:
+            with open(self.filepath) as file:
+                deep_update(self.config, json.load(file))
+        except OSError:
+            with open(self.filepath, 'a') as file:
+                file.write('{}')
         
     @classmethod
     def get_instance(cls, name: str = "settings") -> Self:
         return cls(name)
-    
+
     def __getitem__(self, __key: str) -> Any | dict[str, Any]:
         return self.config[__key]
-    
-    def save(self) -> None:
-        with open(self.filepath, 'w') as file:
-            json.dump(self.config, file, indent=4)
 
+    def save(self) -> None:
+        defaults = ConfigJson.get_instance('defaults').config
+        diffs = deep_compare(defaults, self.config)
+        with open(self.filepath, 'w') as file:
+            json.dump(diffs, file, indent=4)
+
+
+def deep_get(dct: dict, keys, *_keys: Any):
+    """
+    Args:
+        dct: Le dictionnaire à chercher.
+        keys: Une séquence de clés, ou une clé unique.
+        _keys: Un nombre variable de clés.
+
+    Example:
+        mydict = {"People": {"John": {"Age": 30}, "Marie": {"Age": 20}}}
+        deep_get(mydict, "People", "John", "Age") # 30
+        deep_get(mydict, ("People", "John", "Age")) # 30
+        marie = ("People", "Marie")
+        deep_get(mydict, marie, "Age") # 20
+    """
+    if isinstance(keys, Sequence) and not isinstance(keys, str):
+        keys = (*keys, *_keys)
+    else:
+        keys = (keys, *_keys)
+    return reduce(lambda d, key: d.get(key) if d else None, keys, dct)
+
+def deep_set(dct: dict, keys, value: Any):
+    _dict = dct
+    for key in keys[:-1]:
+        if key not in _dict:
+            _dict[key] = {}
+        _dict = _dict[key]
+    _dict[keys[-1]] = value
+
+def deep_update(dictionary: dict, new: dict) -> None:
+    _stack = [((), new)] # Afin d'éviter une solution récursive
+    while _stack:
+        keystack, subdict = _stack.pop(0)
+        for key, val in subdict.items():
+            _keys = (*keystack, key)
+            if isinstance(val, dict):
+                _stack.append((_keys, val))
+            else:
+                deep_set(dictionary, _keys, val)
+
+def deep_compare(defaults: dict, dictionary: dict) -> dict:
+    """Calcule la différence entre deux dictionaires.
     
+    Returns:
+        Un nouveau dictionaire D tel que `deep_update(defaults, D)`
+            produise un dictionaire identique à `dictionary`
+    """
+    _stack = [((), dictionary)] # Afin d'éviter une solution récursive
+    _diffs = {}
+    while _stack:
+        keystack, subdict = _stack.pop(0)
+        for key, val in subdict.items():
+            _keys = (*keystack, key)
+            if isinstance(val, dict):
+                _stack.append((_keys, val))
+            elif val != deep_get(defaults, _keys):
+                deep_set(_diffs, _keys, val)
+    return _diffs
+
+
 class Config(metaclass=Multiton):
     """Interface de configuration du programme. Permet d'accéder à la
     configuration en « dot notation ».
@@ -172,15 +236,29 @@ def test_save():
     assert otherconfig.Sect.val == "Hello"
     os.remove("Data/testing.ini")
 
-def test_json():
+def test_diff_save():
     config = ConfigJson.get_instance()
-    print(config["Game"])
-    config["Game"]["Color"]["Outline"] = "pink"
+    default = ConfigJson.get_instance('defaults')
+    cfgcolor = config["Game"]["Color"]
+    defcolor = default["Game"]["Color"]
+
+    cfgcolor["Outline"] = defcolor["Outline"] + "_" # Force valeur custom
     config.save()
+    size1 = os.stat(config.filepath).st_size
+
+    cfgcolor["Outline"] = defcolor["Outline"] # Remet le defaut
+    config.save()
+    size2 = os.stat(config.filepath).st_size
+
+    # Le fichier ne sauvegarde que les différences. Les valeurs par
+    # défaut créent donc un plus petit fichier.
+    assert size2 < size1
+
 
 if __name__ == "__main__":
-    test_access()
-    test_creation()
-    test_save()
-    test_json()
+    # test_access()
+    # test_creation()
+    # test_save()
+    test_diff_save()
     print("All test passed")
+    
