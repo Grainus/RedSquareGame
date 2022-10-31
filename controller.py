@@ -59,10 +59,10 @@ class MenuController(Controller):
         """Fonction appelée pour démarrer le menu"""
         self.view.draw()
 
-    def on_options(self)->None:
+    def on_options(self) -> None:
         pass
 
-    def on_highscores(self)->None:
+    def on_highscores(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
         """

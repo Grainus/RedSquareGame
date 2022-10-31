@@ -44,7 +44,7 @@ class View(ABC):
 
 class MenuView(View):
     def __init__(self, root: Root, on_new_game: Callable,
-                 on_quit: Callable, on_options : Callable, on_highscores : Callable):
+                 on_quit: Callable, on_options: Callable, on_highscores: Callable):
         """" Initialisation de la vue du menu """
         # Initialise la classe parente (View) pour les éléments communs
         super().__init__(root)
@@ -52,7 +52,7 @@ class MenuView(View):
         # Storage des fonctions creer nouvelle partie et quitter le jeu
         self.on_new_game = on_new_game
         self.on_quit = on_quit
-        self.on_options= on_options
+        self.on_options = on_options
         self.on_highscores = on_highscores
         
         # Dimensions des widgets
