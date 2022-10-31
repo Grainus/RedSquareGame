@@ -19,7 +19,6 @@
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 
 import tkinter as tk
-from turtle import back
 from controller import MenuController, GameController
 
 
