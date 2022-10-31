@@ -97,6 +97,8 @@ class Enemy(RectSprite):
         """
         super().__init__(canvas, pos, width, height, color)
         self.speed = speed
+        
+        self.animate_enemy_bounce()
 
 
     def animate_enemy_bounce(self) -> None:
@@ -115,6 +117,8 @@ class Enemy(RectSprite):
             self.speed = self.speed.conjugate()
         if not 0 < self.p1.x < self.p2.x < cwidth:
             self.speed = -self.speed.conjugate()
+        
+        self.canvas.after(20, self.animate_enemy_bounce)
 
 
 class Player(RectSprite):
@@ -146,7 +150,7 @@ class Player(RectSprite):
         self.canvas.create_rectangle(
             0, 0,
             canvas.winfo_width(), canvas.winfo_height(),
-            outline="black",
+            outline="green",
             width=border*2,
         )
 
