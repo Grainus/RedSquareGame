@@ -1,22 +1,54 @@
 from __future__ import annotations
-from typing import Any
+from typing import TypeVar, Type, Self, Any
 
 from configparser import ConfigParser, RawConfigParser, SectionProxy
+import json
 import os
 
 
 class Multiton(type):
-    """Permet d'initialiser l'objet une seule fois par nom"""
-    _instances = {}
+    """Permet d'initialiser l'objet une seule fois par nom."""
+    T = TypeVar('T')
+    _instances: dict[tuple[Type[T], str], T] = {}
 
     def __call__(cls, name: str, *args, **kwargs):
-        if name not in Multiton._instances:
-            Multiton._instances[name] = (
+        key = (cls, name)
+        if key not in Multiton._instances:
+            Multiton._instances[key] = (
                     super().__call__(name, *args, **kwargs)
             )
-        return Multiton._instances[name]
+        return Multiton._instances[key]
 
 
+class ConfigJson(metaclass=Multiton):
+    def __init__(self, name):
+        currentdir = os.path.dirname(__file__)
+        configdir = os.path.join(currentdir, "Data")
+        self.filepath = os.path.join(configdir, name + '.json')
+
+        # Charge les valeurs par défaut d'abord
+        if name is not "defaults":
+            defaults = ConfigJson.get_instance("defaults").filepath
+            with open(defaults) as file:
+                self.config: dict = json.load(file)
+            try:
+                with open(self.filepath) as file:
+                    self.config.update(json.load(file))
+            except OSError:
+                open(self.filepath, 'a').close() # Crée le fichier
+        
+    @classmethod
+    def get_instance(cls, name: str = "settings") -> Self:
+        return cls(name)
+    
+    def __getitem__(self, __key: str) -> Any | dict[str, Any]:
+        return self.config[__key]
+    
+    def save(self) -> None:
+        with open(self.filepath, 'w') as file:
+            json.dump(self.config, file, indent=4)
+
+    
 class Config(metaclass=Multiton):
     """Interface de configuration du programme. Permet d'accéder à la
     configuration en « dot notation ».
@@ -140,8 +172,15 @@ def test_save():
     assert otherconfig.Sect.val == "Hello"
     os.remove("Data/testing.ini")
 
+def test_json():
+    config = ConfigJson.get_instance()
+    print(config["Game"])
+    config["Game"]["Color"]["Outline"] = "pink"
+    config.save()
+
 if __name__ == "__main__":
     test_access()
     test_creation()
     test_save()
+    test_json()
     print("All test passed")
