@@ -102,8 +102,8 @@ class GameController(Controller):
         #     (width + playersize) / 2, (height + playersize) / 2,
         #     "red"
         # )
-        # ############################## TESTING ###############################
-        import c31Geometry.c31Geometry2 as Geo  # type: ignore                 #
+        ############################### TESTING ###############################
+        import c31Geometry.c31Geometry2 as geo  # type: ignore                 #
         enemy = Enemy(                                                        #
             canvas, Geo.Point(100, 100), 75, 150, "blue", Geo.Vecteur(1, 1)   #
         )                                                                     #
