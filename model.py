@@ -35,6 +35,7 @@ class Difficulty(Enum):
 
 class RectSprite:
     """Classe de base pour les entités rectangulaires dans le canvas."""
+
     def __init__(self, canvas: tk.Canvas,
                  pos: Geo.Point,
                  width: float,
@@ -123,12 +124,12 @@ class Enemy(RectSprite):
 class Player(RectSprite):
 
     def __init__(self, canvas: tk.Canvas,
-            border: float,
-            width: float,
-            height: float,
-            color: str,
-            enemy: Enemy  # TESTING
-    ):
+                 border: float,
+                 width: float,
+                 height: float,
+                 color: str,
+                 enemy: Enemy  # TESTING
+                 ):
         """Initialise le modèle du joueur.
 
         Args:
@@ -150,8 +151,8 @@ class Player(RectSprite):
             0, 0,
             canvas.winfo_width(), canvas.winfo_height(),
             outline="green",
-            width=border*2,
-        )
+            width=border * 2,
+            )
 
         """Lorsque le joueur clique sur le carre rouge fonction move()."""
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
@@ -178,9 +179,9 @@ class Player(RectSprite):
         if not self.wall_collision():
             self.canvas.moveto(
                 self.sprite,
-                event.x - self.width/2,
-                event.y - self.height/2
-            )
+                event.x - self.width / 2,
+                event.y - self.height / 2
+                )
 
         else:
             print("""Game Over.""")
