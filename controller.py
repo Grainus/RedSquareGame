@@ -29,6 +29,7 @@ import tkinter as tk
 
 # Modules du projet
 from view import MenuView, GameView
+from config import Config
 
 if TYPE_CHECKING:
     from game_engine import Root
@@ -84,28 +85,28 @@ class GameController(Controller):
 
     def start(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
-        WIDTH = HEIGHT = 450
-        BORDER = 50
-        PLAYERSIZE = 50
+        config = Config.get_instance()
+        playercfg = config.Player
+        enemycfg = config.Enemy
         canvas = tk.Canvas(
             self.root,
-            width=WIDTH,
-            height=HEIGHT,
+            width=config.Game.GameWidth,
+            height=config.Game.getfloat('GameHeight'),
         )
         canvas.pack()
         self.root.update()
-        # player = Player(
-        #     canvas,
-        #     BORDER,
-        #     (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
-        #     (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
-        #     "red"
-        # )
         ############################### TESTING ###############################
         import c31Geometry.c31Geometry2 as geo # type: ignore                 #
         enemy = Enemy(                                                        #
-            canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
+            canvas,                                                           #
+            geo.Point(enemycfg.Enemy1_X, enemycfg.Enemy1_Y),                  #
+            enemycfg.Enemy1_Width, enemycfg.Enemy1_Height,                    #
+            enemycfg.Color, geo.Vecteur(1, 1)                                 #
         )                                                                     #
-        player = Player(canvas, BORDER, PLAYERSIZE, PLAYERSIZE, "red", enemy) #
+        player = Player(                                                      #
+                canvas, config.Game.BorderSize,                               #
+                playercfg.Width, playercfg.Height,                            #
+                playercfg.Color, enemy                                        #
+        )                                                                     #
         ############################### TESTING ###############################
         self.view.draw()
