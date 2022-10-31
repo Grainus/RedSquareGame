@@ -134,8 +134,6 @@ class MenuView(View):
         self.btn_highscores.place(x=(450-(self.btn_width*2))/2+self.btn_width, y=self.logo_height+self.btn_height)
         
         
-
-
 class GameView(View):
     # todo : the whole thing here ! :)
     def draw(self):

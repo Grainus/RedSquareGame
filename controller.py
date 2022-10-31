@@ -35,6 +35,7 @@ if TYPE_CHECKING:
 
 from model import Player, Enemy, collider
 
+
 class Controller(ABC):
     def __init__(self, root: Root):
         """Initialisation du controlleur"""
@@ -60,6 +61,7 @@ class MenuController(Controller):
 
     def on_options(self)->None:
         pass
+
     def on_highscores(self)->None:
         """Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
