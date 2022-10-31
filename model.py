@@ -179,9 +179,9 @@ class Player(RectSprite):
         if not self.wall_collision():
             self.canvas.moveto(
                 self.sprite,
-                event.x - self.width / 2,
-                event.y - self.height / 2
-                )
+                event.x - self.width/2,
+                event.y - self.height/2
+            )
 
         else:
             print("""Game Over.""")
