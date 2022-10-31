@@ -20,7 +20,7 @@
 
 from enum import Enum
 import tkinter as tk
-import c31Geometry.c31Geometry2 as geo  # type: ignore
+import c31Geometry.c31Geometry2 as Geo  # type: ignore
 
 
 class Difficulty(Enum):
@@ -36,11 +36,11 @@ class Difficulty(Enum):
 class RectSprite:
     """Classe de base pour les entités rectangulaires dans le canvas."""
     def __init__(self, canvas: tk.Canvas,
-            pos: geo.Point,
-            width: float,
-            height: float,
-            color: str,
-    ):
+                 pos: Geo.Point,
+                 width: float,
+                 height: float,
+                 color: str,
+                 ):
         """
         Args:
             canvas: Canvas où est dessiné l'objet.
@@ -54,7 +54,7 @@ class RectSprite:
         self.height = height
         self.width = width
 
-        halfsize = geo.Vecteur(width, height) / 2
+        halfsize = Geo.Vecteur(width, height) / 2
         self.p1 = pos - halfsize
         "Coin supérieur gauche ↖ du rectangle."
         self.p2 = pos + halfsize
@@ -72,19 +72,19 @@ class RectSprite:
             modifiées.
         """
         coords = self.canvas.coords(self.sprite)
-        self.p1, self.p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
+        self.p1, self.p2 = Geo.Point(*coords[:2]), Geo.Point(*coords[2:])
         # Centre: Coin ↖ plus la moitié du vecteur entre les deux coins
         self.pos_middle = self.p1 + (self.p2 - self.p1) / 2
 
 
 class Enemy(RectSprite):
     def __init__(self, canvas: tk.Canvas,
-            pos: geo.Point,
-            width: float,
-            height: float,
-            color: str,
-            speed: geo.Vecteur,
-    ):
+                 pos: Geo.Point,
+                 width: float,
+                 height: float,
+                 color: str,
+                 speed: Geo.Vecteur,
+                 ):
         """Initialise un ennemi.
 
         Args:
@@ -140,7 +140,7 @@ class Player(RectSprite):
         """
         self.enemy = enemy  # TESTING
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
-        pos = geo.Point(cwidth / 2, cheight / 2)
+        pos = Geo.Point(cwidth / 2, cheight / 2)
         super().__init__(canvas, pos, width, height, color)
 
         self.border = border
