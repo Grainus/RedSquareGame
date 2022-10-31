@@ -1,0 +1,13 @@
+{
+    "Game": {
+        "Size": {
+            "Border": 55
+        }
+    },
+    "Player": {
+        "Color": {
+            "Fill": "orange",
+            "Outline": "red"
+        }
+    }
+}
