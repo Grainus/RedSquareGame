@@ -37,11 +37,11 @@ class RectSprite:
     """Classe de base pour les entités rectangulaires dans le canvas."""
 
     def __init__(self, canvas: tk.Canvas,
-                 pos: Geo.Point,
-                 width: float,
-                 height: float,
-                 color: str,
-                 ):
+            pos: geo.Point,
+            width: float,
+            height: float,
+            color: str,
+        ):
         """
         Args:
             canvas: Canvas où est dessiné l'objet.
