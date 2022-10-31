@@ -52,7 +52,8 @@ class MenuController(Controller):
     def __init__(self, root: Root, game_controller: GameController):
         """Initialisation du controlleur du menu"""
         super().__init__(root)
-        self.view = MenuView(root, self.new_game, self.on_quit, self.on_options, self.on_highscores)
+        self.view = MenuView(root, self.new_game, self.on_quit,
+                             self.on_options, self.on_highscores)
         self.game_controller = game_controller
 
     def start(self) -> None:
