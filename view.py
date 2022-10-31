@@ -44,7 +44,7 @@ class View(ABC):
 
 class MenuView(View):
     def __init__(self, root: Root, on_new_game: Callable,
-                 on_quit: Callable,on_options : Callable,on_highscores:Callable):
+                 on_quit: Callable, on_options : Callable, on_highscores : Callable):
         """" Initialisation de la vue du menu """
         # Initialise la classe parente (View) pour les éléments communs
         super().__init__(root)
@@ -91,11 +91,11 @@ class MenuView(View):
         self.highscores_photo = PhotoImage(
             file=os.path.join(buttons, "highscoresButton.png")
         )
-        self.title_logo = tk.Label(self.root.menu_frame,image=self.title_photo)
+        self.title_logo = tk.Label(self.root.menu_frame, image=self.title_photo)
         self.btn_new_game = tk.Button(
             self.root.menu_frame,
             image=self.play_photo,
-            width=self.btn_width,height=self.btn_height,
+            width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_new_game
         )
