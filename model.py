@@ -134,7 +134,7 @@ class Player(RectSprite):
 
         Args:
             canvas: Canvas où est dessiné l'objet.
-            pos: Position du centre de l'objet.
+            # pos: Position du centre de l'objet. <- TODO: à supprimer ?
             width: Largeur.
             height: Hauteur.
             color: Couleur de remplissage.
