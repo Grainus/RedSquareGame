@@ -105,7 +105,7 @@ class GameController(Controller):
         ############################### TESTING ###############################
         import c31Geometry.c31Geometry2 as geo  # type: ignore                 #
         enemy = Enemy(                                                        #
-            canvas, Geo.Point(100, 100), 75, 150, "blue", Geo.Vecteur(1, 1)   #
+            canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
         )                                                                     #
         player = Player(canvas, border, playersize, playersize, "red", enemy)  #
         # ############################## TESTING ###############################
