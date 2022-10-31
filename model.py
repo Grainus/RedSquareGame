@@ -152,7 +152,7 @@ class Player(RectSprite):
             canvas.winfo_width(), canvas.winfo_height(),
             outline="green",
             width=border * 2,
-            )
+        )
 
         """Lorsque le joueur clique sur le carre rouge fonction move()."""
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
