@@ -20,7 +20,7 @@
 
 from enum import Enum
 import tkinter as tk
-import c31Geometry.c31Geometry2 as Geo  # type: ignore
+import c31Geometry.c31Geometry2 as geo  # type: ignore
 
 
 class Difficulty(Enum):
