@@ -25,8 +25,9 @@ from typing import TYPE_CHECKING, Callable
 
 # Modules standards
 from abc import ABC # Abstract Base Class
+import os.path
 import tkinter as tk
-from tkinter import PhotoImage,TOP
+from tkinter import PhotoImage
 
 if TYPE_CHECKING:
     from game_engine import Root
@@ -62,14 +63,34 @@ class MenuView(View):
         # Création des boutons et des informations de la fenetre
         self.root.title("Jeu du carré rouge - Menu")
         self.root.geometry("450x450")
-        self.title_photo = PhotoImage(file = r"Graphics\logo.png")
-        self.play_photo = PhotoImage(file = r"Graphics\Buttons\playButton.png")
-        self.play_pressed_photo = PhotoImage(file = r"Graphics\Buttons\playButtonPressed.png")
-        self.quit_photo = PhotoImage(file = r"Graphics\Buttons\quitButton.png")
-        self.quit_pressed_photo = PhotoImage(file = r"Graphics\Buttons\quitButtonPressed.png")
-        self.options_photo = PhotoImage(file = r"Graphics\Buttons\optionsButton.png")
-        self.options_photo = PhotoImage(file = r"Graphics\Buttons\optionsButton.png")
-        self.highscores_photo = PhotoImage(file = r"Graphics\Buttons\highscoresButton.png")
+        
+        currentdir = os.path.dirname(__file__)
+        graphics = os.path.join(currentdir, "Graphics")
+        buttons = os.path.join(graphics, "Buttons")
+        self.title_photo = PhotoImage(
+            file=os.path.join(graphics, "logo.png")
+        )
+        self.play_photo = PhotoImage(
+            file=os.path.join(buttons, "playButton.png")
+        )
+        self.play_pressed_photo = PhotoImage(
+            file=os.path.join(buttons, "playButtonPressed.png")
+        )
+        self.quit_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButton.png")
+        )
+        self.quit_pressed_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButtonPressed.png")
+        )
+        self.options_photo = PhotoImage(
+            file=os.path.join(buttons, "optionsButton.png")
+        )
+        self.options_photo = PhotoImage(
+            file=os.path.join(buttons, "optionsButton.png")
+        )
+        self.highscores_photo = PhotoImage(
+            file=os.path.join(buttons, "highscoresButton.png")
+        )
         self.title_logo = tk.Label(self.root.menu_frame,image=self.title_photo)
         self.btn_new_game = tk.Button(
             self.root.menu_frame,
