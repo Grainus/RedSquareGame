@@ -24,7 +24,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 # Modules standards
-from abc import ABC # Abstract Base Class
+from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
@@ -99,11 +99,11 @@ class GameController(Controller):
         #     (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
         #     "red"
         # )
-        ############################### TESTING ###############################
-        import c31Geometry.c31Geometry2 as geo # type: ignore                 #
+        # ############################## TESTING ###############################
+        import c31Geometry.c31Geometry2 as geo  # type: ignore                 #
         enemy = Enemy(                                                        #
             canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
         )                                                                     #
-        player = Player(canvas, BORDER, PLAYERSIZE, PLAYERSIZE, "red", enemy) #
-        ############################### TESTING ###############################
+        player = Player(canvas, BORDER, PLAYERSIZE, PLAYERSIZE, "red", enemy)  #
+        # ############################## TESTING ###############################
         self.view.draw()

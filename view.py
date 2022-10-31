@@ -24,7 +24,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Callable
 
 # Modules standards
-from abc import ABC # Abstract Base Class
+from abc import ABC  # Abstract Base Class
 import os.path
 import tkinter as tk
 from tkinter import PhotoImage
