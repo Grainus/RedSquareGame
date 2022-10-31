@@ -129,12 +129,18 @@ class MenuView(View):
         """Fonction appelée pour dessiner le menu"""
         self.title_logo.place(x=(450-self.logo_width)/2, y=0)
         self.btn_new_game.place(x=(450-self.btn_width)/2, y=self.logo_height)
-        self.btn_quit.place(x=(450-self.btn_width)/2,
-                            y=self.logo_height+(self.btn_height*2))
-        self.btn_options.place(x=(450-(self.btn_width*2))/2,
-                               y=self.logo_height+self.btn_height)
-        self.btn_highscores.place(x=(450-(self.btn_width*2))/2+self.btn_width,
-                                  y=self.logo_height+self.btn_height)
+        self.btn_quit.place(
+                x=(450-self.btn_width) / 2,
+                y=self.logo_height + (self.btn_height*2)
+        )
+        self.btn_options.place(
+                x=(450 - (self.btn_width*2)) / 2,
+                y=self.logo_height+self.btn_height
+        )
+        self.btn_highscores.place(
+                x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+                y=self.logo_height+self.btn_height
+        )
         
         
 class GameView(View):
