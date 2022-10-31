@@ -141,7 +141,7 @@ class Player(RectSprite):
         """
         self.enemy = enemy  # TESTING
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
-        pos = Geo.Point(cwidth / 2, cheight / 2)
+        pos = geo.Point(cwidth / 2, cheight / 2)
         super().__init__(canvas, pos, width, height, color)
 
         self.border = border
