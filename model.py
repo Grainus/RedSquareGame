@@ -55,7 +55,7 @@ class RectSprite:
         self.height = height
         self.width = width
 
-        halfsize = Geo.Vecteur(width, height) / 2
+        halfsize = geo.Vecteur(width, height) / 2
         self.p1 = pos - halfsize
         "Coin supérieur gauche ↖ du rectangle."
         self.p2 = pos + halfsize
