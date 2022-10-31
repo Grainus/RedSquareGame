@@ -101,21 +101,21 @@ class MenuView(View):
         )
         self.btn_quit = tk.Button(
             self.root.menu_frame,
-            image = self.quit_photo,
+            image=self.quit_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_quit
         )
         self.btn_options = tk.Button(
             self.root.menu_frame,
-            image = self.options_photo,
+            image=self.options_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_options
         )
         self.btn_highscores = tk.Button(
             self.root.menu_frame,
-            image = self.highscores_photo,
+            image=self.highscores_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_highscores
