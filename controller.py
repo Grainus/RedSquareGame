@@ -91,7 +91,7 @@ class GameController(Controller):
         height = self.root.winfo_screenheight()
         border = 50
         playersize = 50
-        self.root.game_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        self.root.game_frame.place(anchor=tk.CENTER)
         self.view.draw()
         canvas = tk.Canvas(
             self.root.game_frame,
