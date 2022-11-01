@@ -84,7 +84,7 @@ class Enemy(RectSprite):
             width: float,
             height: float,
             color: str,
-            speed: Geo.Vecteur,
+            speed: geo.Vecteur,
     ):
         """Initialise un ennemi.
 
