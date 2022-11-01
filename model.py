@@ -102,8 +102,7 @@ class Enemy(RectSprite):
         self.animate_enemy_bounce()
 
     def animate_enemy_bounce(self) -> None:
-        """La logique du déplacement des ennemis, peut en faire plusieurs."""
-        # NOTE: confusing docstring               ^^^^^^^^^^^^^^^^^^^^^^^^ ???
+        """La logique du déplacement des ennemis."""
         # Bouge le rectangle dans la direction indiquée.
         self.canvas.move(self.sprite, *self.speed)
         self.update_pos()
@@ -157,9 +156,10 @@ class Player(RectSprite):
         #  Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
 
-    """Détecte une collision avec les murs."""
+
 
     def wall_collision(self, bordersize: float = None):
+        """Détecte une collision avec les murs."""
         if bordersize is None:
             bordersize = self.border
 
@@ -174,7 +174,7 @@ class Player(RectSprite):
                 or not bordersize < self.p1.x < self.p2.x < cwidth)
 
     def _move(self, event: tk.Event) -> None:
-        #  TODO: This doc is irrelevant to the actual effect of the method
+        """Permet au joueur de se déplacer"""
         #  Arrête le déplacement si le joueur touche un mur.
         if not self.wall_collision():
             self.canvas.moveto(
