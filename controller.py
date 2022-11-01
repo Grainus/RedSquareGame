@@ -1,6 +1,5 @@
 # Copyright (c) 2022 Grainus, WyllasSidjeno, AsadPug, Phil-DB
 # Licence Libre MIT
-
 # L’autorisation est accordée, gracieusement, à toute personne acquérant une copie
 # de ce logiciel et des fichiers de documentation associés (le « logiciel »), de commercialiser
 # le logiciel sans restriction, notamment les droits d’utiliser, de copier, de modifier,
@@ -18,35 +17,27 @@
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 """TODO: DOCSTRING"""
-
 # Type hinting
 from __future__ import annotations
 from typing import TYPE_CHECKING
-
 # Modules standards
 from abc import ABC  # Abstract Base Class
 import tkinter as tk
-
 # Modules du projet
 from view import MenuView, GameView
-
 if TYPE_CHECKING:
     from game_engine import Root
-
 from model import Player, Enemy, collider
-
 
 class Controller(ABC):
     def __init__(self, root: Root):
         """Initialisation du controlleur"""
         self.root = root
-
     def on_quit(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Quitter
         afin de quitter le jeu
         """
         self.root.destroy()
-
 
 class MenuController(Controller):
     def __init__(self, root: Root, game_controller: GameController):
@@ -57,14 +48,11 @@ class MenuController(Controller):
                 self.on_options, self.on_highscores
         )
         self.game_controller = game_controller
-
     def start(self) -> None:
         """Fonction appelée pour démarrer le menu"""
         self.view.draw()
-
     def on_options(self) -> None:
         pass
-
     def on_highscores(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
@@ -76,7 +64,6 @@ class MenuController(Controller):
         """
         self.root.menu_frame.destroy()
         self.game_controller.start()
-
 
 class GameController(Controller):
     # todo : the whole thing here ! :)
@@ -90,28 +77,53 @@ class GameController(Controller):
         width = self.root.winfo_screenwidth()
         height = self.root.winfo_screenheight()
         border = 50
-        playersize = 50
+        playersize = 40
         self.root.game_frame.place(anchor=tk.CENTER)
         self.view.draw()
+
+        # new frame
+        self.root.game_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
         canvas = tk.Canvas(
             self.root.game_frame,
             width=width,
             height=height,
+            bg="#000"
         )
+
+        borderArea = canvas.create_rectangle(border,
+        border,
+        width - border,
+        height - border,
+        fill = "#ffffff")
+
         canvas.pack()
+
         self.root.game_frame.update()
         # player = Player(
         #     canvas,
-        #     border,
-        #     (width - playersize) / 2, (height - playersize) / 2,
-        #     (width + playersize) / 2, (height + playersize) / 2,
+        #     BORDER,
+        #     (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
+        #     (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
         #     "red"
         # )
         ############################### TESTING ###############################
-        import c31Geometry.c31Geometry2 as geo  # type: ignore                 #
+        import c31Geometry as geo # type: ignore         
+        player = Player(canvas, border, playersize, playersize, "red")
+                #
         enemy = Enemy(                                                        #
-            canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
-        )                                                                     #
-        player = Player(canvas, border, playersize, playersize, "red", enemy)  #
-        # ############################## TESTING ###############################
+            canvas, geo.Point(100, 100), 60, 60, "blue", geo.Vecteur(1, 1), player   #
+        )
+        enemy = Enemy(                                                        #
+            canvas, geo.Point(300, 85), 60, 50, "blue", geo.Vecteur(-1, 1), player  #
+        )                               
+        enemy = Enemy(                                                        #
+            canvas, geo.Point(85, 300), 30, 60, "blue", geo.Vecteur(1, -1), player  #
+        ) 
+        enemy = Enemy(                                                        #
+            canvas, geo.Point(355, 340), 100, 20, "blue", geo.Vecteur(-1, -1), player #
+        )                                       #
+        
+        ############################### TESTING ###############################
+
         self.view.draw()
