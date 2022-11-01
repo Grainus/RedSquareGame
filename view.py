@@ -24,7 +24,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Callable
 
 # Modules standards
-from abc import ABC # Abstract Base Class
+from abc import ABC  # Abstract Base Class
 import os.path
 import tkinter as tk
 from tkinter import PhotoImage
@@ -44,7 +44,7 @@ class View(ABC):
 
 class MenuView(View):
     def __init__(self, root: Root, on_new_game: Callable,
-                 on_quit: Callable,on_options : Callable,on_highscores:Callable):
+                 on_quit: Callable, on_options: Callable, on_highscores: Callable):
         """" Initialisation de la vue du menu """
         # Initialise la classe parente (View) pour les éléments communs
         super().__init__(root)
@@ -52,7 +52,7 @@ class MenuView(View):
         # Storage des fonctions creer nouvelle partie et quitter le jeu
         self.on_new_game = on_new_game
         self.on_quit = on_quit
-        self.on_options= on_options
+        self.on_options = on_options
         self.on_highscores = on_highscores
         
         # Dimensions des widgets
@@ -91,31 +91,31 @@ class MenuView(View):
         self.highscores_photo = PhotoImage(
             file=os.path.join(buttons, "highscoresButton.png")
         )
-        self.title_logo = tk.Label(self.root.menu_frame,image=self.title_photo)
+        self.title_logo = tk.Label(self.root.menu_frame, image=self.title_photo)
         self.btn_new_game = tk.Button(
             self.root.menu_frame,
             image=self.play_photo,
-            width=self.btn_width,height=self.btn_height,
+            width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_new_game
         )
         self.btn_quit = tk.Button(
             self.root.menu_frame,
-            image = self.quit_photo,
+            image=self.quit_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_quit
         )
         self.btn_options = tk.Button(
             self.root.menu_frame,
-            image = self.options_photo,
+            image=self.options_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_options
         )
         self.btn_highscores = tk.Button(
             self.root.menu_frame,
-            image = self.highscores_photo,
+            image=self.highscores_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_highscores
@@ -129,13 +129,20 @@ class MenuView(View):
         """Fonction appelée pour dessiner le menu"""
         self.title_logo.place(x=(450-self.logo_width)/2, y=0)
         self.btn_new_game.place(x=(450-self.btn_width)/2, y=self.logo_height)
-        self.btn_quit.place(x=(450-self.btn_width)/2, y=self.logo_height+(self.btn_height*2))
-        self.btn_options.place(x=(450-(self.btn_width*2))/2, y=self.logo_height+self.btn_height)
-        self.btn_highscores.place(x=(450-(self.btn_width*2))/2+self.btn_width, y=self.logo_height+self.btn_height)
+        self.btn_quit.place(
+                x=(450-self.btn_width) / 2,
+                y=self.logo_height + (self.btn_height*2)
+        )
+        self.btn_options.place(
+                x=(450 - (self.btn_width*2)) / 2,
+                y=self.logo_height+self.btn_height
+        )
+        self.btn_highscores.place(
+                x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+                y=self.logo_height+self.btn_height
+        )
         
         
-
-
 class GameView(View):
     # todo : the whole thing here ! :)
     def draw(self):

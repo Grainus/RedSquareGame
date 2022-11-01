@@ -20,7 +20,8 @@
 
 from enum import Enum
 import tkinter as tk
-import c31Geometry.c31Geometry2 as geo # type: ignore
+import c31Geometry.c31Geometry2 as geo  # type: ignore
+
 
 class Difficulty(Enum):
     """Enumération des difficultés de jeu"""
@@ -31,8 +32,10 @@ class Difficulty(Enum):
 
 """window.update() time.sleep(0.01) dans loop jeu pour animation ennemi"""
 
+
 class RectSprite:
     """Classe de base pour les entités rectangulaires dans le canvas."""
+
     def __init__(self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
@@ -75,15 +78,13 @@ class RectSprite:
         self.pos_middle = self.p1 + (self.p2 - self.p1) / 2
 
 
-
 class Enemy(RectSprite):
-
     def __init__(self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
             height: float,
             color: str,
-            speed: geo.Vecteur,
+            speed: Geo.Vecteur,
     ):
         """Initialise un ennemi.
 
@@ -97,9 +98,8 @@ class Enemy(RectSprite):
         """
         super().__init__(canvas, pos, width, height, color)
         self.speed = speed
-        
-        self.animate_enemy_bounce()
 
+        self.animate_enemy_bounce()
 
     def animate_enemy_bounce(self) -> None:
         """La logique du déplacement des ennemis, peut en faire plusieurs."""
@@ -117,7 +117,7 @@ class Enemy(RectSprite):
             self.speed = self.speed.conjugate()
         if not 0 < self.p1.x < self.p2.x < cwidth:
             self.speed = -self.speed.conjugate()
-        
+
         self.canvas.after(20, self.animate_enemy_bounce)
 
 
@@ -128,18 +128,18 @@ class Player(RectSprite):
             width: float,
             height: float,
             color: str,
-            enemy: Enemy # TESTING
+            enemy: Enemy  # TESTING
     ):
         """Initialise le modèle du joueur.
 
         Args:
             canvas: Canvas où est dessiné l'objet.
-            pos: Position du centre de l'objet.
+            # pos: Position du centre de l'objet. <- TODO: à supprimer ?
             width: Largeur.
             height: Hauteur.
             color: Couleur de remplissage.
         """
-        self.enemy = enemy # TESTING
+        self.enemy = enemy  # TESTING
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
         pos = geo.Point(cwidth / 2, cheight / 2)
         super().__init__(canvas, pos, width, height, color)
@@ -151,7 +151,7 @@ class Player(RectSprite):
             0, 0,
             canvas.winfo_width(), canvas.winfo_height(),
             outline="green",
-            width=border*2,
+            width=border * 2,
         )
 
         """Lorsque le joueur clique sur le carre rouge fonction move()."""
@@ -174,7 +174,7 @@ class Player(RectSprite):
                 or not bordersize < self.p1.x < self.p2.x < cwidth)
 
     def _move(self, event: tk.Event) -> None:
-        #TODO: This doc is irrelevant to the actual effect of the method
+        #  TODO: This doc is irrelevant to the actual effect of the method
         """Arrète le joueur si il touche aux murs."""
         if not self.wall_collision():
             self.canvas.moveto(
@@ -185,12 +185,12 @@ class Player(RectSprite):
 
         else:
             print("""Game Over.""")
-        collider(self, self.enemy) # TESTING
+        collider(self, self.enemy)  # TESTING
 
 
 def collider(object1: RectSprite, object2: RectSprite) -> bool:
     """Vérifie une collision entre deux objets."""
     overlaps = object1.canvas.find_overlapping(*object1.p1, *object1.p2)
-    if object2.sprite in overlaps: # TESTING
-        print("collide") # TESTING
+    if object2.sprite in overlaps:  # TESTING
+        print("collide")  # TESTING
     return object2.sprite in overlaps

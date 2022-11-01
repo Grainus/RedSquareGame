@@ -24,7 +24,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 # Modules standards
-from abc import ABC # Abstract Base Class
+from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     from game_engine import Root
 
 from model import Player, Enemy, collider
+
 
 class Controller(ABC):
     def __init__(self, root: Root):
@@ -51,18 +52,20 @@ class MenuController(Controller):
     def __init__(self, root: Root, game_controller: GameController):
         """Initialisation du controlleur du menu"""
         super().__init__(root)
-        self.view = MenuView(root, self.new_game, self.on_quit,self.on_options,self.on_highscores)
+        self.view = MenuView(
+                root, self.new_game, self.on_quit,
+                self.on_options, self.on_highscores
+        )
         self.game_controller = game_controller
 
     def start(self) -> None:
         """Fonction appelée pour démarrer le menu"""
         self.view.draw()
 
-    def on_options(self)->None:
-        """Fonction appelée lors de l'appui sur le bouton Options"""
+    def on_options(self) -> None:
         pass
-    
-    def on_highscores(self)->None:
+
+    def on_highscores(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
         """
@@ -84,28 +87,28 @@ class GameController(Controller):
 
     def start(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
-        WIDTH = HEIGHT = 450
-        BORDER = 50
-        PLAYERSIZE = 50
+        width = height = 450
+        border = 50
+        playersize = 50
         canvas = tk.Canvas(
             self.root,
-            width=WIDTH,
-            height=HEIGHT,
+            width=width,
+            height=height,
         )
         canvas.pack()
         self.root.update()
         # player = Player(
         #     canvas,
-        #     BORDER,
-        #     (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
-        #     (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
+        #     border,
+        #     (width - playersize) / 2, (height - playersize) / 2,
+        #     (width + playersize) / 2, (height + playersize) / 2,
         #     "red"
         # )
         ############################### TESTING ###############################
-        import c31Geometry.c31Geometry2 as geo # type: ignore                 #
+        import c31Geometry.c31Geometry2 as geo  # type: ignore                 #
         enemy = Enemy(                                                        #
             canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
         )                                                                     #
-        player = Player(canvas, BORDER, PLAYERSIZE, PLAYERSIZE, "red", enemy) #
-        ############################### TESTING ###############################
+        player = Player(canvas, border, playersize, playersize, "red", enemy)  #
+        # ############################## TESTING ###############################
         self.view.draw()
