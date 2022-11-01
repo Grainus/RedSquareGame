@@ -125,8 +125,7 @@ class GameController(Controller):
 
 
 def start_timer(label: tk.Label) -> None:
-    """ Start the timer at 1s intervals, create the view and starts
-    the time loop """
+    """ Debute la boucle du timer qui sera par la suite gérée par update_timer """
     # Start at 1 second to avoid a 1 second delay before the timer starts
     time = 0
     label.after(1000, update_timer, label, time)
@@ -134,7 +133,7 @@ def start_timer(label: tk.Label) -> None:
 
 
 def update_timer(time_label: tk.Label, time: int):
-    """ Update the time label's text and call itself again after 1s """
+    """ Met a jour le label du timer et relance la fonction après 1s """
     time += 1
     time_label.config(text=int_to_time(time))
     time_label.after(1000, update_timer, time_label, time)

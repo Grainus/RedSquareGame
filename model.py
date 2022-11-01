@@ -205,5 +205,5 @@ def collider(object1: RectSprite, object2: RectSprite) -> bool:
 
 
 def int_to_time(time: int) -> str:
-    """ Convert an int to a time string """
+    """ Converti un int, soit le score, en temps. Format : mm:ss """
     return f'{int(time / 60):02}:{int(time % 60):02}'
