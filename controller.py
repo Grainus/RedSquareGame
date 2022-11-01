@@ -87,15 +87,16 @@ class GameController(Controller):
 
     def start(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
-        WIDTH = HEIGHT = 450
-        BORDER = 50
-        PLAYERSIZE = 50
+        width = self.root.winfo_screenwidth()
+        height = self.root.winfo_screenheight()
+        border = 50
+        playersize = 50
         self.root.game_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.view.draw()
         canvas = tk.Canvas(
             self.root.game_frame,
-            width=WIDTH,
-            height=HEIGHT,
+            width=width,
+            height=height,
         )
         canvas.pack()
         self.root.game_frame.update()
