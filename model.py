@@ -30,7 +30,7 @@ class Difficulty(Enum):
     HARD = 3
 
 
-"""window.update() time.sleep(0.01) dans loop jeu pour animation ennemi"""
+# window.update() time.sleep(0.01) dans loop jeu pour animation ennemi (???) -> pas besoin
 
 
 class RectSprite:
@@ -154,7 +154,7 @@ class Player(RectSprite):
             width=border * 2,
         )
 
-        """Lorsque le joueur clique sur le carre rouge fonction move()."""
+        #  Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
 
     """Détecte une collision avec les murs."""
@@ -165,7 +165,7 @@ class Player(RectSprite):
 
         self.update_pos()
 
-        """Dimensions du canvas."""
+        #  Dimensions du canvas.
         cheight = self.canvas.winfo_height() - bordersize
         cwidth = self.canvas.winfo_width() - bordersize
 
@@ -175,7 +175,7 @@ class Player(RectSprite):
 
     def _move(self, event: tk.Event) -> None:
         #  TODO: This doc is irrelevant to the actual effect of the method
-        """Arrète le joueur si il touche aux murs."""
+        #  Arrête le déplacement si le joueur touche un mur.
         if not self.wall_collision():
             self.canvas.moveto(
                 self.sprite,
