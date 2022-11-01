@@ -101,6 +101,8 @@ class GameController(Controller):
             width=width,
             height=height,
         )
+        timer_widget = create_timer_widget(canvas)
+
         canvas.pack()
         self.root.game_frame.update()
 
@@ -116,6 +118,7 @@ class GameController(Controller):
         enemy = Enemy(                                                        #
             canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
         )                                                                     #
-        player = Player(canvas, border, playersize, playersize, "red", enemy)  #
+        player = Player(canvas, border, playersize, playersize, "red", enemy,
+                        start_timer, timer_widget)  #
         # ############################## TESTING ###############################
         self.view.draw()
