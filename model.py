@@ -182,7 +182,6 @@ class Player(RectSprite):
                 event.x - self.width/2,
                 event.y - self.height/2
             )
-
         else:
             print("""Game Over.""")
         collider(self, self.enemy)  # TESTING
