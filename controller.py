@@ -35,6 +35,9 @@ if TYPE_CHECKING:
 
 from model import Player, Enemy, collider
 
+from model import int_to_time
+from view import create_timer_widget
+
 
 class Controller(ABC):
     def __init__(self, root: Root):
@@ -100,6 +103,7 @@ class GameController(Controller):
         )
         canvas.pack()
         self.root.game_frame.update()
+
         # player = Player(
         #     canvas,
         #     border,

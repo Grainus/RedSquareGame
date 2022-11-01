@@ -32,6 +32,8 @@ from tkinter import PhotoImage
 if TYPE_CHECKING:
     from game_engine import Root
 
+from model import int_to_time
+
 
 class View(ABC):
     def __init__(self, root: Root):
