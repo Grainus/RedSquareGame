@@ -20,7 +20,8 @@
 
 from enum import Enum
 import tkinter as tk
-import c31Geometry.c31Geometry2 as geo  # type: ignore
+import c31Geometry as geo # type: ignore
+import time
 
 
 class Difficulty(Enum):
@@ -29,13 +30,8 @@ class Difficulty(Enum):
     MEDIUM = 2  # -> Default for production
     HARD = 3
 
-
-"""window.update() time.sleep(0.01) dans loop jeu pour animation ennemi"""
-
-
 class RectSprite:
     """Classe de base pour les entités rectangulaires dans le canvas."""
-
     def __init__(self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
@@ -77,14 +73,72 @@ class RectSprite:
         # Centre: Coin ↖ plus la moitié du vecteur entre les deux coins
         self.pos_middle = self.p1 + (self.p2 - self.p1) / 2
 
+class Player(RectSprite):
+
+    def __init__(self, canvas: tk.Canvas,
+            border: float,
+            width: float,
+            height: float,
+            color: str,
+            
+    ):
+        """Initialise le modèle du joueur.
+
+        Args:
+            canvas: Canvas où est dessiné l'objet.
+            pos: Position du centre de l'objet.
+            width: Largeur.
+            height: Hauteur.
+            color: Couleur de remplissage.
+        """
+        
+        cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
+        pos = geo.Point(225, 225) # A Debug
+        super().__init__(canvas, pos, width, height, color)
+
+        self.border = border
+
+        
+        #Lorsque le joueur clique sur le carré rouge fonction move().
+        canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
+
+    def wall_collision(self, bordersize: float = None):
+        """Détecte une collision avec les murs."""
+        if bordersize is None:
+            bordersize = self.border
+
+        self.update_pos()
+
+        #Dimensions du canvas.
+        cheight = self.canvas.winfo_height() - bordersize
+        cwidth = self.canvas.winfo_width() - bordersize
+
+        # Détecte la collision.
+        return (not bordersize < self.p1.y < self.p2.y < cheight
+                or not bordersize < self.p1.x < self.p2.x < cwidth)
+
+    def _move(self, event: tk.Event) -> None:
+        """Permet au joueur de se déplacer"""
+        #  Arrête le déplacement si le joueur touche un mur.
+        if not self.wall_collision():
+            self.canvas.moveto(
+                self.sprite,
+                event.x - self.width/2,
+                event.y - self.height/2
+            )
+
+        else:
+            print("""Game Over.""")
 
 class Enemy(RectSprite):
+
     def __init__(self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
             height: float,
             color: str,
             speed: geo.Vecteur,
+            player: Player # TESTING
     ):
         """Initialise un ennemi.
 
@@ -98,13 +152,12 @@ class Enemy(RectSprite):
         """
         super().__init__(canvas, pos, width, height, color)
         self.speed = speed
-
+        self.player = player
         self.animate_enemy_bounce()
 
+
     def animate_enemy_bounce(self) -> None:
-        """La logique du déplacement des ennemis, peut en faire plusieurs."""
-        # NOTE: confusing docstring               ^^^^^^^^^^^^^^^^^^^^^^^^ ???
-        # Bouge le rectangle dans la direction indiquée.
+        """La logique du déplacement des ennemis."""
         self.canvas.move(self.sprite, *self.speed)
         self.update_pos()
 
@@ -117,80 +170,11 @@ class Enemy(RectSprite):
             self.speed = self.speed.conjugate()
         if not 0 < self.p1.x < self.p2.x < cwidth:
             self.speed = -self.speed.conjugate()
-
+        collider(self, self.player) # TESTING
         self.canvas.after(20, self.animate_enemy_bounce)
-
-
-class Player(RectSprite):
-
-    def __init__(self, canvas: tk.Canvas,
-            border: float,
-            width: float,
-            height: float,
-            color: str,
-            enemy: Enemy  # TESTING
-    ):
-        """Initialise le modèle du joueur.
-
-        Args:
-            canvas: Canvas où est dessiné l'objet.
-            # pos: Position du centre de l'objet. <- TODO: à supprimer ?
-            width: Largeur.
-            height: Hauteur.
-            color: Couleur de remplissage.
-        """
-        self.enemy = enemy  # TESTING
-        cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
-        pos = geo.Point(cwidth / 2, cheight / 2)
-        super().__init__(canvas, pos, width, height, color)
-
-        self.border = border
-
-        # Affichage de la bordure
-        self.canvas.create_rectangle(
-            0, 0,
-            canvas.winfo_width(), canvas.winfo_height(),
-            outline="green",
-            width=border * 2,
-        )
-
-        """Lorsque le joueur clique sur le carre rouge fonction move()."""
-        canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
-
-    """Détecte une collision avec les murs."""
-
-    def wall_collision(self, bordersize: float = None):
-        if bordersize is None:
-            bordersize = self.border
-
-        self.update_pos()
-
-        """Dimensions du canvas."""
-        cheight = self.canvas.winfo_height() - bordersize
-        cwidth = self.canvas.winfo_width() - bordersize
-
-        # Détecte la collision.
-        return (not bordersize < self.p1.y < self.p2.y < cheight
-                or not bordersize < self.p1.x < self.p2.x < cwidth)
-
-    def _move(self, event: tk.Event) -> None:
-        #  TODO: This doc is irrelevant to the actual effect of the method
-        """Arrète le joueur si il touche aux murs."""
-        if not self.wall_collision():
-            self.canvas.moveto(
-                self.sprite,
-                event.x - self.width/2,
-                event.y - self.height/2
-            )
-
-        else:
-            print("""Game Over.""")
-        collider(self, self.enemy)  # TESTING
-
 
 def collider(object1: RectSprite, object2: RectSprite) -> bool:
     """Vérifie une collision entre deux objets."""
     overlaps = object1.canvas.find_overlapping(*object1.p1, *object1.p2)
-    if object2.sprite in overlaps:  # TESTING
-        print("collide")  # TESTING
-    return object2.sprite in overlaps
+    if object2.sprite in overlaps: # TESTING
+        print("collide") # TESTING
