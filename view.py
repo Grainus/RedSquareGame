@@ -154,3 +154,12 @@ class GameView(View):
     def destroy(self):
         """" Fonction appelée pour détruire le jeu """
         self.root.game_frame.destroy()
+
+
+def create_timer_widget(canvas: tk.Canvas) -> tk.Label:
+    """ Create the view """
+    label = tk.Label(canvas, font=('Comic Sans MS', 18),
+                            text=int_to_time(0), width=5, height=1,
+                     border=0, relief='flat', bg='green')
+    label.place(x=225, y=25, anchor="center")
+    return label

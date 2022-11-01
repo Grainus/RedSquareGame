@@ -202,3 +202,8 @@ def collider(object1: RectSprite, object2: RectSprite) -> bool:
     if object2.sprite in overlaps:  # TESTING
         print("collide")  # TESTING
     return object2.sprite in overlaps
+
+
+def int_to_time(time: int) -> str:
+    """ Convert an int to a time string """
+    return f'{int(time / 60):02}:{int(time % 60):02}'
