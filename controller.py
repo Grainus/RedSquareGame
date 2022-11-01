@@ -96,7 +96,7 @@ class GameController(Controller):
             height=height,
         )
         canvas.pack()
-        self.root.update()
+        self.root.game_frame.update()
         # player = Player(
         #     canvas,
         #     border,
