@@ -73,19 +73,19 @@ class RectSprite:
             modifiées.
         """
         coords = self.canvas.coords(self.sprite)
-        self.p1, self.p2 = Geo.Point(*coords[:2]), Geo.Point(*coords[2:])
+        self.p1, self.p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
         # Centre: Coin ↖ plus la moitié du vecteur entre les deux coins
         self.pos_middle = self.p1 + (self.p2 - self.p1) / 2
 
 
 class Enemy(RectSprite):
     def __init__(self, canvas: tk.Canvas,
-                 pos: Geo.Point,
-                 width: float,
-                 height: float,
-                 color: str,
-                 speed: Geo.Vecteur,
-                 ):
+            pos: geo.Point,
+            width: float,
+            height: float,
+            color: str,
+            speed: Geo.Vecteur,
+        ):
         """Initialise un ennemi.
 
         Args:
@@ -124,12 +124,12 @@ class Enemy(RectSprite):
 class Player(RectSprite):
 
     def __init__(self, canvas: tk.Canvas,
-                 border: float,
-                 width: float,
-                 height: float,
-                 color: str,
-                 enemy: Enemy  # TESTING
-                 ):
+            border: float,
+            width: float,
+            height: float,
+            color: str,
+            enemy: Enemy  # TESTING
+        ):
         """Initialise le modèle du joueur.
 
         Args:
