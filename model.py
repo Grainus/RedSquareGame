@@ -41,7 +41,7 @@ class RectSprite:
             width: float,
             height: float,
             color: str,
-        ):
+    ):
         """
         Args:
             canvas: Canvas où est dessiné l'objet.
@@ -85,7 +85,7 @@ class Enemy(RectSprite):
             height: float,
             color: str,
             speed: Geo.Vecteur,
-        ):
+    ):
         """Initialise un ennemi.
 
         Args:
@@ -129,7 +129,7 @@ class Player(RectSprite):
             height: float,
             color: str,
             enemy: Enemy  # TESTING
-        ):
+    ):
         """Initialise le modèle du joueur.
 
         Args:
