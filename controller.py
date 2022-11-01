@@ -128,13 +128,13 @@ def start_timer(label: tk.Label) -> None:
     """ Start the timer at 1s intervals, create the view and starts
     the time loop """
     # Start at 1 second to avoid a 1 second delay before the timer starts
-    time = 1
+    time = 0
     label.after(1000, update_timer, label, time)
     # 1000ms = 1s
 
 
 def update_timer(time_label: tk.Label, time: int):
     """ Update the time label's text and call itself again after 1s """
-    time_label.config(text=int_to_time(time))
     time += 1
+    time_label.config(text=int_to_time(time))
     time_label.after(1000, update_timer, time_label, time)
