@@ -30,7 +30,7 @@ class Difficulty(Enum):
     HARD = 3
 
 
-"""window.update() time.sleep(0.01) dans loop jeu pour animation ennemi"""
+# window.update() time.sleep(0.01) dans loop jeu pour animation ennemi (???) -> pas besoin
 
 
 class RectSprite:
@@ -102,8 +102,7 @@ class Enemy(RectSprite):
         self.animate_enemy_bounce()
 
     def animate_enemy_bounce(self) -> None:
-        """La logique du déplacement des ennemis, peut en faire plusieurs."""
-        # NOTE: confusing docstring               ^^^^^^^^^^^^^^^^^^^^^^^^ ???
+        """La logique du déplacement des ennemis."""
         # Bouge le rectangle dans la direction indiquée.
         self.canvas.move(self.sprite, *self.speed)
         self.update_pos()
@@ -154,18 +153,19 @@ class Player(RectSprite):
             width=border * 2,
         )
 
-        """Lorsque le joueur clique sur le carre rouge fonction move()."""
+        #  Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
 
-    """Détecte une collision avec les murs."""
+
 
     def wall_collision(self, bordersize: float = None):
+        """Détecte une collision avec les murs."""
         if bordersize is None:
             bordersize = self.border
 
         self.update_pos()
 
-        """Dimensions du canvas."""
+        #  Dimensions du canvas.
         cheight = self.canvas.winfo_height() - bordersize
         cwidth = self.canvas.winfo_width() - bordersize
 
@@ -174,15 +174,14 @@ class Player(RectSprite):
                 or not bordersize < self.p1.x < self.p2.x < cwidth)
 
     def _move(self, event: tk.Event) -> None:
-        #  TODO: This doc is irrelevant to the actual effect of the method
-        """Arrète le joueur si il touche aux murs."""
+        """Permet au joueur de se déplacer"""
+        #  Arrête le déplacement si le joueur touche un mur.
         if not self.wall_collision():
             self.canvas.moveto(
                 self.sprite,
                 event.x - self.width/2,
                 event.y - self.height/2
             )
-
         else:
             print("""Game Over.""")
         collider(self, self.enemy)  # TESTING
