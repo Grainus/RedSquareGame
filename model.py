@@ -148,6 +148,7 @@ class Player(RectSprite):
         self.border = border
         self.start_timer = start_timer
         self.timer_widget = timer_widget
+        self.time = 0
 
         # Affichage de la bordure
         self.canvas.create_rectangle(
@@ -181,7 +182,7 @@ class Player(RectSprite):
         #  TODO: This doc is irrelevant to the actual effect of the method
         """Arrète le joueur si il touche aux murs."""
         if not self.has_moved:
-            self.start_timer(self.timer_widget)
+            self.start_timer(self.timer_widget, self.time)
             self.has_moved = True
         """Permet au joueur de se déplacer"""
         #  Arrête le déplacement si le joueur touche un mur.

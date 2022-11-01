@@ -124,10 +124,9 @@ class GameController(Controller):
         self.view.draw()
 
 
-def start_timer(label: tk.Label) -> None:
+def start_timer(label: tk.Label, time : int) -> None:
     """ Debute la boucle du timer qui sera par la suite gérée par update_timer """
     # Start at 1 second to avoid a 1 second delay before the timer starts
-    time = 0
     label.after(1000, update_timer, label, time)
     # 1000ms = 1s
 
