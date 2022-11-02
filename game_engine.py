@@ -20,7 +20,7 @@
 
 import tkinter as tk
 from turtle import back
-from controller import MenuController, GameController
+from controller import MenuController, GameController, HighscoreController
 
 
 class Root(tk.Tk):
@@ -33,6 +33,7 @@ class Root(tk.Tk):
         self.menu_frame.place(x=0, y=0)
 
         self.game_frame = tk.Frame(self)
+        self.highscore_frame = tk.Frame(self)
 
         self.game_controller = GameController(self)
         self.menu = MenuController(self, self.game_controller)

@@ -28,7 +28,7 @@ from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
-from view import MenuView, GameView
+from view import MenuView, GameView, HighscoreView
 
 if TYPE_CHECKING:
     from game_engine import Root
@@ -72,7 +72,10 @@ class MenuController(Controller):
         """Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
         """
-    
+        self.root.menu_frame.destroy()
+        highscore_controller = HighscoreController(self.root)
+        highscore_controller.start()
+
     def new_game(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Nouvelle Partie
         afin de démarrer une nouvelle partie
@@ -121,6 +124,22 @@ class GameController(Controller):
         player = Player(canvas, border, playersize, playersize, "red", enemy,
                         start_timer, timer_widget)  #
         # ############################## TESTING ###############################
+        self.view.draw()
+        print("Game started")
+
+    def on_game_end(self) -> None:
+        self.root.game_frame.destroy()
+        self.root.score_controller.start()
+
+
+class HighscoreController(Controller):
+    def __init__(self, root: Root):
+        """Initialisation du controlleur du tableau des highscores"""
+        super().__init__(root)
+        self.view = HighscoreView(root, self.on_quit)
+
+    def start(self) -> None:
+        """Fonction appelée pour démarrer le tableau des highscores"""
         self.view.draw()
 
 
