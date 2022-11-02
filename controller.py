@@ -35,6 +35,9 @@ if TYPE_CHECKING:
 
 from model import Player, Enemy, collider
 
+from model import int_to_time
+from view import create_timer_widget
+
 
 class Controller(ABC):
     def __init__(self, root: Root):
@@ -98,8 +101,11 @@ class GameController(Controller):
             width=width,
             height=height,
         )
+        timer_widget = create_timer_widget(canvas)
+
         canvas.pack()
         self.root.game_frame.update()
+
         # player = Player(
         #     canvas,
         #     border,
@@ -112,6 +118,21 @@ class GameController(Controller):
         enemy = Enemy(                                                        #
             canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
         )                                                                     #
-        player = Player(canvas, border, playersize, playersize, "red", enemy)  #
+        player = Player(canvas, border, playersize, playersize, "red", enemy,
+                        start_timer, timer_widget)  #
         # ############################## TESTING ###############################
         self.view.draw()
+
+
+def start_timer(label: tk.Label, time : int) -> None:
+    """ Debute la boucle du timer qui sera par la suite gérée par update_timer """
+    # Start at 1 second to avoid a 1 second delay before the timer starts
+    label.after(1000, update_timer, label, time)
+    # 1000ms = 1s
+
+
+def update_timer(time_label: tk.Label, time: int):
+    """ Met a jour le label du timer et relance la fonction après 1s """
+    time += 1
+    time_label.config(text=int_to_time(time))
+    time_label.after(1000, update_timer, time_label, time)
