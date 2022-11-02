@@ -172,12 +172,13 @@ class Player(RectSprite):
         self.time = 0
 
         # Affichage de la bordure
-        self.canvas.create_rectangle(
+        rect = self.canvas.create_rectangle(
             0, 0,
             canvas.winfo_width(), canvas.winfo_height(),
             outline=config["Game"]["Color"]["Outline"],
             width=_border * 2,
         )
+        self.canvas.lower(rect)
 
         #  Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
