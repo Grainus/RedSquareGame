@@ -28,7 +28,7 @@ from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
-from view import MenuView, GameView
+from view import MenuView, GameView, HighscoreView
 
 if TYPE_CHECKING:
     from game_engine import Root

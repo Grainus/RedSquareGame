@@ -20,7 +20,7 @@
 
 import tkinter as tk
 from turtle import back
-from controller import MenuController, GameController
+from controller import MenuController, GameController, HighscoreController
 
 
 class Root(tk.Tk):
