@@ -127,7 +127,9 @@ class Player(RectSprite):
             width: float,
             height: float,
             color: str,
-            enemy: Enemy  # TESTING
+            enemy: Enemy,  # TESTING
+            start_timer,  # TESTING
+            timer_widget : tk.Label  # TESTING
     ):
         """Initialise le modèle du joueur.
 
@@ -142,8 +144,11 @@ class Player(RectSprite):
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
         pos = geo.Point(cwidth / 2, cheight / 2)
         super().__init__(canvas, pos, width, height, color)
-
+        self.has_moved = False
         self.border = border
+        self.start_timer = start_timer
+        self.timer_widget = timer_widget
+        self.time = 0
 
         # Affichage de la bordure
         self.canvas.create_rectangle(
@@ -174,6 +179,11 @@ class Player(RectSprite):
                 or not bordersize < self.p1.x < self.p2.x < cwidth)
 
     def _move(self, event: tk.Event) -> None:
+        #  TODO: This doc is irrelevant to the actual effect of the method
+        """Arrète le joueur si il touche aux murs."""
+        if not self.has_moved:
+            self.start_timer(self.timer_widget, self.time)
+            self.has_moved = True
         """Permet au joueur de se déplacer"""
         #  Arrête le déplacement si le joueur touche un mur.
         if not self.wall_collision():
@@ -193,3 +203,8 @@ def collider(object1: RectSprite, object2: RectSprite) -> bool:
     if object2.sprite in overlaps:  # TESTING
         print("collide")  # TESTING
     return object2.sprite in overlaps
+
+
+def int_to_time(time: int) -> str:
+    """ Converti un int, soit le score, en temps. Format : mm:ss """
+    return f'{int(time / 60):02}:{int(time % 60):02}'
