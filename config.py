@@ -24,6 +24,8 @@ from functools import reduce
 import json
 import os
 
+__docformat__ = "google"
+
 
 class Multiton(type):
     """Permet d'initialiser l'objet une seule fois par nom.

@@ -35,9 +35,11 @@ from config import Config
 if TYPE_CHECKING:
     from game_engine import Root
 
-from model import Player, Enemy, collider
+from model import Player, Enemy
 
 from view import create_timer_widget
+
+__docformat__ = "google"
 
 
 class Controller(ABC):

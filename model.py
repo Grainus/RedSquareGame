@@ -28,6 +28,8 @@ import tkinter as tk
 import c31Geometry.c31Geometry2 as geo  # type: ignore
 from config import Config
 
+__docformat__ = "google"
+
 
 class Difficulty(Enum):
     """Enumération des difficultés de jeu"""
@@ -203,7 +205,6 @@ class Player(RectSprite):
 
     def _move(self, event: tk.Event) -> None:
         """Permet au joueur de se déplacer"""
-        print(self.score.value)
         #  Arrête le déplacement si le joueur touche un mur.
         if not self.wall_collision():
             self.canvas.moveto(

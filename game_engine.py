@@ -27,6 +27,8 @@ from controller import (
 )
 from config import Config
 
+__docformat__ = "google"
+
 
 class Root(tk.Tk):
     def __init__(self):
