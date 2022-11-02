@@ -29,6 +29,8 @@ import tkinter as tk
 
 # Modules du projet
 from view import MenuView, GameView, HighscoreView
+import c31Geometry.c31Geometry2 as geo
+from config import Config
 
 if TYPE_CHECKING:
     from game_engine import Root
@@ -85,7 +87,6 @@ class MenuController(Controller):
 
 
 class GameController(Controller):
-    # todo : the whole thing here ! :)
     def __init__(self, root: Root):
         """Initialisation du controlleur du jeu"""
         super().__init__(root)
@@ -93,29 +94,41 @@ class GameController(Controller):
 
     def start(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
+        config = Config.get_instance()
+
         width = self.root.winfo_screenwidth()
         height = self.root.winfo_screenheight()
-        border = 50  # CONFIG
-        playersize = 50  # CONFIG
         self.root.game_frame.place(anchor=tk.CENTER)
         self.view.draw()
         canvas = tk.Canvas(
             self.root.game_frame,
             width=width,
             height=height,
+            background=config["Game"]["Color"]["Fill"],
         )
         timer_widget = create_timer_widget(canvas)
 
         canvas.pack()
         self.root.game_frame.update()
         ############################### TESTING ###############################
-        import c31Geometry.c31Geometry2 as geo  # type: ignore                #
-        enemy = Enemy(                                                        #
-            canvas, geo.Point(100, 100), 75, 150, "blue", geo.Vecteur(1, 1)   #
-        )                                                                     #
-        player = Player(canvas, border, playersize, playersize, "red", enemy,
-                        start_timer, timer_widget)  #
-        # ############################## TESTING ###############################
+        firstEnemy = config["Enemies"][0]
+        pos = firstEnemy["Position"]
+        speed = firstEnemy["Speed"]
+        size = firstEnemy["Size"]
+
+        enemy = Enemy(
+            canvas,
+            pos=geo.Point(pos["X"], pos["Y"]),
+            width=size["Width"], height=size["Height"],
+            speed=geo.Vecteur(speed["X"], speed["Y"]),
+        )
+        ############################### TESTING ###############################
+        player = Player(
+                canvas,
+                enemy=enemy,
+                start_timer=start_timer,
+                timer_widget=timer_widget
+        )
         self.view.draw()
         print("Game started")
 

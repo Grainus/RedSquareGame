@@ -17,10 +17,15 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
+"""TODO: DOCSTRING"""
 
+# Modules standards
 from enum import Enum
 import tkinter as tk
+
+# Modules de projet
 import c31Geometry.c31Geometry2 as geo  # type: ignore
+from config import Config
 
 
 class Difficulty(Enum):
@@ -30,13 +35,11 @@ class Difficulty(Enum):
     HARD = 3
 
 
-# window.update() time.sleep(0.01) dans loop jeu pour animation ennemi (???) -> pas besoin
-
-
 class RectSprite:
     """Classe de base pour les entités rectangulaires dans le canvas."""
 
-    def __init__(self, canvas: tk.Canvas,
+    def __init__(
+            self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
             height: float,
@@ -79,12 +82,14 @@ class RectSprite:
 
 
 class Enemy(RectSprite):
-    def __init__(self, canvas: tk.Canvas,
+    def __init__(
+            self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
             height: float,
-            color: str,
             speed: geo.Vecteur,
+            *, # Prochains sont keyword-only
+            color: str | None = None,
     ):
         """Initialise un ennemi.
 
@@ -93,10 +98,13 @@ class Enemy(RectSprite):
             pos: Position du centre de l'objet.
             width: Largeur.
             height: Hauteur.
-            color: Couleur de remplissage.
             speed: Déplacement effectué par l'ennemi à chaque tick.
+            color: Couleur de remplissage.
         """
-        super().__init__(canvas, pos, width, height, color)
+        colordefault = Config.get_instance()["Enemy"]["Color"]["Fill"]
+        _color = color if color is not None else colordefault
+
+        super().__init__(canvas, pos, width, height, _color)
         self.speed = speed
 
         self.animate_enemy_bounce()
@@ -122,11 +130,13 @@ class Enemy(RectSprite):
 
 class Player(RectSprite):
 
-    def __init__(self, canvas: tk.Canvas,
-            border: float,
-            width: float,
-            height: float,
-            color: str,
+    def __init__(
+            self, canvas: tk.Canvas,
+            border: float | None = None,
+            width: float | None = None,
+            height: float | None = None,
+            color: str | None = None,
+            *,  # Prochains sont keyword-only
             enemy: Enemy,  # TESTING
             start_timer,  # TESTING
             timer_widget : tk.Label  # TESTING
@@ -140,12 +150,23 @@ class Player(RectSprite):
             height: Hauteur.
             color: Couleur de remplissage.
         """
+        config = Config.get_instance()
+        def if_given(value, default):
+            return value if value is not None else default
+
+        _border = if_given(border, config["Game"]["Size"]["Border"])
+        _width = if_given(width, config["Player"]["Size"]["Width"])
+        _height = if_given(height, config["Player"]["Size"]["Height"])
+        _color = if_given(color, config["Player"]["Color"]["Fill"])
+        
         self.enemy = enemy  # TESTING
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
         pos = geo.Point(cwidth / 2, cheight / 2)
-        super().__init__(canvas, pos, width, height, color)
+
+        # Les arguments sont optionels, mais des valeurs sont ajoutées
+        super().__init__(canvas, pos, _width, _height, _color)
         self.has_moved = False
-        self.border = border
+        self.border = _border
         self.start_timer = start_timer
         self.timer_widget = timer_widget
         self.time = 0
@@ -154,8 +175,8 @@ class Player(RectSprite):
         self.canvas.create_rectangle(
             0, 0,
             canvas.winfo_width(), canvas.winfo_height(),
-            outline="green",
-            width=border * 2,
+            outline=config["Game"]["Color"]["Outline"],
+            width=_border * 2,
         )
 
         #  Lorsque le joueur clique sur le carre rouge fonction move().

@@ -73,7 +73,7 @@ class Config(metaclass=Multiton):
         try:
             with open(self.filepath) as file:
                 deep_update(self.config, json.load(file))
-        except OSError:
+        except (OSError, json.JSONDecodeError):
             with open(self.filepath, 'a') as file:
                 file.write('{}')
 
