@@ -22,6 +22,7 @@ from enum import Enum
 import tkinter as tk
 import c31Geometry as geo # type: ignore
 import time
+from typing import Self
 
 
 class Difficulty(Enum):
@@ -80,7 +81,7 @@ class Player(RectSprite):
             width: float,
             height: float,
             color: str,
-            
+            enemyList: list
     ):
         """Initialise le modèle du joueur.
 
@@ -97,7 +98,8 @@ class Player(RectSprite):
         super().__init__(canvas, pos, width, height, color)
 
         self.border = border
-
+        self.var = tk.StringVar()
+        self.enemyList = enemyList
         
         #Lorsque le joueur clique sur le carré rouge fonction move().
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
@@ -126,9 +128,17 @@ class Player(RectSprite):
                 event.x - self.width/2,
                 event.y - self.height/2
             )
-
         else:
-            print("""Game Over.""")
+            pass
+
+    def collision(self) -> bool:
+        collision = False 
+        for element in self.enemyList:
+            if collider(self, element):
+                collision = True
+    
+        return collision
+
 
 class Enemy(RectSprite):
 
@@ -138,7 +148,7 @@ class Enemy(RectSprite):
             height: float,
             color: str,
             speed: geo.Vecteur,
-            player: Player # TESTING
+            #player: Player # TESTING
     ):
         """Initialise un ennemi.
 
@@ -152,9 +162,9 @@ class Enemy(RectSprite):
         """
         super().__init__(canvas, pos, width, height, color)
         self.speed = speed
-        self.player = player
+        #self.player = player
+        
         self.animate_enemy_bounce()
-
 
     def animate_enemy_bounce(self) -> None:
         """La logique du déplacement des ennemis."""
@@ -170,11 +180,24 @@ class Enemy(RectSprite):
             self.speed = self.speed.conjugate()
         if not 0 < self.p1.x < self.p2.x < cwidth:
             self.speed = -self.speed.conjugate()
-        collider(self, self.player) # TESTING
+
         self.canvas.after(20, self.animate_enemy_bounce)
+
+        if(collider(self, self.player)):
+            print("collider")
+
+        
 
 def collider(object1: RectSprite, object2: RectSprite) -> bool:
     """Vérifie une collision entre deux objets."""
+    collision = False
     overlaps = object1.canvas.find_overlapping(*object1.p1, *object1.p2)
     if object2.sprite in overlaps: # TESTING
-        print("collide") # TESTING
+        collision = True
+
+    return collision
+
+
+def int_to_time(time: int) -> str:
+    """ Converti un int, soit le score, en temps. Format : mm:ss """
+    return f'{int(time / 60):02}:{int(time % 60):02}'
