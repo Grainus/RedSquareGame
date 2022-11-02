@@ -21,13 +21,16 @@
 
 # Type hinting
 from __future__ import annotations
+from tkinter.ttk import LabelFrame
 from typing import TYPE_CHECKING, Callable
 
 # Modules standards
-from abc import ABC  # Abstract Base Class
+from abc import ABC # Abstract Base Class
 import os.path
 import tkinter as tk
 from tkinter import PhotoImage
+
+from model import int_to_time #testing
 
 if TYPE_CHECKING:
     from game_engine import Root
@@ -67,6 +70,7 @@ class MenuView(View):
         currentdir = os.path.dirname(__file__)
         graphics = os.path.join(currentdir, "Graphics")
         buttons = os.path.join(graphics, "Buttons")
+
         self.title_photo = PhotoImage(
             file=os.path.join(graphics, "logo.png")
         )
@@ -140,9 +144,8 @@ class MenuView(View):
         self.btn_highscores.place(
                 x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
                 y=self.logo_height+self.btn_height
-        )
-        
-        
+        )        
+
 class GameView(View):
     # todo : the whole thing here ! :)
     def draw(self):
@@ -152,3 +155,63 @@ class GameView(View):
     def destroy(self):
         """" Fonction appelée pour détruire le jeu """
         self.root.game_frame.destroy()
+
+class GameOverView(View):
+    
+    
+    
+    
+    pass
+
+class InGameMenu(View):
+    pass
+
+def create_timer_widget(canvas: tk.Canvas) -> tk.Label:
+    """ Créé la vue du widget et retourne son label """
+    label = tk.Label(canvas, font=('Comic Sans MS', 18),
+                            text=int_to_time(0), width=5, height=1,
+                     border=0, relief='flat', bg='green')
+    label.place(x=225, y=25, anchor="center")
+    return label
+
+class HighscoreView(View):
+    def __init__(self, root: Root, on_quit: Callable):
+        """" Initialisation de la vue des highscores """
+        super().__init__(root)
+        self.on_quit = on_quit
+        self.highscore_canvas = tk.Canvas(self.root.highscore_frame, width=450, height=450)
+        self.highscore_canvas.pack()
+        self.highscore_canvas.create_text(225, 20, text="Highscores", font=("Arial", 20))
+
+        listeScore = []  # todo : get the highscores from the database
+
+        i = listeScore.__len__()
+
+        if i > 15:
+            i = 15
+        for j in range(i):
+            self.highscore_canvas.create_text(225, 50 + (j*20), text=listeScore[j], font=("Arial", 10))
+
+        self.btn_menu = tk.Button(
+            self.highscore_canvas,
+            text="Menu",
+            width=20, height=2,
+            borderwidth=0,
+            command=self.on_quit, # todo : change this to go back to the menu
+            background = "blue"
+        )
+        self.btn_menu.place(x=150, y=350)
+
+        self.btn_quit = tk.Button(
+            self.highscore_canvas,
+            text="Quitter",
+            width=20, height=2,
+            borderwidth=0,
+            command=self.on_quit,
+            background="red"
+        )
+        self.btn_quit.place(x=150, y=400)
+
+    def draw(self):
+        """" Fonction appelée pour dessiner les highscores """
+        self.root.highscore_frame.pack()
