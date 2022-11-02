@@ -179,7 +179,7 @@ class HighscoreView(View):
         self.highscore_canvas.create_text(
             225, 20,
             text="Highscores",
-            font=("Arial", 20)
+            font=("Arial", 50)
         )
 
         listeScore = []  # todo : get the highscores from the database
@@ -247,6 +247,7 @@ class OptionsView(View):
         self.on_difficulty = on_difficulty
         self.options_canvas = tk.Canvas(self.root.options_frame, width=450, height=450)
         self.options_canvas.pack()
+        self.options_canvas.create_text(225, 20, text="Options", font=("Arial", 50))
 
         # Dimensions des widgets
         self.btn_height = 100
@@ -312,29 +313,20 @@ class OptionsView(View):
         )
         self.btn_menu.place(
             x=(450 - (self.btn_width*2)) / 2,
-            y=450- self.btn_height
+            y=450-self.btn_height
         )
         self.btn_quit.place(
             x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450- self.btn_height
+            y=450-self.btn_height
         )
-        self.btn_easy.place(
-            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450- self.btn_height
-        )
-        self.btn_medium.place(
-            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450- self.btn_height
-        )
-        self.btn_hard.place(
-            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450- self.btn_height
-        )
+        self.btn_easy.place(x=(450 - self.diff_width) / 2,y=450/2-(self.diff_height*2))
+        self.btn_medium.place(x=(450 - self.diff_width) / 2,y=450/2-self.diff_height)
+        self.btn_hard.place(x=(450 - self.diff_width) / 2,y=450/2)
 
     def draw(self):
         self.root.options_frame.pack()
 
-    
+
 
 
 def create_timer_widget(canvas: tk.Canvas) -> tk.Label:

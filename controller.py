@@ -202,4 +202,6 @@ class OptionsController(Controller):
         self.root.menu_frame.pack()
 
     def on_difficulty(self,difficulty:Difficulty) -> None:
-        pass
+        """Fonction appellé quand l'utilisateur change la difficulté"""
+        config = Config.get_instance()
+        
