@@ -1,0 +1,95 @@
+{
+    "Game": {
+        "Color": {
+            "Fill": "white",
+            "Outline": "black"
+        },
+        "Difficulty": {
+            "Level": "MEDIUM",
+            "Enemies": 4
+        },
+        "Size": {
+            "Width": 450,
+            "Height": 450,
+            "Border": 50
+        }
+    },
+    "Player": {
+        "Color": {
+            "Fill": "red",
+            "Outline": "black"
+        },
+        "Size": {
+            "Width": 40,
+            "Height": 40,
+            "Border": 0
+        }
+    },
+    "Enemy": {
+        "Color": {
+            "Fill": "blue",
+            "Outline": "black"
+        },
+        "Size": {
+            "Border": 0
+        }
+    },
+    "Enemies": [
+        {
+            "Size": {
+                "Width": 60,
+                "Height": 60
+            },
+            "Position": {
+                "X": 100,
+                "Y": 100
+            },
+            "Speed": {
+                "X": 5,
+                "Y": 3
+            }
+        },
+        {
+            "Size": {
+                "Width": 60,
+                "Height": 50
+            },
+            "Position": {
+                "X": 300,
+                "Y": 85
+            },
+            "Speed": {
+                "X": -3,
+                "Y": 5
+            }
+        },
+        {
+            "Size": {
+                "Width": 30,
+                "Height": 60
+            },
+            "Position": {
+                "X": 85,
+                "Y": 300
+            },
+            "Speed": {
+                "X": 5,
+                "Y": -3
+            }
+        },
+        {
+            "Size": {
+                "Width": 100,
+                "Height": 20
+            },
+            "Position": {
+                "X": 355,
+                "Y": 340
+            },
+            "Speed": {
+                "X": -3,
+                "Y": -5
+            }
+        }
+    ]
+}

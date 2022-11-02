@@ -34,6 +34,8 @@ if TYPE_CHECKING:
 
 from model import Score
 
+__docformat__ = "google"
+
 
 class View(ABC):
     def __init__(self, root: Root):

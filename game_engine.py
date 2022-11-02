@@ -19,8 +19,15 @@
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 
 import tkinter as tk
-from turtle import back
-from controller import MenuController, GameController, HighscoreController
+
+from controller import (
+        MenuController,
+        GameController,
+        HighscoreController
+)
+from config import Config
+
+__docformat__ = "google"
 
 
 class Root(tk.Tk):
@@ -28,8 +35,13 @@ class Root(tk.Tk):
         """Initialisation du root"""
         super().__init__()
         self.title("Jeu du carré rouge")
+        config = Config.get_instance()
 
-        self.menu_frame = tk.Frame(self, height=450, width=450)
+        self.menu_frame = tk.Frame(
+                self,
+                width=config["Game"]["Size"]["Width"],
+                height=config["Game"]["Size"]["Height"],
+        )
         self.menu_frame.place(x=0, y=0)
 
         self.game_frame = tk.Frame(self)

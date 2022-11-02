@@ -3,4 +3,4 @@ Simple jeu style arcade où le joueur doit déplacer un carré rouge afin d'évi
 
 **Ce projet utilise Python 3.11**
 
-> Version 1.2.0-alpha
+> Version 1.3.2-alpha
