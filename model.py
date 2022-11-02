@@ -20,6 +20,8 @@
 
 from enum import Enum
 import tkinter as tk
+from functools import partial
+
 import c31Geometry.c31Geometry2 as geo  # type: ignore
 
 
@@ -128,7 +130,6 @@ class Player(RectSprite):
             height: float,
             color: str,
             enemy: Enemy,  # TESTING
-            start_timer,  # TESTING
             timer_widget : tk.Label  # TESTING
     ):
         """Initialise le modèle du joueur.
@@ -144,11 +145,9 @@ class Player(RectSprite):
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
         pos = geo.Point(cwidth / 2, cheight / 2)
         super().__init__(canvas, pos, width, height, color)
-        self.has_moved = False
         self.border = border
-        self.start_timer = start_timer
-        self.timer_widget = timer_widget
-        self.time = 0
+        
+        self.score = Score(canvas, timer_widget)
 
         # Affichage de la bordure
         self.canvas.create_rectangle(
@@ -160,10 +159,14 @@ class Player(RectSprite):
 
         #  Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
+        canvas.tag_bind(self.sprite, "<Button-1>", self._start_timer)
+
+    def _start_timer(self, _):
+        self.canvas.tag_unbind(self.sprite, "<Button-1>")
+        self.score.start()
 
 
-
-    def wall_collision(self, bordersize: float = None):
+    def wall_collision(self, bordersize: float = None) -> bool:
         """Détecte une collision avec les murs."""
         if bordersize is None:
             bordersize = self.border
@@ -179,12 +182,8 @@ class Player(RectSprite):
                 or not bordersize < self.p1.x < self.p2.x < cwidth)
 
     def _move(self, event: tk.Event) -> None:
-        #  TODO: This doc is irrelevant to the actual effect of the method
-        """Arrète le joueur si il touche aux murs."""
-        if not self.has_moved:
-            self.start_timer(self.timer_widget, self.time)
-            self.has_moved = True
         """Permet au joueur de se déplacer"""
+        print(self.score.value)
         #  Arrête le déplacement si le joueur touche un mur.
         if not self.wall_collision():
             self.canvas.moveto(
@@ -205,6 +204,31 @@ def collider(object1: RectSprite, object2: RectSprite) -> bool:
     return object2.sprite in overlaps
 
 
-def int_to_time(time: int) -> str:
-    """ Converti un int, soit le score, en temps. Format : mm:ss """
-    return f'{int(time / 60):02}:{int(time % 60):02}'
+class Score:
+    """Contrôle l'état du score 
+    """
+    def __init__(self, canvas, label):
+        self.value = 0
+        self.started = False
+        self.canvas = canvas
+        self.label = label
+
+    def start(self):
+        if not self.started:
+            def update(self):
+                self.value += 1
+                self.label.config(text=self)
+            self.loop = geo.LoopEvent(
+                self.canvas, partial(update, self),
+                1000,
+            )
+            self.loop.start()
+        else:
+            raise RuntimeError("Started score twice")
+    
+    @staticmethod
+    def to_readable(value: int) -> str:
+        return f'{int(value / 60):02}:{int(value % 60):02}'
+
+    def __str__(self) -> str:
+        return Score.to_readable(self.value)
