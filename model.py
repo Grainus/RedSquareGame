@@ -132,12 +132,10 @@ class Player(RectSprite):
             pass
 
     def collision(self) -> bool:
-        collision = False 
         for element in self.enemyList:
             if collider(self, element):
-                collision = True
-    
-        return collision
+                return True
+        return False
 
 
 class Enemy(RectSprite):
