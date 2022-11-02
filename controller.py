@@ -37,7 +37,6 @@ if TYPE_CHECKING:
 
 from model import Player, Enemy, collider
 
-from model import int_to_time
 from view import create_timer_widget
 
 
@@ -126,7 +125,6 @@ class GameController(Controller):
         player = Player(
                 canvas,
                 enemy=enemy,
-                start_timer=start_timer,
                 timer_widget=timer_widget
         )
         self.view.draw()
@@ -146,17 +144,3 @@ class HighscoreController(Controller):
     def start(self) -> None:
         """Fonction appelée pour démarrer le tableau des highscores"""
         self.view.draw()
-
-
-def start_timer(label: tk.Label, time : int) -> None:
-    """ Debute la boucle du timer qui sera par la suite gérée par update_timer """
-    # Start at 1 second to avoid a 1 second delay before the timer starts
-    label.after(1000, update_timer, label, time)
-    # 1000ms = 1s
-
-
-def update_timer(time_label: tk.Label, time: int):
-    """ Met a jour le label du timer et relance la fonction après 1s """
-    time += 1
-    time_label.config(text=int_to_time(time))
-    time_label.after(1000, update_timer, time_label, time)
