@@ -203,6 +203,6 @@ def create_timer_widget(canvas: tk.Canvas) -> tk.Label:
     """ Créé la vue du widget et retourne son label """
     label = tk.Label(canvas, font=('Comic Sans MS', 18),
                             text=int_to_time(0), width=5, height=1,
-                     border=0, relief='flat', bg='green')
+                     border=0, relief='flat', bg='black', fg='white')
     label.place(x=225, y=25, anchor="center")
     return label
