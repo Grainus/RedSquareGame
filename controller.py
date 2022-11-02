@@ -115,3 +115,21 @@ class GameController(Controller):
         player = Player(canvas, border, playersize, playersize, "red", enemy)  #
         # ############################## TESTING ###############################
         self.view.draw()
+        print("Game started")
+
+    def on_game_end(self) -> None:
+        self.root.game_frame.destroy()
+        self.root.score_controller.start()
+
+class HighscoreController(Controller):
+    def __init__(self, root: Root):
+        """Initialisation du controlleur du tableau des highscores"""
+        super().__init__(root)
+        self.view = HighscoreView(root, self.on_quit)
+
+    def start(self) -> None:
+        """Fonction appelée pour démarrer le tableau des highscores"""
+        self.view.draw()
+
+
+

@@ -152,3 +152,55 @@ class GameView(View):
     def destroy(self):
         """" Fonction appelée pour détruire le jeu """
         self.root.game_frame.destroy()
+
+
+class HighscoreView(View):
+    def __init__(self, root: Root, on_quit: Callable):
+        """" Initialisation de la vue des highscores """
+        super().__init__(root)
+        self.on_quit = on_quit
+        self.highscore_canvas = tk.Canvas(self.root.highscore_frame, width=450, height=450)
+        self.highscore_canvas.pack()
+        self.highscore_canvas.create_text(225, 20, text="Highscores", font=("Arial", 20))
+
+        listeScore = []  # todo : get the highscores from the database
+
+        i = listeScore.__len__()
+
+        if i > 15:
+            i = 15
+        for j in range(i):
+            self.highscore_canvas.create_text(225, 50 + (j*20), text=listeScore[j], font=("Arial", 10))
+
+        self.btn_menu = tk.Button(
+            self.highscore_canvas,
+            text="Menu",
+            width=20, height=2,
+            borderwidth=0,
+            command=self.on_quit, # todo : change this to go back to the menu
+            background = "blue"
+        )
+        self.btn_menu.place(x=150, y=350)
+
+        self.btn_quit = tk.Button(
+            self.highscore_canvas,
+            text="Quitter",
+            width=20, height=2,
+            borderwidth=0,
+            command=self.on_quit,
+            background="red"
+        )
+        self.btn_quit.place(x=150, y=400)
+
+    def draw(self):
+        """" Fonction appelée pour dessiner les highscores """
+        self.root.highscore_frame.pack()
+
+
+
+
+
+
+
+
+
