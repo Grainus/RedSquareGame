@@ -32,7 +32,9 @@ from tkinter import PhotoImage
 if TYPE_CHECKING:
     from game_engine import Root
 
-from model import Score
+# Modules de projet
+from model import Score, Difficulty
+from config import Config
 
 __docformat__ = "google"
 
@@ -157,13 +159,21 @@ class GameView(View):
 
 
 class HighscoreView(View):
-    def __init__(self, root: Root, frame: tk.Frame, on_quit: Callable):
+    def __init__(
+                self, root: Root,
+                frame: tk.Frame,
+                on_quit: Callable,
+                on_menu: Callable
+        ):
         """Initialisation de la vue des highscores"""
         super().__init__(root, frame)
+        size = Config.get_instance()["Game"]["Size"]
+        
         self.on_quit = on_quit
+        self.on_menu = on_menu
         self.highscore_canvas = tk.Canvas(
             self.frame,
-            width=450, height=450
+            width=size["Width"], height=size["Height"]
         )
         self.highscore_canvas.pack()
         self.highscore_canvas.create_text(
@@ -173,6 +183,11 @@ class HighscoreView(View):
         )
 
         listeScore = []  # todo : get the highscores from the database
+
+
+        # Dimensions des widgets
+        self.btn_height = 100
+        self.btn_width = 200
 
         i = listeScore.__len__()
 
@@ -185,29 +200,141 @@ class HighscoreView(View):
                     font=("Arial", 10)
             )
 
+        currentdir = os.path.dirname(__file__)
+        graphics = os.path.join(currentdir, "Graphics")
+        buttons = os.path.join(graphics, "Buttons")
+
+        self.quit_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButton.png")
+        )
+        self.menu_photo = PhotoImage(
+            file=os.path.join(buttons, "menuButton.png")
+        )
+
         self.btn_menu = tk.Button(
             self.highscore_canvas,
-            text="Menu",
-            width=20, height=2,
+            image=self.menu_photo,
+            width=self.btn_width, height=self.btn_height,
             borderwidth=0,
-            command=self.on_quit, # todo : change this to go back to the menu
-            background = "blue"
+            command=self.on_menu
         )
-        self.btn_menu.place(x=150, y=350)
-
         self.btn_quit = tk.Button(
             self.highscore_canvas,
-            text="Quitter",
-            width=20, height=2,
+            image=self.quit_photo,
+            width=self.btn_width, height=self.btn_height,
             borderwidth=0,
-            command=self.on_quit,
-            background="red"
+            command=self.on_quit
         )
-        self.btn_quit.place(x=150, y=400)
+        self.btn_menu.place(
+            x=(450 - (self.btn_width*2)) / 2,
+            y=450- self.btn_height
+        )
+        self.btn_quit.place(
+            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+            y=450- self.btn_height
+        )
 
     def draw(self):
         """Fonction appelée pour dessiner les highscores"""
         self.frame.pack()
+
+class OptionsView(View):
+    def __init__(self, root: Root, on_quit: Callable,on_menu:Callable,on_difficulty:Callable):
+        """ Initialisation de la vue des options """
+        super().__init__(root)
+        self.on_quit = on_quit
+        self.on_menu = on_menu
+        self.on_difficulty = on_difficulty
+        self.options_canvas = tk.Canvas(self.root.options_frame, width=450, height=450)
+        self.options_canvas.pack()
+
+        # Dimensions des widgets
+        self.btn_height = 100
+        self.btn_width = 200
+        self.diff_height = 50
+        self.diff_width = 100
+
+
+        currentdir = os.path.dirname(__file__)
+        graphics = os.path.join(currentdir, "Graphics")
+        buttons = os.path.join(graphics, "Buttons")
+
+        self.quit_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButton.png")
+        )
+        self.menu_photo = PhotoImage(
+            file=os.path.join(buttons, "menuButton.png")
+        )
+        self.easy_photo = PhotoImage(
+            file=os.path.join(buttons, "easyButton.png")
+        )
+        self.medium_photo = PhotoImage(
+            file=os.path.join(buttons, "mediumButton.png")
+        )
+        self.hard_photo = PhotoImage(
+            file=os.path.join(buttons, "hardButton.png")
+        )
+
+        self.btn_menu = tk.Button(
+            self.options_canvas,
+            image=self.menu_photo,
+            width=self.btn_width, height=self.btn_height,
+            borderwidth=0,
+            command=self.on_menu
+        )
+        self.btn_quit = tk.Button(
+            self.options_canvas,
+            image=self.quit_photo,
+            width=self.btn_width, height=self.btn_height,
+            borderwidth=0,
+            command=self.on_quit
+        )
+        self.btn_easy = tk.Button(
+            self.options_canvas,
+            image=self.easy_photo,
+            width=self.diff_width, height=self.diff_height,
+            borderwidth=0,
+            command=self.on_difficulty(Difficulty.EASY)
+        )
+        self.btn_medium = tk.Button(
+            self.options_canvas,
+            image=self.medium_photo,
+            width=self.diff_width, height=self.diff_height,
+            borderwidth=0,
+            command=self.on_difficulty(Difficulty.MEDIUM)
+        )
+        self.btn_hard = tk.Button(
+            self.options_canvas,
+            image=self.hard_photo,
+            width=self.diff_width, height=self.diff_height,
+            borderwidth=0,
+            command=self.on_difficulty(Difficulty.HARD)
+        )
+        self.btn_menu.place(
+            x=(450 - (self.btn_width*2)) / 2,
+            y=450- self.btn_height
+        )
+        self.btn_quit.place(
+            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+            y=450- self.btn_height
+        )
+        self.btn_easy.place(
+            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+            y=450- self.btn_height
+        )
+        self.btn_medium.place(
+            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+            y=450- self.btn_height
+        )
+        self.btn_hard.place(
+            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+            y=450- self.btn_height
+        )
+
+    def draw(self):
+        self.root.options_frame.pack()
+
+    
 
 
 def create_timer_widget(canvas: tk.Canvas) -> tk.Label:

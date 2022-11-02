@@ -28,16 +28,14 @@ from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
-from view import MenuView, GameView, HighscoreView
+from view import MenuView, GameView, HighscoreView, OptionsView
 import c31Geometry.c31Geometry2 as geo
 from config import Config
+from model import Player, Enemy, Difficulty
+from view import create_timer_widget
 
 if TYPE_CHECKING:
     from game_engine import Root
-
-from model import Player, Enemy
-
-from view import create_timer_widget
 
 __docformat__ = "google"
 
@@ -53,6 +51,7 @@ class Controller(ABC):
         afin de quitter le jeu
         """
         self.root.destroy()
+
 
 
 class MenuController(Controller):
@@ -78,13 +77,16 @@ class MenuController(Controller):
         self.view.draw()
 
     def on_options(self) -> None:
-        pass
+        """Fonction appelée pour démarrer le menu d'options"""
+        self.root.menu_frame.pack_forget()
+        options_controller = OptionsController(self.root)
+        options_controller.start()
 
     def on_highscores(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
         """
-        self.frame.destroy()
+        self.frame.pack_forget()
         frame = tk.Frame(self.root)
         highscore_controller = HighscoreController(self.root, frame)
         highscore_controller.start()
@@ -173,8 +175,31 @@ class HighscoreController(Controller):
     def __init__(self, root: Root, frame: tk.Frame):
         """Initialisation du controlleur du tableau des highscores"""
         super().__init__(root, frame)
-        self.view = HighscoreView(root, frame, self.on_quit)
+        self.view = HighscoreView(
+            root, frame,
+            self.on_quit, self.on_menu
+        )
 
     def start(self) -> None:
         """Fonction appelée pour démarrer le tableau des highscores"""
         self.view.draw()
+
+    def on_menu(self) -> None:
+        self.root.highscore_frame.pack_forget()
+        self.root.menu_frame.pack()
+
+class OptionsController(Controller):
+    def __init__(self, root: Root):
+        """Initialisation du controlleur des options"""
+        super().__init__(root)
+        self.view = OptionsView(root, self.on_quit,self.on_menu,self.on_difficulty)
+
+    def start(self) -> None:
+        self.view.draw()
+
+    def on_menu(self) -> None:
+        self.root.highscore_frame.pack_forget()
+        self.root.menu_frame.pack()
+
+    def on_difficulty(self,difficulty:Difficulty) -> None:
+        pass

@@ -18,14 +18,11 @@
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 
+# Modules standard
 import tkinter as tk
 
-from controller import (
-        MenuController,
-        GameController,
-        HighscoreController
-)
-from config import Config
+# Modules de projet
+from controller import MenuController
 
 __docformat__ = "google"
 
