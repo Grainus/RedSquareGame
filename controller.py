@@ -69,7 +69,10 @@ class MenuController(Controller):
         """Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
         """
-    
+        self.root.menu_frame.destroy()
+        highscore_controller = HighscoreController(self.root)
+        highscore_controller.start()
+
     def new_game(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Nouvelle Partie
         afin de démarrer une nouvelle partie
