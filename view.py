@@ -24,12 +24,15 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Callable
 
 # Modules standards
-from abc import ABC # Abstract Base Class
+from abc import ABC  # Abstract Base Class
+import os.path
 import tkinter as tk
-from tkinter import PhotoImage,TOP
+from tkinter import PhotoImage
 
 if TYPE_CHECKING:
     from game_engine import Root
+
+from model import int_to_time
 
 
 class View(ABC):
@@ -43,7 +46,7 @@ class View(ABC):
 
 class MenuView(View):
     def __init__(self, root: Root, on_new_game: Callable,
-                 on_quit: Callable,on_options : Callable,on_highscores:Callable):
+                 on_quit: Callable, on_options: Callable, on_highscores: Callable):
         """" Initialisation de la vue du menu """
         # Initialise la classe parente (View) pour les éléments communs
         super().__init__(root)
@@ -51,7 +54,7 @@ class MenuView(View):
         # Storage des fonctions creer nouvelle partie et quitter le jeu
         self.on_new_game = on_new_game
         self.on_quit = on_quit
-        self.on_options= on_options
+        self.on_options = on_options
         self.on_highscores = on_highscores
         
         # Dimensions des widgets
@@ -62,39 +65,59 @@ class MenuView(View):
         # Création des boutons et des informations de la fenetre
         self.root.title("Jeu du carré rouge - Menu")
         self.root.geometry("450x450")
-        self.title_photo = PhotoImage(file = r"Graphics\logo.png")
-        self.play_photo = PhotoImage(file = r"Graphics\Buttons\playButton.png")
-        self.play_pressed_photo = PhotoImage(file = r"Graphics\Buttons\playButtonPressed.png")
-        self.quit_photo = PhotoImage(file = r"Graphics\Buttons\quitButton.png")
-        self.quit_pressed_photo = PhotoImage(file = r"Graphics\Buttons\quitButtonPressed.png")
-        self.options_photo = PhotoImage(file = r"Graphics\Buttons\optionsButton.png")
-        self.options_photo = PhotoImage(file = r"Graphics\Buttons\optionsButton.png")
-        self.highscores_photo = PhotoImage(file = r"Graphics\Buttons\highscoresButton.png")
-        self.title_logo = tk.Label(self.root.menu_frame,image=self.title_photo)
+        
+        currentdir = os.path.dirname(__file__)
+        graphics = os.path.join(currentdir, "Graphics")
+        buttons = os.path.join(graphics, "Buttons")
+        self.title_photo = PhotoImage(
+            file=os.path.join(graphics, "logo.png")
+        )
+        self.play_photo = PhotoImage(
+            file=os.path.join(buttons, "playButton.png")
+        )
+        self.play_pressed_photo = PhotoImage(
+            file=os.path.join(buttons, "playButtonPressed.png")
+        )
+        self.quit_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButton.png")
+        )
+        self.quit_pressed_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButtonPressed.png")
+        )
+        self.options_photo = PhotoImage(
+            file=os.path.join(buttons, "optionsButton.png")
+        )
+        self.options_photo = PhotoImage(
+            file=os.path.join(buttons, "optionsButton.png")
+        )
+        self.highscores_photo = PhotoImage(
+            file=os.path.join(buttons, "highscoresButton.png")
+        )
+        self.title_logo = tk.Label(self.root.menu_frame, image=self.title_photo)
         self.btn_new_game = tk.Button(
             self.root.menu_frame,
             image=self.play_photo,
-            width=self.btn_width,height=self.btn_height,
+            width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_new_game
         )
         self.btn_quit = tk.Button(
             self.root.menu_frame,
-            image = self.quit_photo,
+            image=self.quit_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_quit
         )
         self.btn_options = tk.Button(
             self.root.menu_frame,
-            image = self.options_photo,
+            image=self.options_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_options
         )
         self.btn_highscores = tk.Button(
             self.root.menu_frame,
-            image = self.highscores_photo,
+            image=self.highscores_photo,
             width=self.btn_width, height=self.btn_height,
             borderwidth=0,
             command=self.on_highscores
@@ -108,13 +131,20 @@ class MenuView(View):
         """Fonction appelée pour dessiner le menu"""
         self.title_logo.place(x=(450-self.logo_width)/2, y=0)
         self.btn_new_game.place(x=(450-self.btn_width)/2, y=self.logo_height)
-        self.btn_quit.place(x=(450-self.btn_width)/2, y=self.logo_height+(self.btn_height*2))
-        self.btn_options.place(x=(450-(self.btn_width*2))/2, y=self.logo_height+self.btn_height)
-        self.btn_highscores.place(x=(450-(self.btn_width*2))/2+self.btn_width, y=self.logo_height+self.btn_height)
+        self.btn_quit.place(
+                x=(450-self.btn_width) / 2,
+                y=self.logo_height + (self.btn_height*2)
+        )
+        self.btn_options.place(
+                x=(450 - (self.btn_width*2)) / 2,
+                y=self.logo_height+self.btn_height
+        )
+        self.btn_highscores.place(
+                x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+                y=self.logo_height+self.btn_height
+        )
         
         
-
-
 class GameView(View):
     # todo : the whole thing here ! :)
     def draw(self):
@@ -124,3 +154,55 @@ class GameView(View):
     def destroy(self):
         """" Fonction appelée pour détruire le jeu """
         self.root.game_frame.destroy()
+
+
+class HighscoreView(View):
+    def __init__(self, root: Root, on_quit: Callable):
+        """" Initialisation de la vue des highscores """
+        super().__init__(root)
+        self.on_quit = on_quit
+        self.highscore_canvas = tk.Canvas(self.root.highscore_frame, width=450, height=450)
+        self.highscore_canvas.pack()
+        self.highscore_canvas.create_text(225, 20, text="Highscores", font=("Arial", 20))
+
+        listeScore = []  # todo : get the highscores from the database
+
+        i = listeScore.__len__()
+
+        if i > 15:
+            i = 15
+        for j in range(i):
+            self.highscore_canvas.create_text(225, 50 + (j*20), text=listeScore[j], font=("Arial", 10))
+
+        self.btn_menu = tk.Button(
+            self.highscore_canvas,
+            text="Menu",
+            width=20, height=2,
+            borderwidth=0,
+            command=self.on_quit, # todo : change this to go back to the menu
+            background = "blue"
+        )
+        self.btn_menu.place(x=150, y=350)
+
+        self.btn_quit = tk.Button(
+            self.highscore_canvas,
+            text="Quitter",
+            width=20, height=2,
+            borderwidth=0,
+            command=self.on_quit,
+            background="red"
+        )
+        self.btn_quit.place(x=150, y=400)
+
+    def draw(self):
+        """" Fonction appelée pour dessiner les highscores """
+        self.root.highscore_frame.pack()
+
+
+def create_timer_widget(canvas: tk.Canvas) -> tk.Label:
+    """ Créé la vue du widget et retourne son label """
+    label = tk.Label(canvas, font=('Comic Sans MS', 18),
+                            text=int_to_time(0), width=5, height=1,
+                     border=0, relief='flat', bg='green')
+    label.place(x=225, y=25, anchor="center")
+    return label
