@@ -21,29 +21,38 @@
 
 # Type hinting
 from __future__ import annotations
-from logging import root
 from typing import TYPE_CHECKING
+
 # Modules standards
 from abc import ABC  # Abstract Base Class
 import tkinter as tk
+
 # Modules du projet
 from view import MenuView, GameView, HighscoreView
+import c31Geometry.c31Geometry2 as geo
+from config import Config
+
 if TYPE_CHECKING:
     from game_engine import Root
-from model import Player, Enemy, collider
-from model import int_to_time
+
+from model import Player, Enemy
+
 from view import create_timer_widget
+
+__docformat__ = "google"
 
 
 class Controller(ABC):
     def __init__(self, root: Root):
         """Initialisation du controlleur"""
         self.root = root
+
     def on_quit(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Quitter
         afin de quitter le jeu
         """
         self.root.destroy()
+
 
 class MenuController(Controller):
     def __init__(self, root: Root, game_controller: GameController):
@@ -77,83 +86,61 @@ class MenuController(Controller):
         self.root.menu_frame.destroy()
         self.game_controller.start()
 
+
 class GameController(Controller):
-    # todo : the whole thing here ! :)
     def __init__(self, root: Root):
         """Initialisation du controlleur du jeu"""
         super().__init__(root)
         self.view = GameView(root)
 
-
-
     def start(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
+        config = Config.get_instance()
+
         width = self.root.winfo_screenwidth()
         height = self.root.winfo_screenheight()
-        border = 50
-        playersize = 40
         self.root.game_frame.place(anchor=tk.CENTER)
         self.view.draw()
-
-        # new frame
-        self.root.game_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
         canvas = tk.Canvas(
             self.root.game_frame,
             width=width,
             height=height,
-            bg="#000"
+            background=config["Game"]["Color"]["Fill"],
         )
-
-        borderArea = canvas.create_rectangle(border,
-        border,
-        400,
-        400,
-        fill = "#ffffff")
-
         timer_widget = create_timer_widget(canvas)
-        
+
         canvas.pack()
-
         self.root.game_frame.update()
-        # player = Player(
-        #     canvas,
-        #     BORDER,
-        #     (WIDTH - PLAYERSIZE) / 2, (HEIGHT - PLAYERSIZE) / 2,
-        #     (WIDTH + PLAYERSIZE) / 2, (HEIGHT + PLAYERSIZE) / 2,
-        #     "red"
-        # )
         ############################### TESTING ###############################
-        import c31Geometry as geo # type: ignore         
+        firstEnemy = config["Enemies"][0]
+        pos = firstEnemy["Position"]
+        speed = firstEnemy["Speed"]
+        size = firstEnemy["Size"]
         
-                #
-        enemy1 = Enemy(                                                        #
-            canvas, geo.Point(100, 100), 60, 60, "blue", geo.Vecteur(1, 1)   #
+        player = Player(
+                        canvas,
+                        timer_widget=timer_widget
+                )
+        
+        enemy = Enemy(
+            canvas,
+            pos=geo.Point(pos["X"], pos["Y"]),
+            width=size["Width"], height=size["Height"],
+            speed=geo.Vecteur(speed["X"], speed["Y"]),
+            player=player,
         )
-        enemy2 = Enemy(                                                        #
-            canvas, geo.Point(300, 85), 60, 50, "blue", geo.Vecteur(-1, 1) #
-        )                               
-        enemy3 = Enemy(                                                        #
-            canvas, geo.Point(85, 300), 30, 60, "blue", geo.Vecteur(1, -1)  #
-        ) 
-        enemy4 = Enemy(                                                        #
-            canvas, geo.Point(355, 340), 100, 20, "blue", geo.Vecteur(-1, -1)#
-        )
-
-        enemyList = [enemy1, enemy2, enemy3, enemy4]
-
-        player = Player(canvas, border, playersize, playersize, "red", enemyList)#
+        
+        
+        
         ############################### TESTING ###############################
-
-        if player.collision():
-            print("col")
-
+        
         self.view.draw()
         print("Game started")
 
     def on_game_end(self) -> None:
         self.root.game_frame.destroy()
         self.root.score_controller.start()
+
 
 class HighscoreController(Controller):
     def __init__(self, root: Root):
@@ -163,18 +150,4 @@ class HighscoreController(Controller):
 
     def start(self) -> None:
         """Fonction appelée pour démarrer le tableau des highscores"""
-        self.view.draw()        
-
-def start_timer(label: tk.Label) -> None:
-    """ Debute la boucle du timer qui sera par la suite gérée par update_timer """
-    # Start at 1 second to avoid a 1 second delay before the timer starts
-    time = 0
-    label.after(1000, update_timer, label, time)
-    # 1000ms = 1s
-
-
-def update_timer(time_label: tk.Label, time: int):
-    """ Met a jour le label du timer et relance la fonction après 1s """
-    time += 1
-    time_label.config(text=int_to_time(time))
-    time_label.after(1000, update_timer, time_label, time)
+        self.view.draw()
