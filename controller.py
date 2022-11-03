@@ -17,7 +17,16 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
-"""TODO: DOCSTRING"""
+"""
+Fichier principal des controlleurs du jeu
+
+Ce fichier contient les controlleurs du jeu.
+Controlleurs:
+    - La superclasse des controlleurs
+    - La classe MenuController qui gère le menu
+    - GameController qui gère le jeu
+    - HighscoreController qui gère la vue du highscore déjà enregistré
+"""
 
 # Type hinting
 from __future__ import annotations
@@ -43,8 +52,17 @@ __docformat__ = "google"
 
 
 class Controller(ABC):
+    """Classe abstraite des controlleurs
+
+    Cette classe abstraite est la superclasse des controlleurs. Elle contient les méthodes et valeurs communes à tous
+    les controlleurs.
+
+    Attributs:
+        - root (Root): La fenêtre principale du jeu
+        - frame (tk.Frame): Le frame dans lequel le controlleur est affiché
+    """
     def __init__(self, root: Root, frame: tk.Frame):
-        """Initialisation du controlleur"""
+        """"""""
         self.root = root
         self.frame = frame
 
@@ -56,8 +74,22 @@ class Controller(ABC):
 
 
 class MenuController(Controller):
+    """Controlleur du menu
+
+    Cette classe gère le menu du jeu. Elle est une sous-classe de Controller.
+    Sa responsabilité est de gérer les boutons du menu ainsi que les événements
+    reliées à ceux-ci.
+
+    Attributs:
+        - view (MenuView): La vue du menu
+        - root (Root): La fenêtre principale du jeu
+        - frame (tk.Frame): Le frame dans lequel le controlleur est affiché
+        - root (Root): La fenêtre principale du jeu
+        - frame (tk.Frame): Le frame dans lequel le controlleur est affiché
+            -> Qui a une taille égale à la taille de la fenêtre principale
+        """
     def __init__(self, root: Root):
-        """Initialisation du controlleur du menu"""
+        """"""""
         config = Config.get_instance()
         frame = tk.Frame(
                 root,
@@ -78,6 +110,9 @@ class MenuController(Controller):
         self.view.draw()
 
     def on_options(self) -> None:
+        """Fonction appelée lors de l'appui sur le bouton Options
+        afin d'afficher la vue des options
+        """
         pass
 
     def on_highscores(self) -> None:
@@ -100,13 +135,35 @@ class MenuController(Controller):
 
 
 class GameController(Controller):
+    """Controlleur du jeu
+
+    Cette classe gère le jeu. Elle est une sous-classe de Controller.
+    Sa responsabilité est de gérer les événements du jeu ainsi que les
+    interactions entre les différents objets du jeu.
+
+    Attributs:
+        - view (GameView): La vue du jeu
+        - player (Player): Le joueur
+        - enemies (list[Enemy]): La liste des ennemis
+        - root (Root): La fenêtre principale du jeu
+        - frame (tk.Frame): Le frame dans lequel le controlleur est affiché
+    """
     def __init__(self, root: Root, frame: tk.Frame):
-        """Initialisation du controlleur du jeu"""
+        """"""
         super().__init__(root, frame)
         self.view = GameView(root, frame)
 
     def initialize(self) -> None:
-        """Fonction appelée pour démarrer une nouvelle partie"""
+        """Fonction appelée pour démarrer une nouvelle partie
+
+        Cette fonction initialise les objets du jeu et les affiche
+        Elle est appelée lors de l'appui sur le bouton Nouvelle Partie
+
+        Elle initialise les objets suivants:
+            - Le joueur
+            - Les ennemis
+            - Le timer
+        """
         config = Config.get_instance()
 
         width = self.root.winfo_screenwidth()
@@ -154,7 +211,13 @@ class GameController(Controller):
         self.view.draw()
     
     def start(self, _) -> None:
-        """Commence le mouvement des éléments du jeu."""
+        """Commence le mouvement des éléments du jeu.
+
+        Cette fonction est appelée lors du premier clic sur le joueur
+
+        Attributs:
+           - _ (tk.Event): L'événement qui a appelé la fonction
+        ."""
         self.player.canvas.tag_unbind(self.player.sprite, "<Button-1>")
         self.player.score.start()
         
@@ -163,6 +226,8 @@ class GameController(Controller):
         
 
     def on_game_end(self) -> None:
+        """Fonction appelée lorsque la partie est terminée afin d'afficher
+        le menu de score et de sauvegarder le score """
         self.frame.destroy()
         print("You died")
         print(f"Your score: {self.player.score.value}")
@@ -170,8 +235,21 @@ class GameController(Controller):
 
 
 class HighscoreController(Controller):
+    """Controlleur du tableau des highscores
+
+    Cette classe gère le tableau des highscores. Elle est une sous-classe de
+    Controller. Sa responsabilité est de gérer les événements du tableau des
+    highscores ainsi que les interactions entre l'utilisateur, le talbeau
+    et le fichier de sauvegarde
+
+    Attributs:
+        - root (Root): La fenêtre principale du jeu
+        - frame (tk.Frame): Le frame dans lequel le controlleur est affiché
+            -> Qui a une taille égale à la taille de la fenêtre principale
+        - view (HighscoreView): La vue du tableau des highscores
+    """
     def __init__(self, root: Root, frame: tk.Frame):
-        """Initialisation du controlleur du tableau des highscores"""
+        """"""
         super().__init__(root, frame)
         self.view = HighscoreView(root, frame, self.on_quit)
 
