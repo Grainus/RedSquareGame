@@ -18,7 +18,7 @@
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 """
-Fichier principal des controlleurs du jeu
+#Fichier principal des controlleurs du jeu
 
 Ce fichier contient les controlleurs du jeu.
 Controlleurs:
@@ -52,7 +52,7 @@ __docformat__ = "google"
 
 
 class Controller(ABC):
-    """Classe abstraite des controlleurs
+    """#Classe abstraite des controlleurs
 
     Cette classe abstraite est la superclasse des controlleurs. Elle contient les méthodes et valeurs communes à tous
     les controlleurs.
@@ -67,14 +67,14 @@ class Controller(ABC):
         self.frame = frame
 
     def on_quit(self) -> None:
-        """Fonction appelée lors de l'appui sur le bouton Quitter
+        """##Fonction appelée lors de l'appui sur le bouton Quitter
         afin de quitter le jeu
         """
         self.root.destroy()
 
 
 class MenuController(Controller):
-    """Controlleur du menu
+    """#Controlleur du menu
 
     Cette classe gère le menu du jeu. Elle est une sous-classe de Controller.
     Sa responsabilité est de gérer les boutons du menu ainsi que les événements
@@ -106,17 +106,17 @@ class MenuController(Controller):
         )
 
     def start(self) -> None:
-        """Fonction appelée pour démarrer le menu"""
+        """##Fonction appelée pour démarrer le menu"""
         self.view.draw()
 
     def on_options(self) -> None:
-        """Fonction appelée lors de l'appui sur le bouton Options
+        """##Fonction appelée lors de l'appui sur le bouton Options
         afin d'afficher la vue des options
         """
         pass
 
     def on_highscores(self) -> None:
-        """Fonction appelée lors de l'appui sur le bouton Highscores
+        """##Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
         """
         self.frame.destroy()
@@ -125,7 +125,7 @@ class MenuController(Controller):
         highscore_controller.start()
 
     def new_game(self) -> None:
-        """Fonction appelée lors de l'appui sur le bouton Nouvelle Partie
+        """##Fonction appelée lors de l'appui sur le bouton Nouvelle Partie
         afin de démarrer une nouvelle partie
         """
         self.frame.destroy()
@@ -135,7 +135,7 @@ class MenuController(Controller):
 
 
 class GameController(Controller):
-    """Controlleur du jeu
+    """#Controlleur du jeu
 
     Cette classe gère le jeu. Elle est une sous-classe de Controller.
     Sa responsabilité est de gérer les événements du jeu ainsi que les
@@ -154,7 +154,7 @@ class GameController(Controller):
         self.view = GameView(root, frame)
 
     def initialize(self) -> None:
-        """Fonction appelée pour démarrer une nouvelle partie
+        """##Fonction appelée pour démarrer une nouvelle partie
 
         Cette fonction initialise les objets du jeu et les affiche
         Elle est appelée lors de l'appui sur le bouton Nouvelle Partie
@@ -211,7 +211,7 @@ class GameController(Controller):
         self.view.draw()
     
     def start(self, _) -> None:
-        """Commence le mouvement des éléments du jeu.
+        """##Commence le mouvement des éléments du jeu.
 
         Cette fonction est appelée lors du premier clic sur le joueur
 
@@ -226,7 +226,7 @@ class GameController(Controller):
         
 
     def on_game_end(self) -> None:
-        """Fonction appelée lorsque la partie est terminée afin d'afficher
+        """##Fonction appelée lorsque la partie est terminée afin d'afficher
         le menu de score et de sauvegarder le score """
         self.frame.destroy()
         print("You died")
@@ -235,7 +235,7 @@ class GameController(Controller):
 
 
 class HighscoreController(Controller):
-    """Controlleur du tableau des highscores
+    """#Controlleur du tableau des highscores
 
     Cette classe gère le tableau des highscores. Elle est une sous-classe de
     Controller. Sa responsabilité est de gérer les événements du tableau des
@@ -254,5 +254,5 @@ class HighscoreController(Controller):
         self.view = HighscoreView(root, frame, self.on_quit)
 
     def start(self) -> None:
-        """Fonction appelée pour démarrer le tableau des highscores"""
+        """##Fonction appelée pour démarrer le tableau des highscores"""
         self.view.draw()
