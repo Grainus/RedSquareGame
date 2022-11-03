@@ -39,6 +39,7 @@ if TYPE_CHECKING:
 
 __docformat__ = "google"
 
+from view import create_timer_widget
 
 class Controller(ABC):
     def __init__(self, root: Root, frame: tk.Frame):
@@ -122,6 +123,7 @@ class GameController(Controller):
             background=config["Game"]["Color"]["Fill"],
         )
         timer_widget = create_timer_widget(canvas)
+
 
         canvas.pack()
         self.frame.update()
