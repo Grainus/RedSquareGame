@@ -83,6 +83,7 @@ class MenuView(View):
         currentdir = os.path.dirname(__file__)
         graphics = os.path.join(currentdir, "Graphics")
         buttons = os.path.join(graphics, "Buttons")
+        # Photos des widgets
         self.title_photo = PhotoImage(
             file=os.path.join(graphics, "logo.png")
         )
@@ -135,6 +136,7 @@ class MenuView(View):
 
     def draw(self) -> None:
         """Fonction appelée pour dessiner le menu"""
+        
         self.title_logo.place(x=(450-self.logo_width)/2, y=0)
         self.btn_new_game.place(x=(450-self.btn_width)/2, y=self.logo_height)
         self.btn_quit.place(
@@ -204,6 +206,7 @@ class HighscoreView(View):
         graphics = os.path.join(currentdir, "Graphics")
         buttons = os.path.join(graphics, "Buttons")
 
+        # Photos des widgets
         self.quit_photo = PhotoImage(
             file=os.path.join(buttons, "quitButton.png")
         )
@@ -211,6 +214,7 @@ class HighscoreView(View):
             file=os.path.join(buttons, "menuButton.png")
         )
 
+        # Initialization des boutons
         self.btn_menu = tk.Button(
             self.highscore_canvas,
             image=self.menu_photo,
@@ -225,6 +229,8 @@ class HighscoreView(View):
             borderwidth=0,
             command=self.on_quit
         )
+        
+        # Positionnement des widgets
         self.btn_menu.place(
             x=(450 - (self.btn_width*2)) / 2,
             y=450- self.btn_height
@@ -259,6 +265,7 @@ class OptionsView(View):
         graphics = os.path.join(currentdir, "Graphics")
         buttons = os.path.join(graphics, "Buttons")
 
+        # Photos des widgets
         self.quit_photo = PhotoImage(
             file=os.path.join(buttons, "quitButton.png")
         )
@@ -275,6 +282,7 @@ class OptionsView(View):
             file=os.path.join(buttons, "hardButton.png")
         )
 
+        # Initialization des boutons
         self.btn_menu = tk.Button(
             self.options_canvas,
             image=self.menu_photo,
@@ -310,6 +318,8 @@ class OptionsView(View):
             borderwidth=0,
             command=self.hard
         )
+        
+        # Positionnement des widgets
         self.btn_menu.place(
             x=(450 - (self.btn_width*2)) / 2,
             y=450-self.btn_height
@@ -337,11 +347,13 @@ class OptionsView(View):
         config["Game"]["Difficulty"]["Level"] = str(Difficulty.MEDIUM)
         config.save()
 
+
     def hard(self) -> None:
         """Fonction appellé quand l'utilisateur change la difficulté à difficile"""
         config = Config.get_instance()
         config["Game"]["Difficulty"]["Level"] = str(Difficulty.HARD)
         config.save()
+
 
 
 
@@ -354,3 +366,57 @@ def create_timer_widget(canvas: tk.Canvas) -> tk.Label:
     )
     label.place(x=225, y=25, anchor="center")
     return label
+
+class GameOverView(View):
+    def __init__(self, root: Root, on_quit: Callable,on_menu:Callable,on_input:Callable):
+        super().__init__(root)
+        self.on_quit = on_quit
+        self.on_menu = on_menu
+        self.game_over_canvas = tk.Canvas(self.root.options_frame, width=450, height=450)
+        self.game_over_canvas.pack()
+        self.game_over_canvas.create_text(225, 50, text="Game\nOver", font=("Arial", 50))
+
+        # Dimensions des widgets
+        self.btn_height = 100
+        self.btn_width = 200
+        
+        currentdir = os.path.dirname(__file__)
+        graphics = os.path.join(currentdir, "Graphics")
+        buttons = os.path.join(graphics, "Buttons")
+
+        # Photos des widgets
+        self.quit_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButton.png")
+        )
+        self.menu_photo = PhotoImage(
+            file=os.path.join(buttons, "menuButton.png")
+        )
+        
+        # Initialization des boutons
+        self.btn_menu = tk.Button(
+            self.game_over_canvas,
+            image=self.menu_photo,
+            width=self.btn_width, height=self.btn_height,
+            borderwidth=0,
+            command=self.on_menu
+        )
+        self.btn_quit = tk.Button(
+            self.game_over_canvas,
+            image=self.quit_photo,
+            width=self.btn_width, height=self.btn_height,
+            borderwidth=0,
+            command=self.on_quit
+        )
+        
+        # Positionnement des widgets
+        self.btn_menu.place(
+            x=(450 - (self.btn_width*2)) / 2,
+            y=450-self.btn_height
+        )
+        self.btn_quit.place(
+            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+            y=450-self.btn_height
+        )
+    
+    def draw(self):
+        self.root.game_over_frame.pack()

@@ -28,7 +28,7 @@ from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
-from view import MenuView, GameView, HighscoreView, OptionsView
+from view import MenuView, GameView, HighscoreView, OptionsView, GameOverView
 import c31Geometry.c31Geometry2 as geo
 from config import Config
 from model import Player, Enemy, Difficulty
@@ -195,6 +195,19 @@ class OptionsController(Controller):
         """Initialisation du controlleur des options"""
         super().__init__(root)
         self.view = OptionsView(root, self.on_quit,self.on_menu)
+
+    def start(self) -> None:
+        self.view.draw()
+
+    def on_menu(self) -> None:
+        self.root.options_frame.pack_forget()
+        self.root.menu_frame.pack()
+
+class GameOverController(Controller):
+    def __init__(self, root: Root):
+        """Initialisation du controlleur du menu game over"""
+        super().__init__(root)
+        self.view = GameOverView(root, self.on_quit,self.on_menu)
 
     def start(self) -> None:
         self.view.draw()
