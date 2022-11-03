@@ -84,7 +84,7 @@ class MenuController(Controller):
         afin de démarrer une nouvelle partie
         """
         self.root.menu_frame.destroy()
-        self.game_controller.start()
+        self.game_controller.initialize()
 
 
 class GameController(Controller):
@@ -93,7 +93,7 @@ class GameController(Controller):
         super().__init__(root)
         self.view = GameView(root)
 
-    def start(self) -> None:
+    def initialize(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
         config = Config.get_instance()
 
@@ -111,30 +111,50 @@ class GameController(Controller):
 
         canvas.pack()
         self.root.game_frame.update()
-        ############################### TESTING ###############################
-        firstEnemy = config["Enemies"][0]
-        pos = firstEnemy["Position"]
-        speed = firstEnemy["Speed"]
-        size = firstEnemy["Size"]
-
-        enemy = Enemy(
-            canvas,
-            pos=geo.Point(pos["X"], pos["Y"]),
-            width=size["Width"], height=size["Height"],
-            speed=geo.Vecteur(speed["X"], speed["Y"]),
-        )
-        ############################### TESTING ###############################
-        player = Player(
+        
+        # Crée le joueur
+        self.player = Player(
                 canvas,
-                enemy=enemy,
-                timer_widget=timer_widget
+                timer_widget=timer_widget,
+                endgame=self.on_game_end
+        )
+        
+        self.enemies: list[Enemy] = []
+        for enemy in config["Enemies"]:
+            
+            pos = enemy["Position"]
+            speed = enemy["Speed"]
+            size = enemy["Size"]
+
+            self.enemies.append(
+                Enemy(
+                    canvas,
+                    pos=geo.Point(pos["X"], pos["Y"]),
+                    width=size["Width"], height=size["Height"],
+                    speed=geo.Vecteur(speed["X"], speed["Y"]),
+                    player=self.player
+                )
+            )
+        
+        self.player.canvas.tag_bind(
+            self.player.sprite, "<Button-1>", self.start
         )
         self.view.draw()
-        print("Game started")
+    
+    def start(self, _) -> None:
+        """Commence le mouvement des éléments du jeu."""
+        self.player.canvas.tag_unbind(self.player.sprite, "<Button-1>")
+        self.player.score.start()
+        
+        for enemy in self.enemies:
+            enemy.start_move()
+        
 
     def on_game_end(self) -> None:
         self.root.game_frame.destroy()
-        self.root.score_controller.start()
+        print("You died")
+        print(f"Your score: {self.player.score.value}")
+        #self.root.score_controller.start()
 
 
 class HighscoreController(Controller):
