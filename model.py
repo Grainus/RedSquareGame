@@ -17,12 +17,18 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
+"""TODO: DOCSTRING"""
 
+# Modules standards
+from functools import partial
 from enum import Enum
 import tkinter as tk
-import c31Geometry as geo # type: ignore
-import time
-from typing import Self
+
+# Modules de projet
+import c31Geometry.c31Geometry2 as geo  # type: ignore
+from config import Config
+
+__docformat__ = "google"
 
 
 class Difficulty(Enum):
@@ -31,9 +37,12 @@ class Difficulty(Enum):
     MEDIUM = 2  # -> Default for production
     HARD = 3
 
+
 class RectSprite:
     """Classe de base pour les entités rectangulaires dans le canvas."""
-    def __init__(self, canvas: tk.Canvas,
+
+    def __init__(
+            self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
             height: float,
@@ -74,44 +83,70 @@ class RectSprite:
         # Centre: Coin ↖ plus la moitié du vecteur entre les deux coins
         self.pos_middle = self.p1 + (self.p2 - self.p1) / 2
 
-class Player(RectSprite):
 
-    def __init__(self, canvas: tk.Canvas,
-            border: float,
-            width: float,
-            height: float,
-            color: str,
-            enemyList: list
+class Player(RectSprite):
+    
+    def __init__(
+            self, canvas: tk.Canvas,
+            border: float | None = None,
+            width: float | None = None,
+            height: float | None = None,
+            color: str | None = None,
+            *,  # Prochains sont keyword-only
+            timer_widget : tk.Label  # TESTING
     ):
         """Initialise le modèle du joueur.
 
         Args:
             canvas: Canvas où est dessiné l'objet.
-            pos: Position du centre de l'objet.
+            # pos: Position du centre de l'objet. <- TODO: à supprimer ?
             width: Largeur.
             height: Hauteur.
             color: Couleur de remplissage.
         """
+        config = Config.get_instance()
+        def if_given(value, default):
+            return value if value is not None else default
+
+        _border = if_given(border, config["Game"]["Size"]["Border"])
+        _width = if_given(width, config["Player"]["Size"]["Width"])
+        _height = if_given(height, config["Player"]["Size"]["Height"])
+        _color = if_given(color, config["Player"]["Color"]["Fill"])
         
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
-        pos = geo.Point(225, 225) # A Debug
-        super().__init__(canvas, pos, width, height, color)
+        pos = geo.Point(cwidth / 2, cheight / 2)
 
-        self.border = border
-        self.var = tk.StringVar()
-        self.enemyList = enemyList
-        
-        #Lorsque le joueur clique sur le carré rouge fonction move().
+        # Les arguments sont optionels, mais des valeurs sont ajoutées
+        super().__init__(canvas, pos, _width, _height, _color)
+        self.border = _border
+        self.score = Score(canvas, timer_widget)
+
+        # Affichage de la bordure
+        rect = self.canvas.create_rectangle(
+            0, 0,
+            canvas.winfo_width(), canvas.winfo_height(),
+            outline=config["Game"]["Color"]["Outline"],
+            width=_border * 2,
+        )
+        self.canvas.lower(rect)
+
+        #  Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
+        canvas.tag_bind(self.sprite, "<Button-1>", self._start_timer)
 
-    def wall_collision(self, bordersize: float = None):
+    def _start_timer(self, _):
+        self.canvas.tag_unbind(self.sprite, "<Button-1>")
+        self.score.start()
+
+
+    def wall_collision(self, bordersize: float = None) -> bool:
         """Détecte une collision avec les murs."""
         if bordersize is None:
             bordersize = self.border
 
         self.update_pos()
 
-        #Dimensions du canvas.
+        #  Dimensions du canvas.
         cheight = self.canvas.winfo_height() - bordersize
         cwidth = self.canvas.winfo_width() - bordersize
 
@@ -128,25 +163,18 @@ class Player(RectSprite):
                 event.x - self.width/2,
                 event.y - self.height/2
             )
-        else:
-            pass
-
-    def collision(self) -> bool:
-        for element in self.enemyList:
-            if collider(self, element):
-                return True
-        return False
-
-
+        
+        
 class Enemy(RectSprite):
-
-    def __init__(self, canvas: tk.Canvas,
+    def __init__(
+            self, canvas: tk.Canvas,
             pos: geo.Point,
             width: float,
             height: float,
-            color: str,
             speed: geo.Vecteur,
-            #player: Player # TESTING
+            player: Player,
+            *, # Prochains sont keyword-only
+            color: str | None = None,
     ):
         """Initialise un ennemi.
 
@@ -155,17 +183,21 @@ class Enemy(RectSprite):
             pos: Position du centre de l'objet.
             width: Largeur.
             height: Hauteur.
-            color: Couleur de remplissage.
             speed: Déplacement effectué par l'ennemi à chaque tick.
+            color: Couleur de remplissage.
         """
-        super().__init__(canvas, pos, width, height, color)
+        colordefault = Config.get_instance()["Enemy"]["Color"]["Fill"]
+        _color = color if color is not None else colordefault
+
+        super().__init__(canvas, pos, width, height, _color)
         self.speed = speed
-        #self.player = player
-        
+
+        self.player = player # TESTING
         self.animate_enemy_bounce()
 
     def animate_enemy_bounce(self) -> None:
         """La logique du déplacement des ennemis."""
+        # Bouge le rectangle dans la direction indiquée.
         self.canvas.move(self.sprite, *self.speed)
         self.update_pos()
 
@@ -179,23 +211,44 @@ class Enemy(RectSprite):
         if not 0 < self.p1.x < self.p2.x < cwidth:
             self.speed = -self.speed.conjugate()
 
-        self.canvas.after(20, self.animate_enemy_bounce)
+        if collider(self,self.player):
+            print("collide\ntest\nO")
+        self.canvas.after(30, self.animate_enemy_bounce)
 
-        if(collider(self, self.player)):
-            print("collider")
-
-        
 
 def collider(object1: RectSprite, object2: RectSprite) -> bool:
     """Vérifie une collision entre deux objets."""
-    collision = False
     overlaps = object1.canvas.find_overlapping(*object1.p1, *object1.p2)
-    if object2.sprite in overlaps: # TESTING
-        collision = True
+    if object2.sprite in overlaps:  # TESTING
+        pass    #print("collide")  TESTING
+    return object2.sprite in overlaps
 
-    return collision
 
+class Score:
+    """Contrôle l'état du score 
+    """
+    def __init__(self, canvas, label):
+        self.value = 0
+        self.started = False
+        self.canvas = canvas
+        self.label = label
 
-def int_to_time(time: int) -> str:
-    """ Converti un int, soit le score, en temps. Format : mm:ss """
-    return f'{int(time / 60):02}:{int(time % 60):02}'
+    def start(self):
+        if not self.started:
+            def update(self):
+                self.value += 1
+                self.label.config(text=self)
+            self.loop = geo.LoopEvent(
+                self.canvas, partial(update, self),
+                1000,
+            )
+            self.loop.start()
+        else:
+            raise RuntimeError("Started score twice")
+    
+    @staticmethod
+    def to_readable(value: int) -> str:
+        return f'{int(value / 60):02}:{int(value % 60):02}'
+
+    def __str__(self) -> str:
+        return Score.to_readable(self.value)
