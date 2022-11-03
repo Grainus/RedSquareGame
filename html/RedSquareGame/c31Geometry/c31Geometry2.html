@@ -1,0 +1,2669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>RedSquareGame.c31Geometry.c31Geometry2 API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>RedSquareGame.c31Geometry.c31Geometry2</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># Documentation
+from __future__ import annotations
+from typing import Self, Iterator, Iterable, Callable, overload, Any
+from numbers import Real
+__docformat__ = &#34;google&#34;
+
+import tkinter as tk
+import math
+import cmath
+
+# TODO: support inheritance
+def _check_raise(obj: Any, objstr, types: tuple[type, ...]) -&gt; None:
+    if not isinstance(obj, types):
+        typenames = [typ.__name__ for typ in types]
+        allowed = &#39; ou &#39;.join(
+            filter(None, [&#39;, &#39;.join(typenames[:-1])] + typenames[-1:])
+        )
+        raise TypeError(
+            f&#34;Le paramètre « {objstr} » doit être une instance de &#34;
+            f&#34;{allowed} alors qu&#39;il est de type : {type(obj).__name__}&#34;
+        )
+
+
+class LoopEvent:
+    &#34;&#34;&#34;Permet de définir une action à exécuter après un certain temps
+    (par défaut 500 ms).
+    &#34;&#34;&#34;
+    # TODO: use logging.debug as default callback
+    def __init__(
+            self, root: tk.Widget,
+            callback: Callable[[], None] = lambda: print(&#34;Event&#34;),
+            timesleep: int = 500
+    ):
+        &#34;&#34;&#34;Initialise le gestionnaire d&#39;évènement.
+
+        Args:
+            root: Widget parent de la boucle
+            callback: Callable devant être exécuté à chaque boucle.
+                Default: print(&#34;Event&#34;)
+            timesleep: Temps en milliseconde entre chaque exécution.
+                Defaults: 500
+        &#34;&#34;&#34;
+        self.root = root
+        self.function = callback
+        self.timesleep = timesleep
+
+    def start(self) -&gt; None:
+        &#34;&#34;&#34;Lance l&#39;exécution de la première boucle après un premier
+            intervalle de la méthode.
+        &#34;&#34;&#34;
+        self.root.after(
+            self.timesleep,
+            self.__class__.__loop, self, self.function
+        )
+
+    def startImmediately(self) -&gt; None:
+        &#34;&#34;&#34;Lance immédiatement une première exécution de la méthode.&#34;&#34;&#34;
+        self.__class__.__loop(self, self.function)
+
+    @staticmethod
+    def __loop(event: LoopEvent, callback: Callable[[], None]) -&gt; None:
+        &#34;&#34;&#34;Permet de lancer la méthode et génère une nouvelle boucle.&#34;&#34;&#34;
+        callback()
+        event.start()
+
+
+class Dash:
+    &#34;&#34;&#34;Représente un trait pour une ligne.&#34;&#34;&#34;
+
+    def __init__(self, longueur: int, espace: int):
+        &#34;&#34;&#34;Crée un trait discontinue pour les lignes Tkinter.
+
+        Args:
+            longueur: Longueur en pixels d&#39;un trait.
+            espace: Espace en pixels entre deux trait.
+        &#34;&#34;&#34;
+        _check_raise(longueur, &#34;longueur&#34;, (int,))
+        _check_raise(espace, &#34;espace&#34;, (int,))
+
+        self.longueur = longueur
+        self.espace = espace
+
+    def get_tkinter(self) -&gt; tuple[int, int]:
+        &#34;&#34;&#34;Fournit la description du trait pour tkinter.&#34;&#34;&#34;
+        return (self.longueur, self.espace)
+
+    @staticmethod
+    def empty() -&gt; None:
+        &#34;&#34;&#34;Retourne un trait vide ou plein selon le sens.&#34;&#34;&#34;
+        return None
+
+
+class Inherited(type):
+    &#34;&#34;&#34;Permet de reféfinir des méthodes héritées afin que le type de
+    retour soit celui de la sous-classe.
+    &#34;&#34;&#34;
+    def __new__(
+            cls,
+            name: str,
+            bases: tuple[type, ...],
+            namespace: dict[str, Any]
+    ):
+        try:
+            _implements = {
+                k: v for k, v in namespace[&#34;_implements&#34;].items()
+                if k in bases
+            }
+        except KeyError:
+            _implements = {}
+
+        for base in bases:
+            try:
+                _implements.update({
+                    k: v for k, v in base._implements.items()  # type: ignore
+                    if k in base.__mro__
+                })
+            except KeyError:
+                continue
+
+        for base, methods in _implements.items():
+            for meth in methods:
+                # Force early binding
+                def outer(base=base, meth=meth):
+                    def inner(self, *args, **kwargs):
+                        return self.__class__(
+                            getattr(base, meth).__call__(
+                                self, *args, **kwargs
+                            )
+                        )
+                    inner.__name__ = meth
+                    return inner
+                namespace[meth] = outer(base, meth)
+
+        return super().__new__(cls, name, bases, namespace)
+
+
+class Vecteur(complex):
+    &#34;&#34;&#34;Représente un vecteur dans un plan cartésien 2D.&#34;&#34;&#34;
+    # _implements = { complex: (
+    #     &#34;__add__&#34;, &#34;__sub__&#34;, &#34;__mul__&#34;, &#34;__pow__&#34;, &#34;__truediv__&#34;,
+    #     &#34;__radd_&#34;, &#34;__rsub_&#34;, &#34;__rmul_&#34;, &#34;__rpow_&#34;, &#34;__rtruediv__&#34;,
+    #     &#34;__neg__&#34;, &#34;__pos__&#34;
+    # )}
+
+    # def __getattribute__(self, __name: str) -&gt; Any:
+    #     if __name in Vecteur._implements[complex]:
+    #         def inner(*args, **kwargs):
+    #             return Vecteur(
+    #                 getattr(complex, __name).__call__(
+    #                     self, *args, **kwargs
+    #                 )
+    #             )
+    #         inner.__name__ = __name
+    #         return inner
+    #     else:
+    #         return super().__getattribute__(__name)
+
+    def __eq__(self, other: Any) -&gt; bool:
+        &#34;&#34;&#34;Détermine si les deux objets sont égaux en compensant pour
+        les erreurs d&#39;arrondissement.
+        &#34;&#34;&#34;
+        if not isinstance(other, Vecteur):
+            return NotImplemented
+        return cmath.isclose(self, other)
+
+    def __add__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__add__(*args, **kwargs))
+
+    def __sub__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__sub__(*args, **kwargs))
+
+    def __mul__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__mul__(*args, **kwargs))
+
+    def __pow__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__pow__(*args, **kwargs))
+
+    def __truediv__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__truediv__(*args, **kwargs))
+
+    def __radd__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__radd__(*args, **kwargs))
+
+    def __rsub__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__rsub__(*args, **kwargs))
+
+    def __rmul__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__rmul__(*args, **kwargs))
+
+    def __rpow__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__rpow__(*args, **kwargs))
+
+    def __rtruediv__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__rtruediv__(*args, **kwargs))
+
+    def __neg__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__neg__(*args, **kwargs))
+
+    def __pos__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__pos__(*args, **kwargs))
+    
+    def __iter__(self) -&gt; Iterator:
+        return iter(self.get_coordonnee())
+    
+    def conjugate(self) -&gt; Self:
+        return self.__class__(super().conjugate())
+
+    def norme(self) -&gt; float:
+        &#34;&#34;&#34;Calcule la norme du vecteur avec l&#39;origine.&#34;&#34;&#34;
+        return abs(self)
+
+    def unitaire(self) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire dans la direction du vecteur.&#34;&#34;&#34;
+        return self / self.norme()
+    
+    def rotate(self, angle: float) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur avec une rotation appliquée.&#34;&#34;&#34;
+        return self * complex(math.cos(angle), math.sin(angle))
+
+    def get_coordonnee(self) -&gt; tuple[float, float]:
+        &#34;&#34;&#34;Retourne les coordonnées du Point en tuple.&#34;&#34;&#34;
+        return (self.real, self.imag)
+
+    @classmethod
+    def zero(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur nul.&#34;&#34;&#34;
+        return cls(0, 0)
+
+    @classmethod
+    def gauche(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire vers la gauche (x = -1).&#34;&#34;&#34;
+        return cls(-1, 0)
+
+    @classmethod
+    def droite(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire vers la droite (x = 1).&#34;&#34;&#34;
+        return cls(1, 0)
+
+    @classmethod
+    def haut(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire vers le haut (y = -1).&#34;&#34;&#34;
+        return cls(0, -1)
+
+    @classmethod
+    def bas(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire vers le bas (y = 1).&#34;&#34;&#34;
+        return cls(0, 1)
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{self.__class__.__name__}{self}&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;{{{self.real}, {self.imag}}}&#34;
+
+
+class Point:
+    &#34;&#34;&#34;Représente un point dans un plan cartésien 2D.&#34;&#34;&#34;
+    def __init__(self, x: float, y: float):
+        self.x = x
+        self.y = y
+
+    def __eq__(self, other: Any) -&gt; bool:
+        &#34;&#34;&#34;Détermine si les deux objets sont égaux.&#34;&#34;&#34;
+        if not isinstance(other, Point):
+            return NotImplemented
+
+        return self.x == other.x and self.y == other.y
+
+    def __add__(self, vecteur: Any) -&gt; Self:
+        &#34;&#34;&#34;Additionne le vecteur au point (translation).&#34;&#34;&#34;
+        if not isinstance(vecteur, complex):
+            return NotImplemented
+        return self.__class__(self.x + vecteur.real, self.y + vecteur.imag)
+
+    @overload
+    def __sub__(self, other: Point) -&gt; Vecteur: ...
+
+    @overload
+    def __sub__(self, other: Vecteur) -&gt; Self: ...
+
+    def __sub__(self, other: Any) -&gt; Self | Vecteur:
+        &#34;&#34;&#34;Calcule la soustraction selon un autre point ou vecteur.
+
+        Returns:
+            Si other est un Point, un Vecteur avec le déplacement.
+            Si other est un Vecteur, un Point déplacé.
+        &#34;&#34;&#34;
+        if isinstance(other, Point):
+            return Vecteur(self.x - other.x, self.y - other.y)
+        elif isinstance(other, complex):
+            return self.__add__(-other)
+        else:
+            return NotImplemented
+
+    def __iter__(self) -&gt; Iterator:
+        return iter(self.get_coordonnee())
+    
+    def distance(self, other: Self) -&gt; float:
+        &#34;&#34;&#34;Calcule la distance entre deux points.&#34;&#34;&#34;
+        return math.dist(self.get_coordonnee(), other.get_coordonnee())
+
+    def get_coordonnee(self) -&gt; tuple[float, float]:
+        &#34;&#34;&#34;Retourne les coordonnées du Point en tuple.&#34;&#34;&#34;
+        return (self.x, self.y)
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{self.__class__.__name__}{self}&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;({self.x}, {self.y})&#34;
+
+
+class Rotation:
+    &#34;&#34;&#34;Représente une rotation matriciel utilisable sur les vecteurs
+    du module.
+    &#34;&#34;&#34;
+
+    def __init__(self, angle: float):
+        &#34;&#34;&#34;Initialise la rotation selon un angle.&#34;&#34;&#34;
+        self.set_angle(angle)
+
+    def __mul__(self, vecteur: Vecteur) -&gt; Vecteur:
+        &#34;&#34;&#34;Permet la rotation d&#39;un vecteur à partir de la matrice.&#34;&#34;&#34;
+        if not isinstance(vecteur, Vecteur):
+            return NotImplemented
+        return self.rotate(vecteur)
+
+    def set_angle(self, angle: float) -&gt; None:
+        &#34;&#34;&#34;Définit l&#39;angle de la rotation.&#34;&#34;&#34;
+        _check_raise(angle, &#34;angle&#34;, (Real,))
+        self.sinus = math.sin(angle)
+        self.cosinus = math.sqrt(1 - (self.sinus ** 2))
+
+    def get_angle(self) -&gt; float:
+        &#34;&#34;&#34;Retourne l&#39;angle de la matrice de Rotation.&#34;&#34;&#34;
+        return math.acos(self.cosinus)
+
+    def rotate(self, vecteur: Vecteur) -&gt; Vecteur:
+        &#34;&#34;&#34;Permet la rotation d&#39;un vecteur à partir de la matrice.&#34;&#34;&#34;
+        _check_raise(vecteur, &#34;vecteur&#34;, (Vecteur,))
+        return vecteur.rotate(self.get_angle())
+
+
+class Polygone:
+    &#34;&#34;&#34;Représentation abstraite d&#39;un polygone.&#34;&#34;&#34;
+
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1.0
+    ):
+        &#34;&#34;&#34;Initialise les variables de base du polygone.
+
+        Args:
+            canvas: Canvas où l&#39;on dessine le Polygone.
+            origine: Point d&#39;origine du Polygone, sous forme de Vecteur.
+            remplissage: Couleur du remplissage.
+                Default: &#34;black&#34;
+            bordure: Couleur de la bordure.
+                Default: &#34;black&#34;
+            epaisseur: Épaisseur de la bordure.
+        &#34;&#34;&#34;
+        _check_raise(canvas, &#34;canvas&#34;, (tk.Canvas,))
+
+        self.canvas = canvas
+        self.set_position(origine)
+        self._vertex: list[Vecteur] = []
+        self.set_remplissage(remplissage)
+        self.set_bordure(bordure)
+        self.set_epaisseur(epaisseur)
+        self.id: int
+
+    # TODO: returning tuple or generator might be more efficient
+    def get_coordonnees(self) -&gt; list[tuple[float, float]]:
+        &#34;&#34;&#34;Retourne un tableau des coordonnées de tous les points.&#34;&#34;&#34;
+        return [vex.get_coordonnee() for vex in self._vertex]
+
+    def draw(self) -&gt; None:
+        &#34;&#34;&#34;Dessine le Polygone.&#34;&#34;&#34;
+        if hasattr(self, &#39;id&#39;):
+            self.canvas.delete(self.id)
+
+        self.id = self.canvas.create_polygon(
+            self.get_coordonnees(), fill=self.remplissage,
+            outline=self.bordure, width=self.epaisseur
+        )
+
+        self.canvas.update()
+
+    def rotate_mat(self, R: Rotation) -&gt; None:
+        &#34;&#34;&#34;Rotationne le Polygone selon une matrice de rotation.&#34;&#34;&#34;
+        _check_raise(R, &#34;R&#34;, (Rotation,))
+
+        bary = self.get_barycentre()
+        self.translate(bary * -1)
+        self._vertex = [R.rotate(vex) for vex in self._vertex]
+        self.translate(bary)
+
+    def rotate(self, angle: float) -&gt; None:
+        &#34;&#34;&#34;Rotationne le Polygone selon un angle.&#34;&#34;&#34;
+        _check_raise(angle, &#34;angle&#34;, (Real,))
+
+        self.rotate_mat(Rotation(angle))
+
+    def resize(self, facteur: float) -&gt; None:
+        &#34;&#34;&#34;Effectue une redimension du Polygone selon un facteur.&#34;&#34;&#34;
+        _check_raise(facteur, &#34;facteur&#34;, (Real,))
+
+        bary = self.get_barycentre()
+        self.translate(bary * -1)
+        self._vertex = [vex * facteur for vex in self._vertex]
+        self.translate(bary)
+
+    def translate(self, direction: Vecteur) -&gt; None:
+        &#34;&#34;&#34;Effectue une translation du Polygone.&#34;&#34;&#34;
+        _check_raise(direction, &#34;direction&#34;, (Vecteur,))
+
+        self._vertex = [ver + direction for ver in self._vertex]
+
+    def set_remplissage(self, remplissage: str) -&gt; None:
+        &#34;&#34;&#34;Modifie la couleur du remplissage du Polygone.&#34;&#34;&#34;
+        _check_raise(remplissage, &#34;remplissage&#34;, (str,))
+        self.remplissage = remplissage
+
+    def set_bordure(self, bordure: str) -&gt; None:
+        &#34;&#34;&#34;Modifie la couleur de la bordure du Polygone.&#34;&#34;&#34;
+        _check_raise(bordure, &#34;bordure&#34;, (str,))
+        self.bordure = bordure
+
+    def set_epaisseur(self, epaisseur: str | float) -&gt; None:
+        &#34;&#34;&#34;Modifie l&#39;épaisseur de la bordure du Polygone.&#34;&#34;&#34;
+        _check_raise(epaisseur, &#34;epaisseur&#34;, (str, Real))
+        self.epaisseur = epaisseur
+
+    def get_barycentre(self) -&gt; Vecteur:
+        &#34;&#34;&#34;Retourne les coordonées du centre du Polygone.&#34;&#34;&#34;
+        sum_ = sum(self._vertex)
+        return sum_ / len(self._vertex) if sum_ else Vecteur.zero()
+
+    def get_position(self) -&gt; Vecteur:
+        &#34;&#34;&#34;Retourne la position du Polygone.&#34;&#34;&#34;
+        return self.origine
+
+    def get_origine(self) -&gt; Vecteur:
+        &#34;&#34;&#34;Alias de `get_position`.&#34;&#34;&#34;
+        return self.origine
+
+    def set_position(self, position: Vecteur | Point | Iterable) -&gt; None:
+        &#34;&#34;&#34;Modifie la position du Polygone.
+        
+        Args:
+            position: Vecteur, Point, ou Itérable représentant la
+                nouvelle position du polygone.
+        &#34;&#34;&#34;
+        _check_raise(position, &#34;position&#34;, (Vecteur, Point, Iterable))
+        self.origine = Vecteur(*position)
+
+    def translateTo(self, position: Vecteur) -&gt; None:
+        &#34;&#34;&#34;Déplace le polygone vers une position.&#34;&#34;&#34;
+        self.translate(position - self.origine)
+
+
+class Ligne(Polygone):
+    &#34;&#34;&#34;Représente une ligne.&#34;&#34;&#34;
+
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            longueur: float, orientation: float,
+            bordure: str = &#34;black&#34;, dash: Dash = None,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise la ligne.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            longueur: Longueur de la ligne.
+            orientation: Orientation de la ligne.
+            dash: Format du trait discontinu.
+                Default: None
+        &#34;&#34;&#34;
+        super().__init__(canvas, origine, bordure, bordure, epaisseur)
+
+        _check_raise(longueur, &#34;longueur&#34;, (Real,))
+        _check_raise(orientation, &#34;orientation&#34;, (Real,))
+        _check_raise(dash, &#34;dash&#34;, (type(None), Dash))
+
+        demi_longueur = longueur / 2
+
+        # TODO: Check if Vecteur.rotate could be used
+        self._vertex.append(
+            origine - Vecteur(
+                demi_longueur * math.cos(orientation),
+                demi_longueur * math.sin(orientation)
+            )
+        )
+
+        self._vertex.append(
+            origine + Vecteur(
+                demi_longueur * math.cos(orientation),
+                demi_longueur * math.sin(orientation)
+            )
+        )
+
+        self.dash = dash
+
+    def draw(self) -&gt; None:
+        &#34;&#34;&#34;Dessine le Polygone.&#34;&#34;&#34;
+        if hasattr(self, &#39;id&#39;):
+            self.canvas.delete(self.id)
+
+        if self.dash is not None:
+            self.id = self.canvas.create_line(
+                self.get_coordonnees(), fill=self.remplissage,
+                dash=self.dash.get_tkinter(), width=self.epaisseur
+            )
+        else:
+            self.id = self.canvas.create_line(
+                self.get_coordonnees(), fill=self.remplissage,
+                width=self.epaisseur
+            )
+
+        self.canvas.update()
+
+
+class Rectangle(Polygone):
+    &#34;&#34;&#34;Représente un rectangle.&#34;&#34;&#34;
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            largeur: float, hauteur: float,
+            orientation: float = 0,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise le rectangle.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            largeur: Largeur (selon l&#39;axe x) du rectangle.
+            hauteur: Hauteur (selon l&#39;axe y) du rectangle.
+            orientation: Orientation du rectangle.
+                Default: 0
+        &#34;&#34;&#34;
+        super().__init__(
+            canvas, origine, remplissage, bordure, epaisseur
+        )
+
+        _check_raise(largeur, &#34;largeur&#34;, (Real,))
+        _check_raise(hauteur, &#34;hauteur&#34;, (Real,))
+        _check_raise(orientation, &#34;orientation&#34;, (Real,))
+
+        demi_largeur = largeur / 2
+        demi_hauteur = hauteur / 2
+
+        # Coin haut gauche
+        self._vertex.append(
+            origine + Vecteur(
+                demi_largeur * -1,
+                demi_hauteur * -1
+            )
+        )
+
+        # Coin haut droite
+        self._vertex.append(
+            origine + Vecteur(
+                demi_largeur * 1,
+                demi_hauteur * -1
+            )
+        )
+
+        # Coin bas droite
+        self._vertex.append(
+            origine + Vecteur(
+                demi_largeur * 1,
+                demi_hauteur * 1
+            )
+        )
+
+        # Coin bas gauche
+        self._vertex.append(
+            origine + Vecteur(
+                demi_largeur * -1,
+                demi_hauteur * 1
+            )
+        )
+
+        self.rotate(orientation)
+
+
+class Carre(Rectangle):
+    &#34;&#34;&#34;Représente un carré.&#34;&#34;&#34;
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            largeur: float, orientation: float = 0,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise le carré.
+
+        Voir `Rectangle.__init__`.
+        &#34;&#34;&#34;
+        super().__init__(
+            canvas, origine, largeur, largeur, orientation,
+            remplissage, bordure, epaisseur
+        )
+
+
+class Ovale(Polygone):
+    &#34;&#34;&#34;Représente un Ovale.&#34;&#34;&#34;
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            petit_rayon: float, grand_rayon: float,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise l&#39;ovale.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            petit_rayon: Petit rayon de l&#39;ovale.
+            grand_rayon: Grand rayon de l&#39;ovale.
+        &#34;&#34;&#34;
+        super().__init__(
+            canvas, origine, remplissage, bordure, epaisseur
+        )
+
+        _check_raise(petit_rayon, &#34;petit_rayon&#34;, (Real,))
+
+        self._vertex.append(
+            origine - Vecteur(
+                grand_rayon,
+                petit_rayon
+            )
+        )
+
+        self._vertex.append(
+            origine + Vecteur(
+                grand_rayon,
+                petit_rayon
+            )
+        )
+
+    def draw(self) -&gt; None:
+        &#34;&#34;&#34;Dessine l&#39;ovale.&#34;&#34;&#34;
+        if hasattr(self, &#39;id&#39;):
+            self.canvas.delete(self.id)
+
+        self.id = self.canvas.create_oval(
+            *self._vertex[0], *self._vertex[1],
+            fill=self.remplissage, outline=self.bordure,
+            width=self.epaisseur
+        )
+
+        self.canvas.update()
+
+
+class Cercle(Ovale):
+    &#34;&#34;&#34;Représente un cercle.&#34;&#34;&#34;
+
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            rayon: float,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise le cercle.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            rayon: Rayon du cercle
+        &#34;&#34;&#34;
+        super().__init__(
+            canvas, origine, rayon, rayon,
+            remplissage, bordure, epaisseur
+        )
+
+
+class Croix(Polygone):
+    &#34;&#34;&#34;Représente une croix (X).&#34;&#34;&#34;
+    # TODO: use or remove dash
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            largeur: float, hauteur: float,
+            orientation: float = 0, bordure: str = &#34;black&#34;,
+            dash: Dash = None, epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise la croix.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            largeur: Largeur de la croix.
+            hauteur: Hauteur de la croix.
+            orientation: Orientation de la croix.
+                Default: 0
+        &#34;&#34;&#34;
+        super().__init__(canvas, origine, bordure, bordure, epaisseur)
+        self.id_1: int
+        self.id_2: int
+
+        _check_raise(largeur, &#34;largeur&#34;, (Real,))
+        _check_raise(hauteur, &#34;hauteur&#34;, (Real,))
+        _check_raise(orientation, &#34;orientation&#34;, (Real,))
+
+        dl = largeur / 2
+        dh = hauteur / 2
+
+        # coin haut gauche
+        self._vertex.append(
+            origine + Vecteur(
+                -dl,
+                -dh
+            )
+        )
+
+        # coin bas droit
+        self._vertex.append(
+            origine + Vecteur(
+                dl,
+                dh
+            )
+        )
+
+        # coin haut droit
+        self._vertex.append(
+            origine + Vecteur(
+                dl,
+                -dh
+            )
+        )
+
+        # coin bas gauche
+        self._vertex.append(
+            origine + Vecteur(
+                -dl,
+                dh
+            )
+        )
+
+        self.rotate(orientation)
+
+    def draw(self) -&gt; None:
+        &#34;&#34;&#34;Dessine la croix.&#34;&#34;&#34;
+        if hasattr(self, &#39;id_1&#39;):
+            self.canvas.delete(self.id_1)
+        if hasattr(self, &#39;id_2&#39;):
+            self.canvas.delete(self.id_2)
+
+        self.id_1 = self.canvas.create_line(
+            self._vertex[0].get_coordonnee(),
+            self._vertex[1].get_coordonnee(),
+            fill=self.remplissage, width=self.epaisseur
+        )
+        self.id_2 = self.canvas.create_line(
+            self._vertex[2].get_coordonnee(),
+            self._vertex[3].get_coordonnee(),
+            fill=self.remplissage, width=self.epaisseur
+        )
+
+        self.canvas.update()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Carre"><code class="flex name class">
+<span>class <span class="ident">Carre</span></span>
+<span>(</span><span>canvas: tk.Canvas, origine: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>, largeur: float, orientation: float = 0, remplissage: str = 'black', bordure: str = 'black', epaisseur: str | float = 1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente un carré.</p>
+<p>Initialise le carré.</p>
+<p>Voir <code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle" href="#RedSquareGame.c31Geometry.c31Geometry2.Rectangle">Rectangle</a></code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Carre(Rectangle):
+    &#34;&#34;&#34;Représente un carré.&#34;&#34;&#34;
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            largeur: float, orientation: float = 0,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise le carré.
+
+        Voir `Rectangle.__init__`.
+        &#34;&#34;&#34;
+        super().__init__(
+            canvas, origine, largeur, largeur, orientation,
+            remplissage, bordure, epaisseur
+        )</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle" href="#RedSquareGame.c31Geometry.c31Geometry2.Rectangle">Rectangle</a></li>
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle" href="#RedSquareGame.c31Geometry.c31Geometry2.Rectangle">Rectangle</a></b></code>:
+<ul class="hlist">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.draw" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.draw">draw</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.get_barycentre" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre">get_barycentre</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.get_coordonnees" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees">get_coordonnees</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.get_origine" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine">get_origine</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.get_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position">get_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.resize" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize">resize</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.rotate_mat" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat">rotate_mat</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.set_bordure" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure">set_bordure</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.set_epaisseur" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur">set_epaisseur</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.set_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position">set_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.set_remplissage" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage">set_remplissage</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.translate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate">translate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle.translateTo" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo">translateTo</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Cercle"><code class="flex name class">
+<span>class <span class="ident">Cercle</span></span>
+<span>(</span><span>canvas: tk.Canvas, origine: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>, rayon: float, remplissage: str = 'black', bordure: str = 'black', epaisseur: str | float = 1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente un cercle.</p>
+<p>Initialise le cercle.</p>
+<p>Voir <code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></code>. Les arguments suivants sont des
+arguments summlémentaires.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>rayon</code></strong></dt>
+<dd>Rayon du cercle</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Cercle(Ovale):
+    &#34;&#34;&#34;Représente un cercle.&#34;&#34;&#34;
+
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            rayon: float,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise le cercle.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            rayon: Rayon du cercle
+        &#34;&#34;&#34;
+        super().__init__(
+            canvas, origine, rayon, rayon,
+            remplissage, bordure, epaisseur
+        )</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale" href="#RedSquareGame.c31Geometry.c31Geometry2.Ovale">Ovale</a></li>
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale" href="#RedSquareGame.c31Geometry.c31Geometry2.Ovale">Ovale</a></b></code>:
+<ul class="hlist">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.draw" href="#RedSquareGame.c31Geometry.c31Geometry2.Ovale.draw">draw</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.get_barycentre" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre">get_barycentre</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.get_coordonnees" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees">get_coordonnees</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.get_origine" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine">get_origine</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.get_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position">get_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.resize" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize">resize</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.rotate_mat" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat">rotate_mat</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.set_bordure" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure">set_bordure</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.set_epaisseur" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur">set_epaisseur</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.set_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position">set_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.set_remplissage" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage">set_remplissage</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.translate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate">translate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.translateTo" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo">translateTo</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Croix"><code class="flex name class">
+<span>class <span class="ident">Croix</span></span>
+<span>(</span><span>canvas: tk.Canvas, origine: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>, largeur: float, hauteur: float, orientation: float = 0, bordure: str = 'black', dash: <a title="RedSquareGame.c31Geometry.c31Geometry2.Dash" href="#RedSquareGame.c31Geometry.c31Geometry2.Dash">Dash</a> = None, epaisseur: str | float = 1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente une croix (X).</p>
+<p>Initialise la croix.</p>
+<p>Voir <code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></code>. Les arguments suivants sont des
+arguments summlémentaires.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>largeur</code></strong></dt>
+<dd>Largeur de la croix.</dd>
+<dt><strong><code>hauteur</code></strong></dt>
+<dd>Hauteur de la croix.</dd>
+<dt><strong><code>orientation</code></strong></dt>
+<dd>Orientation de la croix.
+Default: 0</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Croix(Polygone):
+    &#34;&#34;&#34;Représente une croix (X).&#34;&#34;&#34;
+    # TODO: use or remove dash
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            largeur: float, hauteur: float,
+            orientation: float = 0, bordure: str = &#34;black&#34;,
+            dash: Dash = None, epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise la croix.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            largeur: Largeur de la croix.
+            hauteur: Hauteur de la croix.
+            orientation: Orientation de la croix.
+                Default: 0
+        &#34;&#34;&#34;
+        super().__init__(canvas, origine, bordure, bordure, epaisseur)
+        self.id_1: int
+        self.id_2: int
+
+        _check_raise(largeur, &#34;largeur&#34;, (Real,))
+        _check_raise(hauteur, &#34;hauteur&#34;, (Real,))
+        _check_raise(orientation, &#34;orientation&#34;, (Real,))
+
+        dl = largeur / 2
+        dh = hauteur / 2
+
+        # coin haut gauche
+        self._vertex.append(
+            origine + Vecteur(
+                -dl,
+                -dh
+            )
+        )
+
+        # coin bas droit
+        self._vertex.append(
+            origine + Vecteur(
+                dl,
+                dh
+            )
+        )
+
+        # coin haut droit
+        self._vertex.append(
+            origine + Vecteur(
+                dl,
+                -dh
+            )
+        )
+
+        # coin bas gauche
+        self._vertex.append(
+            origine + Vecteur(
+                -dl,
+                dh
+            )
+        )
+
+        self.rotate(orientation)
+
+    def draw(self) -&gt; None:
+        &#34;&#34;&#34;Dessine la croix.&#34;&#34;&#34;
+        if hasattr(self, &#39;id_1&#39;):
+            self.canvas.delete(self.id_1)
+        if hasattr(self, &#39;id_2&#39;):
+            self.canvas.delete(self.id_2)
+
+        self.id_1 = self.canvas.create_line(
+            self._vertex[0].get_coordonnee(),
+            self._vertex[1].get_coordonnee(),
+            fill=self.remplissage, width=self.epaisseur
+        )
+        self.id_2 = self.canvas.create_line(
+            self._vertex[2].get_coordonnee(),
+            self._vertex[3].get_coordonnee(),
+            fill=self.remplissage, width=self.epaisseur
+        )
+
+        self.canvas.update()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Croix.draw"><code class="name flex">
+<span>def <span class="ident">draw</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dessine la croix.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw(self) -&gt; None:
+    &#34;&#34;&#34;Dessine la croix.&#34;&#34;&#34;
+    if hasattr(self, &#39;id_1&#39;):
+        self.canvas.delete(self.id_1)
+    if hasattr(self, &#39;id_2&#39;):
+        self.canvas.delete(self.id_2)
+
+    self.id_1 = self.canvas.create_line(
+        self._vertex[0].get_coordonnee(),
+        self._vertex[1].get_coordonnee(),
+        fill=self.remplissage, width=self.epaisseur
+    )
+    self.id_2 = self.canvas.create_line(
+        self._vertex[2].get_coordonnee(),
+        self._vertex[3].get_coordonnee(),
+        fill=self.remplissage, width=self.epaisseur
+    )
+
+    self.canvas.update()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></b></code>:
+<ul class="hlist">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre">get_barycentre</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees">get_coordonnees</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine">get_origine</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position">get_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize">resize</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat">rotate_mat</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure">set_bordure</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur">set_epaisseur</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position">set_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage">set_remplissage</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate">translate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo">translateTo</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Dash"><code class="flex name class">
+<span>class <span class="ident">Dash</span></span>
+<span>(</span><span>longueur: int, espace: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente un trait pour une ligne.</p>
+<p>Crée un trait discontinue pour les lignes Tkinter.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>longueur</code></strong></dt>
+<dd>Longueur en pixels d'un trait.</dd>
+<dt><strong><code>espace</code></strong></dt>
+<dd>Espace en pixels entre deux trait.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Dash:
+    &#34;&#34;&#34;Représente un trait pour une ligne.&#34;&#34;&#34;
+
+    def __init__(self, longueur: int, espace: int):
+        &#34;&#34;&#34;Crée un trait discontinue pour les lignes Tkinter.
+
+        Args:
+            longueur: Longueur en pixels d&#39;un trait.
+            espace: Espace en pixels entre deux trait.
+        &#34;&#34;&#34;
+        _check_raise(longueur, &#34;longueur&#34;, (int,))
+        _check_raise(espace, &#34;espace&#34;, (int,))
+
+        self.longueur = longueur
+        self.espace = espace
+
+    def get_tkinter(self) -&gt; tuple[int, int]:
+        &#34;&#34;&#34;Fournit la description du trait pour tkinter.&#34;&#34;&#34;
+        return (self.longueur, self.espace)
+
+    @staticmethod
+    def empty() -&gt; None:
+        &#34;&#34;&#34;Retourne un trait vide ou plein selon le sens.&#34;&#34;&#34;
+        return None</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Dash.empty"><code class="name flex">
+<span>def <span class="ident">empty</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un trait vide ou plein selon le sens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def empty() -&gt; None:
+    &#34;&#34;&#34;Retourne un trait vide ou plein selon le sens.&#34;&#34;&#34;
+    return None</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Dash.get_tkinter"><code class="name flex">
+<span>def <span class="ident">get_tkinter</span></span>(<span>self) ‑> tuple[int, int]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fournit la description du trait pour tkinter.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_tkinter(self) -&gt; tuple[int, int]:
+    &#34;&#34;&#34;Fournit la description du trait pour tkinter.&#34;&#34;&#34;
+    return (self.longueur, self.espace)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Inherited"><code class="flex name class">
+<span>class <span class="ident">Inherited</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Permet de reféfinir des méthodes héritées afin que le type de
+retour soit celui de la sous-classe.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Inherited(type):
+    &#34;&#34;&#34;Permet de reféfinir des méthodes héritées afin que le type de
+    retour soit celui de la sous-classe.
+    &#34;&#34;&#34;
+    def __new__(
+            cls,
+            name: str,
+            bases: tuple[type, ...],
+            namespace: dict[str, Any]
+    ):
+        try:
+            _implements = {
+                k: v for k, v in namespace[&#34;_implements&#34;].items()
+                if k in bases
+            }
+        except KeyError:
+            _implements = {}
+
+        for base in bases:
+            try:
+                _implements.update({
+                    k: v for k, v in base._implements.items()  # type: ignore
+                    if k in base.__mro__
+                })
+            except KeyError:
+                continue
+
+        for base, methods in _implements.items():
+            for meth in methods:
+                # Force early binding
+                def outer(base=base, meth=meth):
+                    def inner(self, *args, **kwargs):
+                        return self.__class__(
+                            getattr(base, meth).__call__(
+                                self, *args, **kwargs
+                            )
+                        )
+                    inner.__name__ = meth
+                    return inner
+                namespace[meth] = outer(base, meth)
+
+        return super().__new__(cls, name, bases, namespace)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.type</li>
+</ul>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Ligne"><code class="flex name class">
+<span>class <span class="ident">Ligne</span></span>
+<span>(</span><span>canvas: tk.Canvas, origine: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>, longueur: float, orientation: float, bordure: str = 'black', dash: <a title="RedSquareGame.c31Geometry.c31Geometry2.Dash" href="#RedSquareGame.c31Geometry.c31Geometry2.Dash">Dash</a> = None, epaisseur: str | float = 1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente une ligne.</p>
+<p>Initialise la ligne.</p>
+<p>Voir <code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></code>. Les arguments suivants sont des
+arguments summlémentaires.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>longueur</code></strong></dt>
+<dd>Longueur de la ligne.</dd>
+<dt><strong><code>orientation</code></strong></dt>
+<dd>Orientation de la ligne.</dd>
+<dt><strong><code>dash</code></strong></dt>
+<dd>Format du trait discontinu.
+Default: None</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Ligne(Polygone):
+    &#34;&#34;&#34;Représente une ligne.&#34;&#34;&#34;
+
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            longueur: float, orientation: float,
+            bordure: str = &#34;black&#34;, dash: Dash = None,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise la ligne.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            longueur: Longueur de la ligne.
+            orientation: Orientation de la ligne.
+            dash: Format du trait discontinu.
+                Default: None
+        &#34;&#34;&#34;
+        super().__init__(canvas, origine, bordure, bordure, epaisseur)
+
+        _check_raise(longueur, &#34;longueur&#34;, (Real,))
+        _check_raise(orientation, &#34;orientation&#34;, (Real,))
+        _check_raise(dash, &#34;dash&#34;, (type(None), Dash))
+
+        demi_longueur = longueur / 2
+
+        # TODO: Check if Vecteur.rotate could be used
+        self._vertex.append(
+            origine - Vecteur(
+                demi_longueur * math.cos(orientation),
+                demi_longueur * math.sin(orientation)
+            )
+        )
+
+        self._vertex.append(
+            origine + Vecteur(
+                demi_longueur * math.cos(orientation),
+                demi_longueur * math.sin(orientation)
+            )
+        )
+
+        self.dash = dash
+
+    def draw(self) -&gt; None:
+        &#34;&#34;&#34;Dessine le Polygone.&#34;&#34;&#34;
+        if hasattr(self, &#39;id&#39;):
+            self.canvas.delete(self.id)
+
+        if self.dash is not None:
+            self.id = self.canvas.create_line(
+                self.get_coordonnees(), fill=self.remplissage,
+                dash=self.dash.get_tkinter(), width=self.epaisseur
+            )
+        else:
+            self.id = self.canvas.create_line(
+                self.get_coordonnees(), fill=self.remplissage,
+                width=self.epaisseur
+            )
+
+        self.canvas.update()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></b></code>:
+<ul class="hlist">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.draw" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.draw">draw</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre">get_barycentre</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees">get_coordonnees</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine">get_origine</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position">get_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize">resize</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat">rotate_mat</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure">set_bordure</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur">set_epaisseur</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position">set_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage">set_remplissage</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate">translate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo">translateTo</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.LoopEvent"><code class="flex name class">
+<span>class <span class="ident">LoopEvent</span></span>
+<span>(</span><span>root: tk.Widget, callback: Callable[[], None] = &lt;function LoopEvent.&lt;lambda&gt;&gt;, timesleep: int = 500)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Permet de définir une action à exécuter après un certain temps
+(par défaut 500 ms).</p>
+<p>Initialise le gestionnaire d'évènement.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>root</code></strong></dt>
+<dd>Widget parent de la boucle</dd>
+<dt><strong><code>callback</code></strong></dt>
+<dd>Callable devant être exécuté à chaque boucle.
+Default: print("Event")</dd>
+<dt><strong><code>timesleep</code></strong></dt>
+<dd>Temps en milliseconde entre chaque exécution.
+Defaults: 500</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LoopEvent:
+    &#34;&#34;&#34;Permet de définir une action à exécuter après un certain temps
+    (par défaut 500 ms).
+    &#34;&#34;&#34;
+    # TODO: use logging.debug as default callback
+    def __init__(
+            self, root: tk.Widget,
+            callback: Callable[[], None] = lambda: print(&#34;Event&#34;),
+            timesleep: int = 500
+    ):
+        &#34;&#34;&#34;Initialise le gestionnaire d&#39;évènement.
+
+        Args:
+            root: Widget parent de la boucle
+            callback: Callable devant être exécuté à chaque boucle.
+                Default: print(&#34;Event&#34;)
+            timesleep: Temps en milliseconde entre chaque exécution.
+                Defaults: 500
+        &#34;&#34;&#34;
+        self.root = root
+        self.function = callback
+        self.timesleep = timesleep
+
+    def start(self) -&gt; None:
+        &#34;&#34;&#34;Lance l&#39;exécution de la première boucle après un premier
+            intervalle de la méthode.
+        &#34;&#34;&#34;
+        self.root.after(
+            self.timesleep,
+            self.__class__.__loop, self, self.function
+        )
+
+    def startImmediately(self) -&gt; None:
+        &#34;&#34;&#34;Lance immédiatement une première exécution de la méthode.&#34;&#34;&#34;
+        self.__class__.__loop(self, self.function)
+
+    @staticmethod
+    def __loop(event: LoopEvent, callback: Callable[[], None]) -&gt; None:
+        &#34;&#34;&#34;Permet de lancer la méthode et génère une nouvelle boucle.&#34;&#34;&#34;
+        callback()
+        event.start()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.LoopEvent.start"><code class="name flex">
+<span>def <span class="ident">start</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lance l'exécution de la première boucle après un premier
+intervalle de la méthode.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start(self) -&gt; None:
+    &#34;&#34;&#34;Lance l&#39;exécution de la première boucle après un premier
+        intervalle de la méthode.
+    &#34;&#34;&#34;
+    self.root.after(
+        self.timesleep,
+        self.__class__.__loop, self, self.function
+    )</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.LoopEvent.startImmediately"><code class="name flex">
+<span>def <span class="ident">startImmediately</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lance immédiatement une première exécution de la méthode.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def startImmediately(self) -&gt; None:
+    &#34;&#34;&#34;Lance immédiatement une première exécution de la méthode.&#34;&#34;&#34;
+    self.__class__.__loop(self, self.function)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Ovale"><code class="flex name class">
+<span>class <span class="ident">Ovale</span></span>
+<span>(</span><span>canvas: tk.Canvas, origine: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>, petit_rayon: float, grand_rayon: float, remplissage: str = 'black', bordure: str = 'black', epaisseur: str | float = 1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente un Ovale.</p>
+<p>Initialise l'ovale.</p>
+<p>Voir <code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></code>. Les arguments suivants sont des
+arguments summlémentaires.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>petit_rayon</code></strong></dt>
+<dd>Petit rayon de l'ovale.</dd>
+<dt><strong><code>grand_rayon</code></strong></dt>
+<dd>Grand rayon de l'ovale.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Ovale(Polygone):
+    &#34;&#34;&#34;Représente un Ovale.&#34;&#34;&#34;
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            petit_rayon: float, grand_rayon: float,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise l&#39;ovale.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            petit_rayon: Petit rayon de l&#39;ovale.
+            grand_rayon: Grand rayon de l&#39;ovale.
+        &#34;&#34;&#34;
+        super().__init__(
+            canvas, origine, remplissage, bordure, epaisseur
+        )
+
+        _check_raise(petit_rayon, &#34;petit_rayon&#34;, (Real,))
+
+        self._vertex.append(
+            origine - Vecteur(
+                grand_rayon,
+                petit_rayon
+            )
+        )
+
+        self._vertex.append(
+            origine + Vecteur(
+                grand_rayon,
+                petit_rayon
+            )
+        )
+
+    def draw(self) -&gt; None:
+        &#34;&#34;&#34;Dessine l&#39;ovale.&#34;&#34;&#34;
+        if hasattr(self, &#39;id&#39;):
+            self.canvas.delete(self.id)
+
+        self.id = self.canvas.create_oval(
+            *self._vertex[0], *self._vertex[1],
+            fill=self.remplissage, outline=self.bordure,
+            width=self.epaisseur
+        )
+
+        self.canvas.update()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Cercle" href="#RedSquareGame.c31Geometry.c31Geometry2.Cercle">Cercle</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Ovale.draw"><code class="name flex">
+<span>def <span class="ident">draw</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dessine l'ovale.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw(self) -&gt; None:
+    &#34;&#34;&#34;Dessine l&#39;ovale.&#34;&#34;&#34;
+    if hasattr(self, &#39;id&#39;):
+        self.canvas.delete(self.id)
+
+    self.id = self.canvas.create_oval(
+        *self._vertex[0], *self._vertex[1],
+        fill=self.remplissage, outline=self.bordure,
+        width=self.epaisseur
+    )
+
+    self.canvas.update()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></b></code>:
+<ul class="hlist">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre">get_barycentre</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees">get_coordonnees</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine">get_origine</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position">get_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize">resize</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat">rotate_mat</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure">set_bordure</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur">set_epaisseur</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position">set_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage">set_remplissage</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate">translate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo">translateTo</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Point"><code class="flex name class">
+<span>class <span class="ident">Point</span></span>
+<span>(</span><span>x: float, y: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente un point dans un plan cartésien 2D.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Point:
+    &#34;&#34;&#34;Représente un point dans un plan cartésien 2D.&#34;&#34;&#34;
+    def __init__(self, x: float, y: float):
+        self.x = x
+        self.y = y
+
+    def __eq__(self, other: Any) -&gt; bool:
+        &#34;&#34;&#34;Détermine si les deux objets sont égaux.&#34;&#34;&#34;
+        if not isinstance(other, Point):
+            return NotImplemented
+
+        return self.x == other.x and self.y == other.y
+
+    def __add__(self, vecteur: Any) -&gt; Self:
+        &#34;&#34;&#34;Additionne le vecteur au point (translation).&#34;&#34;&#34;
+        if not isinstance(vecteur, complex):
+            return NotImplemented
+        return self.__class__(self.x + vecteur.real, self.y + vecteur.imag)
+
+    @overload
+    def __sub__(self, other: Point) -&gt; Vecteur: ...
+
+    @overload
+    def __sub__(self, other: Vecteur) -&gt; Self: ...
+
+    def __sub__(self, other: Any) -&gt; Self | Vecteur:
+        &#34;&#34;&#34;Calcule la soustraction selon un autre point ou vecteur.
+
+        Returns:
+            Si other est un Point, un Vecteur avec le déplacement.
+            Si other est un Vecteur, un Point déplacé.
+        &#34;&#34;&#34;
+        if isinstance(other, Point):
+            return Vecteur(self.x - other.x, self.y - other.y)
+        elif isinstance(other, complex):
+            return self.__add__(-other)
+        else:
+            return NotImplemented
+
+    def __iter__(self) -&gt; Iterator:
+        return iter(self.get_coordonnee())
+    
+    def distance(self, other: Self) -&gt; float:
+        &#34;&#34;&#34;Calcule la distance entre deux points.&#34;&#34;&#34;
+        return math.dist(self.get_coordonnee(), other.get_coordonnee())
+
+    def get_coordonnee(self) -&gt; tuple[float, float]:
+        &#34;&#34;&#34;Retourne les coordonnées du Point en tuple.&#34;&#34;&#34;
+        return (self.x, self.y)
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{self.__class__.__name__}{self}&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;({self.x}, {self.y})&#34;</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Point.distance"><code class="name flex">
+<span>def <span class="ident">distance</span></span>(<span>self, other: Self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calcule la distance entre deux points.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def distance(self, other: Self) -&gt; float:
+    &#34;&#34;&#34;Calcule la distance entre deux points.&#34;&#34;&#34;
+    return math.dist(self.get_coordonnee(), other.get_coordonnee())</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Point.get_coordonnee"><code class="name flex">
+<span>def <span class="ident">get_coordonnee</span></span>(<span>self) ‑> tuple[float, float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne les coordonnées du Point en tuple.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_coordonnee(self) -&gt; tuple[float, float]:
+    &#34;&#34;&#34;Retourne les coordonnées du Point en tuple.&#34;&#34;&#34;
+    return (self.x, self.y)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone"><code class="flex name class">
+<span>class <span class="ident">Polygone</span></span>
+<span>(</span><span>canvas: tk.Canvas, origine: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>, remplissage: str = 'black', bordure: str = 'black', epaisseur: str | float = 1.0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représentation abstraite d'un polygone.</p>
+<p>Initialise les variables de base du polygone.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>canvas</code></strong></dt>
+<dd>Canvas où l'on dessine le Polygone.</dd>
+<dt><strong><code>origine</code></strong></dt>
+<dd>Point d'origine du Polygone, sous forme de Vecteur.</dd>
+<dt><strong><code>remplissage</code></strong></dt>
+<dd>Couleur du remplissage.
+Default: "black"</dd>
+<dt><strong><code>bordure</code></strong></dt>
+<dd>Couleur de la bordure.
+Default: "black"</dd>
+<dt><strong><code>epaisseur</code></strong></dt>
+<dd>Épaisseur de la bordure.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Polygone:
+    &#34;&#34;&#34;Représentation abstraite d&#39;un polygone.&#34;&#34;&#34;
+
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1.0
+    ):
+        &#34;&#34;&#34;Initialise les variables de base du polygone.
+
+        Args:
+            canvas: Canvas où l&#39;on dessine le Polygone.
+            origine: Point d&#39;origine du Polygone, sous forme de Vecteur.
+            remplissage: Couleur du remplissage.
+                Default: &#34;black&#34;
+            bordure: Couleur de la bordure.
+                Default: &#34;black&#34;
+            epaisseur: Épaisseur de la bordure.
+        &#34;&#34;&#34;
+        _check_raise(canvas, &#34;canvas&#34;, (tk.Canvas,))
+
+        self.canvas = canvas
+        self.set_position(origine)
+        self._vertex: list[Vecteur] = []
+        self.set_remplissage(remplissage)
+        self.set_bordure(bordure)
+        self.set_epaisseur(epaisseur)
+        self.id: int
+
+    # TODO: returning tuple or generator might be more efficient
+    def get_coordonnees(self) -&gt; list[tuple[float, float]]:
+        &#34;&#34;&#34;Retourne un tableau des coordonnées de tous les points.&#34;&#34;&#34;
+        return [vex.get_coordonnee() for vex in self._vertex]
+
+    def draw(self) -&gt; None:
+        &#34;&#34;&#34;Dessine le Polygone.&#34;&#34;&#34;
+        if hasattr(self, &#39;id&#39;):
+            self.canvas.delete(self.id)
+
+        self.id = self.canvas.create_polygon(
+            self.get_coordonnees(), fill=self.remplissage,
+            outline=self.bordure, width=self.epaisseur
+        )
+
+        self.canvas.update()
+
+    def rotate_mat(self, R: Rotation) -&gt; None:
+        &#34;&#34;&#34;Rotationne le Polygone selon une matrice de rotation.&#34;&#34;&#34;
+        _check_raise(R, &#34;R&#34;, (Rotation,))
+
+        bary = self.get_barycentre()
+        self.translate(bary * -1)
+        self._vertex = [R.rotate(vex) for vex in self._vertex]
+        self.translate(bary)
+
+    def rotate(self, angle: float) -&gt; None:
+        &#34;&#34;&#34;Rotationne le Polygone selon un angle.&#34;&#34;&#34;
+        _check_raise(angle, &#34;angle&#34;, (Real,))
+
+        self.rotate_mat(Rotation(angle))
+
+    def resize(self, facteur: float) -&gt; None:
+        &#34;&#34;&#34;Effectue une redimension du Polygone selon un facteur.&#34;&#34;&#34;
+        _check_raise(facteur, &#34;facteur&#34;, (Real,))
+
+        bary = self.get_barycentre()
+        self.translate(bary * -1)
+        self._vertex = [vex * facteur for vex in self._vertex]
+        self.translate(bary)
+
+    def translate(self, direction: Vecteur) -&gt; None:
+        &#34;&#34;&#34;Effectue une translation du Polygone.&#34;&#34;&#34;
+        _check_raise(direction, &#34;direction&#34;, (Vecteur,))
+
+        self._vertex = [ver + direction for ver in self._vertex]
+
+    def set_remplissage(self, remplissage: str) -&gt; None:
+        &#34;&#34;&#34;Modifie la couleur du remplissage du Polygone.&#34;&#34;&#34;
+        _check_raise(remplissage, &#34;remplissage&#34;, (str,))
+        self.remplissage = remplissage
+
+    def set_bordure(self, bordure: str) -&gt; None:
+        &#34;&#34;&#34;Modifie la couleur de la bordure du Polygone.&#34;&#34;&#34;
+        _check_raise(bordure, &#34;bordure&#34;, (str,))
+        self.bordure = bordure
+
+    def set_epaisseur(self, epaisseur: str | float) -&gt; None:
+        &#34;&#34;&#34;Modifie l&#39;épaisseur de la bordure du Polygone.&#34;&#34;&#34;
+        _check_raise(epaisseur, &#34;epaisseur&#34;, (str, Real))
+        self.epaisseur = epaisseur
+
+    def get_barycentre(self) -&gt; Vecteur:
+        &#34;&#34;&#34;Retourne les coordonées du centre du Polygone.&#34;&#34;&#34;
+        sum_ = sum(self._vertex)
+        return sum_ / len(self._vertex) if sum_ else Vecteur.zero()
+
+    def get_position(self) -&gt; Vecteur:
+        &#34;&#34;&#34;Retourne la position du Polygone.&#34;&#34;&#34;
+        return self.origine
+
+    def get_origine(self) -&gt; Vecteur:
+        &#34;&#34;&#34;Alias de `get_position`.&#34;&#34;&#34;
+        return self.origine
+
+    def set_position(self, position: Vecteur | Point | Iterable) -&gt; None:
+        &#34;&#34;&#34;Modifie la position du Polygone.
+        
+        Args:
+            position: Vecteur, Point, ou Itérable représentant la
+                nouvelle position du polygone.
+        &#34;&#34;&#34;
+        _check_raise(position, &#34;position&#34;, (Vecteur, Point, Iterable))
+        self.origine = Vecteur(*position)
+
+    def translateTo(self, position: Vecteur) -&gt; None:
+        &#34;&#34;&#34;Déplace le polygone vers une position.&#34;&#34;&#34;
+        self.translate(position - self.origine)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Croix" href="#RedSquareGame.c31Geometry.c31Geometry2.Croix">Croix</a></li>
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Ligne" href="#RedSquareGame.c31Geometry.c31Geometry2.Ligne">Ligne</a></li>
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale" href="#RedSquareGame.c31Geometry.c31Geometry2.Ovale">Ovale</a></li>
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle" href="#RedSquareGame.c31Geometry.c31Geometry2.Rectangle">Rectangle</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.draw"><code class="name flex">
+<span>def <span class="ident">draw</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dessine le Polygone.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw(self) -&gt; None:
+    &#34;&#34;&#34;Dessine le Polygone.&#34;&#34;&#34;
+    if hasattr(self, &#39;id&#39;):
+        self.canvas.delete(self.id)
+
+    self.id = self.canvas.create_polygon(
+        self.get_coordonnees(), fill=self.remplissage,
+        outline=self.bordure, width=self.epaisseur
+    )
+
+    self.canvas.update()</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre"><code class="name flex">
+<span>def <span class="ident">get_barycentre</span></span>(<span>self) ‑> <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne les coordonées du centre du Polygone.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_barycentre(self) -&gt; Vecteur:
+    &#34;&#34;&#34;Retourne les coordonées du centre du Polygone.&#34;&#34;&#34;
+    sum_ = sum(self._vertex)
+    return sum_ / len(self._vertex) if sum_ else Vecteur.zero()</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees"><code class="name flex">
+<span>def <span class="ident">get_coordonnees</span></span>(<span>self) ‑> list[tuple[float, float]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un tableau des coordonnées de tous les points.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_coordonnees(self) -&gt; list[tuple[float, float]]:
+    &#34;&#34;&#34;Retourne un tableau des coordonnées de tous les points.&#34;&#34;&#34;
+    return [vex.get_coordonnee() for vex in self._vertex]</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine"><code class="name flex">
+<span>def <span class="ident">get_origine</span></span>(<span>self) ‑> <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Alias de <code>get_position</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_origine(self) -&gt; Vecteur:
+    &#34;&#34;&#34;Alias de `get_position`.&#34;&#34;&#34;
+    return self.origine</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position"><code class="name flex">
+<span>def <span class="ident">get_position</span></span>(<span>self) ‑> <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne la position du Polygone.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_position(self) -&gt; Vecteur:
+    &#34;&#34;&#34;Retourne la position du Polygone.&#34;&#34;&#34;
+    return self.origine</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize"><code class="name flex">
+<span>def <span class="ident">resize</span></span>(<span>self, facteur: float) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Effectue une redimension du Polygone selon un facteur.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def resize(self, facteur: float) -&gt; None:
+    &#34;&#34;&#34;Effectue une redimension du Polygone selon un facteur.&#34;&#34;&#34;
+    _check_raise(facteur, &#34;facteur&#34;, (Real,))
+
+    bary = self.get_barycentre()
+    self.translate(bary * -1)
+    self._vertex = [vex * facteur for vex in self._vertex]
+    self.translate(bary)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate"><code class="name flex">
+<span>def <span class="ident">rotate</span></span>(<span>self, angle: float) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Rotationne le Polygone selon un angle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rotate(self, angle: float) -&gt; None:
+    &#34;&#34;&#34;Rotationne le Polygone selon un angle.&#34;&#34;&#34;
+    _check_raise(angle, &#34;angle&#34;, (Real,))
+
+    self.rotate_mat(Rotation(angle))</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat"><code class="name flex">
+<span>def <span class="ident">rotate_mat</span></span>(<span>self, R: <a title="RedSquareGame.c31Geometry.c31Geometry2.Rotation" href="#RedSquareGame.c31Geometry.c31Geometry2.Rotation">Rotation</a>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Rotationne le Polygone selon une matrice de rotation.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rotate_mat(self, R: Rotation) -&gt; None:
+    &#34;&#34;&#34;Rotationne le Polygone selon une matrice de rotation.&#34;&#34;&#34;
+    _check_raise(R, &#34;R&#34;, (Rotation,))
+
+    bary = self.get_barycentre()
+    self.translate(bary * -1)
+    self._vertex = [R.rotate(vex) for vex in self._vertex]
+    self.translate(bary)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure"><code class="name flex">
+<span>def <span class="ident">set_bordure</span></span>(<span>self, bordure: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modifie la couleur de la bordure du Polygone.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_bordure(self, bordure: str) -&gt; None:
+    &#34;&#34;&#34;Modifie la couleur de la bordure du Polygone.&#34;&#34;&#34;
+    _check_raise(bordure, &#34;bordure&#34;, (str,))
+    self.bordure = bordure</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur"><code class="name flex">
+<span>def <span class="ident">set_epaisseur</span></span>(<span>self, epaisseur: str | float) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modifie l'épaisseur de la bordure du Polygone.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_epaisseur(self, epaisseur: str | float) -&gt; None:
+    &#34;&#34;&#34;Modifie l&#39;épaisseur de la bordure du Polygone.&#34;&#34;&#34;
+    _check_raise(epaisseur, &#34;epaisseur&#34;, (str, Real))
+    self.epaisseur = epaisseur</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position"><code class="name flex">
+<span>def <span class="ident">set_position</span></span>(<span>self, position: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a> | <a title="RedSquareGame.c31Geometry.c31Geometry2.Point" href="#RedSquareGame.c31Geometry.c31Geometry2.Point">Point</a> | Iterable) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modifie la position du Polygone.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>position</code></strong></dt>
+<dd>Vecteur, Point, ou Itérable représentant la
+nouvelle position du polygone.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_position(self, position: Vecteur | Point | Iterable) -&gt; None:
+    &#34;&#34;&#34;Modifie la position du Polygone.
+    
+    Args:
+        position: Vecteur, Point, ou Itérable représentant la
+            nouvelle position du polygone.
+    &#34;&#34;&#34;
+    _check_raise(position, &#34;position&#34;, (Vecteur, Point, Iterable))
+    self.origine = Vecteur(*position)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage"><code class="name flex">
+<span>def <span class="ident">set_remplissage</span></span>(<span>self, remplissage: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modifie la couleur du remplissage du Polygone.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_remplissage(self, remplissage: str) -&gt; None:
+    &#34;&#34;&#34;Modifie la couleur du remplissage du Polygone.&#34;&#34;&#34;
+    _check_raise(remplissage, &#34;remplissage&#34;, (str,))
+    self.remplissage = remplissage</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate"><code class="name flex">
+<span>def <span class="ident">translate</span></span>(<span>self, direction: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Effectue une translation du Polygone.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def translate(self, direction: Vecteur) -&gt; None:
+    &#34;&#34;&#34;Effectue une translation du Polygone.&#34;&#34;&#34;
+    _check_raise(direction, &#34;direction&#34;, (Vecteur,))
+
+    self._vertex = [ver + direction for ver in self._vertex]</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo"><code class="name flex">
+<span>def <span class="ident">translateTo</span></span>(<span>self, position: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Déplace le polygone vers une position.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def translateTo(self, position: Vecteur) -&gt; None:
+    &#34;&#34;&#34;Déplace le polygone vers une position.&#34;&#34;&#34;
+    self.translate(position - self.origine)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Rectangle"><code class="flex name class">
+<span>class <span class="ident">Rectangle</span></span>
+<span>(</span><span>canvas: tk.Canvas, origine: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>, largeur: float, hauteur: float, orientation: float = 0, remplissage: str = 'black', bordure: str = 'black', epaisseur: str | float = 1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente un rectangle.</p>
+<p>Initialise le rectangle.</p>
+<p>Voir <code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></code>. Les arguments suivants sont des
+arguments summlémentaires.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>largeur</code></strong></dt>
+<dd>Largeur (selon l'axe x) du rectangle.</dd>
+<dt><strong><code>hauteur</code></strong></dt>
+<dd>Hauteur (selon l'axe y) du rectangle.</dd>
+<dt><strong><code>orientation</code></strong></dt>
+<dd>Orientation du rectangle.
+Default: 0</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Rectangle(Polygone):
+    &#34;&#34;&#34;Représente un rectangle.&#34;&#34;&#34;
+    def __init__(
+            self, canvas: tk.Canvas, origine: Vecteur,
+            largeur: float, hauteur: float,
+            orientation: float = 0,
+            remplissage: str = &#34;black&#34;, bordure: str = &#34;black&#34;,
+            epaisseur: str | float = 1
+    ):
+        &#34;&#34;&#34;Initialise le rectangle.
+
+        Voir `Polygone.__init__`. Les arguments suivants sont des
+        arguments summlémentaires.
+
+        Args:
+            largeur: Largeur (selon l&#39;axe x) du rectangle.
+            hauteur: Hauteur (selon l&#39;axe y) du rectangle.
+            orientation: Orientation du rectangle.
+                Default: 0
+        &#34;&#34;&#34;
+        super().__init__(
+            canvas, origine, remplissage, bordure, epaisseur
+        )
+
+        _check_raise(largeur, &#34;largeur&#34;, (Real,))
+        _check_raise(hauteur, &#34;hauteur&#34;, (Real,))
+        _check_raise(orientation, &#34;orientation&#34;, (Real,))
+
+        demi_largeur = largeur / 2
+        demi_hauteur = hauteur / 2
+
+        # Coin haut gauche
+        self._vertex.append(
+            origine + Vecteur(
+                demi_largeur * -1,
+                demi_hauteur * -1
+            )
+        )
+
+        # Coin haut droite
+        self._vertex.append(
+            origine + Vecteur(
+                demi_largeur * 1,
+                demi_hauteur * -1
+            )
+        )
+
+        # Coin bas droite
+        self._vertex.append(
+            origine + Vecteur(
+                demi_largeur * 1,
+                demi_hauteur * 1
+            )
+        )
+
+        # Coin bas gauche
+        self._vertex.append(
+            origine + Vecteur(
+                demi_largeur * -1,
+                demi_hauteur * 1
+            )
+        )
+
+        self.rotate(orientation)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="RedSquareGame.c31Geometry.c31Geometry2.Carre" href="#RedSquareGame.c31Geometry.c31Geometry2.Carre">Carre</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></b></code>:
+<ul class="hlist">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.draw" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.draw">draw</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre">get_barycentre</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees">get_coordonnees</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine">get_origine</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position">get_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize">resize</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat">rotate_mat</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure">set_bordure</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur">set_epaisseur</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position">set_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage">set_remplissage</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate">translate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo">translateTo</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Rotation"><code class="flex name class">
+<span>class <span class="ident">Rotation</span></span>
+<span>(</span><span>angle: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente une rotation matriciel utilisable sur les vecteurs
+du module.</p>
+<p>Initialise la rotation selon un angle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Rotation:
+    &#34;&#34;&#34;Représente une rotation matriciel utilisable sur les vecteurs
+    du module.
+    &#34;&#34;&#34;
+
+    def __init__(self, angle: float):
+        &#34;&#34;&#34;Initialise la rotation selon un angle.&#34;&#34;&#34;
+        self.set_angle(angle)
+
+    def __mul__(self, vecteur: Vecteur) -&gt; Vecteur:
+        &#34;&#34;&#34;Permet la rotation d&#39;un vecteur à partir de la matrice.&#34;&#34;&#34;
+        if not isinstance(vecteur, Vecteur):
+            return NotImplemented
+        return self.rotate(vecteur)
+
+    def set_angle(self, angle: float) -&gt; None:
+        &#34;&#34;&#34;Définit l&#39;angle de la rotation.&#34;&#34;&#34;
+        _check_raise(angle, &#34;angle&#34;, (Real,))
+        self.sinus = math.sin(angle)
+        self.cosinus = math.sqrt(1 - (self.sinus ** 2))
+
+    def get_angle(self) -&gt; float:
+        &#34;&#34;&#34;Retourne l&#39;angle de la matrice de Rotation.&#34;&#34;&#34;
+        return math.acos(self.cosinus)
+
+    def rotate(self, vecteur: Vecteur) -&gt; Vecteur:
+        &#34;&#34;&#34;Permet la rotation d&#39;un vecteur à partir de la matrice.&#34;&#34;&#34;
+        _check_raise(vecteur, &#34;vecteur&#34;, (Vecteur,))
+        return vecteur.rotate(self.get_angle())</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Rotation.get_angle"><code class="name flex">
+<span>def <span class="ident">get_angle</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne l'angle de la matrice de Rotation.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_angle(self) -&gt; float:
+    &#34;&#34;&#34;Retourne l&#39;angle de la matrice de Rotation.&#34;&#34;&#34;
+    return math.acos(self.cosinus)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Rotation.rotate"><code class="name flex">
+<span>def <span class="ident">rotate</span></span>(<span>self, vecteur: <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a>) ‑> <a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Permet la rotation d'un vecteur à partir de la matrice.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rotate(self, vecteur: Vecteur) -&gt; Vecteur:
+    &#34;&#34;&#34;Permet la rotation d&#39;un vecteur à partir de la matrice.&#34;&#34;&#34;
+    _check_raise(vecteur, &#34;vecteur&#34;, (Vecteur,))
+    return vecteur.rotate(self.get_angle())</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Rotation.set_angle"><code class="name flex">
+<span>def <span class="ident">set_angle</span></span>(<span>self, angle: float) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Définit l'angle de la rotation.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_angle(self, angle: float) -&gt; None:
+    &#34;&#34;&#34;Définit l&#39;angle de la rotation.&#34;&#34;&#34;
+    _check_raise(angle, &#34;angle&#34;, (Real,))
+    self.sinus = math.sin(angle)
+    self.cosinus = math.sqrt(1 - (self.sinus ** 2))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur"><code class="flex name class">
+<span>class <span class="ident">Vecteur</span></span>
+<span>(</span><span>real=0, imag=0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Représente un vecteur dans un plan cartésien 2D.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Vecteur(complex):
+    &#34;&#34;&#34;Représente un vecteur dans un plan cartésien 2D.&#34;&#34;&#34;
+    # _implements = { complex: (
+    #     &#34;__add__&#34;, &#34;__sub__&#34;, &#34;__mul__&#34;, &#34;__pow__&#34;, &#34;__truediv__&#34;,
+    #     &#34;__radd_&#34;, &#34;__rsub_&#34;, &#34;__rmul_&#34;, &#34;__rpow_&#34;, &#34;__rtruediv__&#34;,
+    #     &#34;__neg__&#34;, &#34;__pos__&#34;
+    # )}
+
+    # def __getattribute__(self, __name: str) -&gt; Any:
+    #     if __name in Vecteur._implements[complex]:
+    #         def inner(*args, **kwargs):
+    #             return Vecteur(
+    #                 getattr(complex, __name).__call__(
+    #                     self, *args, **kwargs
+    #                 )
+    #             )
+    #         inner.__name__ = __name
+    #         return inner
+    #     else:
+    #         return super().__getattribute__(__name)
+
+    def __eq__(self, other: Any) -&gt; bool:
+        &#34;&#34;&#34;Détermine si les deux objets sont égaux en compensant pour
+        les erreurs d&#39;arrondissement.
+        &#34;&#34;&#34;
+        if not isinstance(other, Vecteur):
+            return NotImplemented
+        return cmath.isclose(self, other)
+
+    def __add__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__add__(*args, **kwargs))
+
+    def __sub__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__sub__(*args, **kwargs))
+
+    def __mul__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__mul__(*args, **kwargs))
+
+    def __pow__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__pow__(*args, **kwargs))
+
+    def __truediv__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__truediv__(*args, **kwargs))
+
+    def __radd__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__radd__(*args, **kwargs))
+
+    def __rsub__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__rsub__(*args, **kwargs))
+
+    def __rmul__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__rmul__(*args, **kwargs))
+
+    def __rpow__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__rpow__(*args, **kwargs))
+
+    def __rtruediv__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__rtruediv__(*args, **kwargs))
+
+    def __neg__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__neg__(*args, **kwargs))
+
+    def __pos__(self, *args, **kwargs) -&gt; Self:
+        return self.__class__(super().__pos__(*args, **kwargs))
+    
+    def __iter__(self) -&gt; Iterator:
+        return iter(self.get_coordonnee())
+    
+    def conjugate(self) -&gt; Self:
+        return self.__class__(super().conjugate())
+
+    def norme(self) -&gt; float:
+        &#34;&#34;&#34;Calcule la norme du vecteur avec l&#39;origine.&#34;&#34;&#34;
+        return abs(self)
+
+    def unitaire(self) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire dans la direction du vecteur.&#34;&#34;&#34;
+        return self / self.norme()
+    
+    def rotate(self, angle: float) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur avec une rotation appliquée.&#34;&#34;&#34;
+        return self * complex(math.cos(angle), math.sin(angle))
+
+    def get_coordonnee(self) -&gt; tuple[float, float]:
+        &#34;&#34;&#34;Retourne les coordonnées du Point en tuple.&#34;&#34;&#34;
+        return (self.real, self.imag)
+
+    @classmethod
+    def zero(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur nul.&#34;&#34;&#34;
+        return cls(0, 0)
+
+    @classmethod
+    def gauche(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire vers la gauche (x = -1).&#34;&#34;&#34;
+        return cls(-1, 0)
+
+    @classmethod
+    def droite(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire vers la droite (x = 1).&#34;&#34;&#34;
+        return cls(1, 0)
+
+    @classmethod
+    def haut(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire vers le haut (y = -1).&#34;&#34;&#34;
+        return cls(0, -1)
+
+    @classmethod
+    def bas(cls) -&gt; Self:
+        &#34;&#34;&#34;Retourne un vecteur unitaire vers le bas (y = 1).&#34;&#34;&#34;
+        return cls(0, 1)
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{self.__class__.__name__}{self}&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;{{{self.real}, {self.imag}}}&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.complex</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.bas"><code class="name flex">
+<span>def <span class="ident">bas</span></span>(<span>) ‑> Self</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un vecteur unitaire vers le bas (y = 1).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def bas(cls) -&gt; Self:
+    &#34;&#34;&#34;Retourne un vecteur unitaire vers le bas (y = 1).&#34;&#34;&#34;
+    return cls(0, 1)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.droite"><code class="name flex">
+<span>def <span class="ident">droite</span></span>(<span>) ‑> Self</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un vecteur unitaire vers la droite (x = 1).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def droite(cls) -&gt; Self:
+    &#34;&#34;&#34;Retourne un vecteur unitaire vers la droite (x = 1).&#34;&#34;&#34;
+    return cls(1, 0)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.gauche"><code class="name flex">
+<span>def <span class="ident">gauche</span></span>(<span>) ‑> Self</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un vecteur unitaire vers la gauche (x = -1).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def gauche(cls) -&gt; Self:
+    &#34;&#34;&#34;Retourne un vecteur unitaire vers la gauche (x = -1).&#34;&#34;&#34;
+    return cls(-1, 0)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.haut"><code class="name flex">
+<span>def <span class="ident">haut</span></span>(<span>) ‑> Self</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un vecteur unitaire vers le haut (y = -1).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def haut(cls) -&gt; Self:
+    &#34;&#34;&#34;Retourne un vecteur unitaire vers le haut (y = -1).&#34;&#34;&#34;
+    return cls(0, -1)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.zero"><code class="name flex">
+<span>def <span class="ident">zero</span></span>(<span>) ‑> Self</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un vecteur nul.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def zero(cls) -&gt; Self:
+    &#34;&#34;&#34;Retourne un vecteur nul.&#34;&#34;&#34;
+    return cls(0, 0)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.conjugate"><code class="name flex">
+<span>def <span class="ident">conjugate</span></span>(<span>self) ‑> Self</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return the complex conjugate of its argument. (3-4j).conjugate() == 3+4j.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def conjugate(self) -&gt; Self:
+    return self.__class__(super().conjugate())</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.get_coordonnee"><code class="name flex">
+<span>def <span class="ident">get_coordonnee</span></span>(<span>self) ‑> tuple[float, float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne les coordonnées du Point en tuple.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_coordonnee(self) -&gt; tuple[float, float]:
+    &#34;&#34;&#34;Retourne les coordonnées du Point en tuple.&#34;&#34;&#34;
+    return (self.real, self.imag)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.norme"><code class="name flex">
+<span>def <span class="ident">norme</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calcule la norme du vecteur avec l'origine.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def norme(self) -&gt; float:
+    &#34;&#34;&#34;Calcule la norme du vecteur avec l&#39;origine.&#34;&#34;&#34;
+    return abs(self)</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.rotate"><code class="name flex">
+<span>def <span class="ident">rotate</span></span>(<span>self, angle: float) ‑> Self</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un vecteur avec une rotation appliquée.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rotate(self, angle: float) -&gt; Self:
+    &#34;&#34;&#34;Retourne un vecteur avec une rotation appliquée.&#34;&#34;&#34;
+    return self * complex(math.cos(angle), math.sin(angle))</code></pre>
+</details>
+</dd>
+<dt id="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.unitaire"><code class="name flex">
+<span>def <span class="ident">unitaire</span></span>(<span>self) ‑> Self</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retourne un vecteur unitaire dans la direction du vecteur.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unitaire(self) -&gt; Self:
+    &#34;&#34;&#34;Retourne un vecteur unitaire dans la direction du vecteur.&#34;&#34;&#34;
+    return self / self.norme()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="RedSquareGame.c31Geometry" href="index.html">RedSquareGame.c31Geometry</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Carre" href="#RedSquareGame.c31Geometry.c31Geometry2.Carre">Carre</a></code></h4>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Cercle" href="#RedSquareGame.c31Geometry.c31Geometry2.Cercle">Cercle</a></code></h4>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Croix" href="#RedSquareGame.c31Geometry.c31Geometry2.Croix">Croix</a></code></h4>
+<ul class="">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Croix.draw" href="#RedSquareGame.c31Geometry.c31Geometry2.Croix.draw">draw</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Dash" href="#RedSquareGame.c31Geometry.c31Geometry2.Dash">Dash</a></code></h4>
+<ul class="">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Dash.empty" href="#RedSquareGame.c31Geometry.c31Geometry2.Dash.empty">empty</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Dash.get_tkinter" href="#RedSquareGame.c31Geometry.c31Geometry2.Dash.get_tkinter">get_tkinter</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Inherited" href="#RedSquareGame.c31Geometry.c31Geometry2.Inherited">Inherited</a></code></h4>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ligne" href="#RedSquareGame.c31Geometry.c31Geometry2.Ligne">Ligne</a></code></h4>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.LoopEvent" href="#RedSquareGame.c31Geometry.c31Geometry2.LoopEvent">LoopEvent</a></code></h4>
+<ul class="">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.LoopEvent.start" href="#RedSquareGame.c31Geometry.c31Geometry2.LoopEvent.start">start</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.LoopEvent.startImmediately" href="#RedSquareGame.c31Geometry.c31Geometry2.LoopEvent.startImmediately">startImmediately</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale" href="#RedSquareGame.c31Geometry.c31Geometry2.Ovale">Ovale</a></code></h4>
+<ul class="">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Ovale.draw" href="#RedSquareGame.c31Geometry.c31Geometry2.Ovale.draw">draw</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Point" href="#RedSquareGame.c31Geometry.c31Geometry2.Point">Point</a></code></h4>
+<ul class="">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Point.distance" href="#RedSquareGame.c31Geometry.c31Geometry2.Point.distance">distance</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Point.get_coordonnee" href="#RedSquareGame.c31Geometry.c31Geometry2.Point.get_coordonnee">get_coordonnee</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone">Polygone</a></code></h4>
+<ul class="two-column">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.draw" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.draw">draw</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_barycentre">get_barycentre</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_coordonnees">get_coordonnees</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_origine">get_origine</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.get_position">get_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.resize">resize</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.rotate_mat">rotate_mat</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_bordure">set_bordure</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_epaisseur">set_epaisseur</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_position">set_position</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.set_remplissage">set_remplissage</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translate">translate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo" href="#RedSquareGame.c31Geometry.c31Geometry2.Polygone.translateTo">translateTo</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rectangle" href="#RedSquareGame.c31Geometry.c31Geometry2.Rectangle">Rectangle</a></code></h4>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rotation" href="#RedSquareGame.c31Geometry.c31Geometry2.Rotation">Rotation</a></code></h4>
+<ul class="">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rotation.get_angle" href="#RedSquareGame.c31Geometry.c31Geometry2.Rotation.get_angle">get_angle</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rotation.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Rotation.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Rotation.set_angle" href="#RedSquareGame.c31Geometry.c31Geometry2.Rotation.set_angle">set_angle</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur">Vecteur</a></code></h4>
+<ul class="two-column">
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.bas" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.bas">bas</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.conjugate" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.conjugate">conjugate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.droite" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.droite">droite</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.gauche" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.gauche">gauche</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.get_coordonnee" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.get_coordonnee">get_coordonnee</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.haut" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.haut">haut</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.norme" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.norme">norme</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.rotate" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.rotate">rotate</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.unitaire" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.unitaire">unitaire</a></code></li>
+<li><code><a title="RedSquareGame.c31Geometry.c31Geometry2.Vecteur.zero" href="#RedSquareGame.c31Geometry.c31Geometry2.Vecteur.zero">zero</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

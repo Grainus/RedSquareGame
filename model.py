@@ -17,8 +17,17 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
-"""TODO: DOCSTRING"""
+"""#Module contenant les classes de gestion des sprites.
 
+Classes:
+    - RectSprite: Classe de base des sprites rectangulaires.
+    - Player: Classe du joueur.
+    - Enemy: Classe des ennemis.
+    - Score: Classe du score.
+
+Fonction:
+    - collider: Vérifie une collision entre deux objets.
+"""
 # Documentation
 from __future__ import annotations
 from typing import Callable
@@ -36,14 +45,27 @@ __docformat__ = "google"
 
 
 class Difficulty(Enum):
-    """Enumération des difficultés de jeu"""
+    """#Enumération des difficultés de jeu"""
     EASY = 1
     MEDIUM = 2  # -> Default for production
     HARD = 3
 
 
 class RectSprite:
-    """Classe de base pour les entités rectangulaires dans le canvas."""
+    """#Classe de base pour les entités rectangulaires dans le canvas.
+
+    Attributs:
+        - canvas: Canvas où est dessiné l'objet.
+        - pos_middle: Position du centre de l'objet.
+        - height: Hauteur.
+        - width: Largeur.
+        - p1: Coin supérieur gauche ↖ du rectangle.
+        - p2: Coin inférieur droit ↘ du rectangle.
+        - sprite: Rectangle de l'entité.
+
+    Notes:
+        - Les attributs `p1` et `p2` sont des points, et non des vecteurs.
+        """
 
     def __init__(
             self, canvas: tk.Canvas,
@@ -52,14 +74,7 @@ class RectSprite:
             height: float,
             color: str,
     ):
-        """
-        Args:
-            canvas: Canvas où est dessiné l'objet.
-            pos: Position du centre de l'objet.
-            width: Largeur.
-            height: Hauteur.
-            color: Couleur de remplissage.
-        """
+        """"""
         self.canvas = canvas
         self.pos_middle = pos
         self.height = height
@@ -75,12 +90,12 @@ class RectSprite:
         self.sprite = canvas.create_rectangle(*self.p1, *self.p2, fill=color)
 
     def update_pos(self) -> None:
-        """Met à jour les attributs de position de l'objet.
+        """##Met à jour les attributs de position de l'objet.
 
-        Note:
-            Ne déplace pas le rectangle sur le canvas. Seules les
-            variables `self.p1`, `self.p2`, et `self.pos_middle` sont
-            modifiées.
+        Notes:
+            - Cette méthode est appelée à chaque fois que l'objet est déplacé.
+            - Les attributs `p1` et `p2` sont des points, et non des vecteurs.
+            - Ne deplace pas l'objet sur le canvas, que les points.
         """
         coords = self.canvas.coords(self.sprite)
         self.p1, self.p2 = geo.Point(*coords[:2]), geo.Point(*coords[2:])
@@ -89,6 +104,21 @@ class RectSprite:
 
 
 class Enemy(RectSprite):
+    """#Classe pour les ennemis.
+
+    Attributs:
+        - canvas: Canvas où est dessiné l'objet.
+        - pos : Position du  de l'objet.
+        - width: Largeur.
+        - height: Hauteur.
+        - speed: Vecteur de vitesse.
+        - color: Couleur.
+        - player: Référence vers le joueur.
+
+    Note:
+        - Les attributs `p1` et `p2` sont des points, et non des vecteurs.
+        """
+
     def __init__(
             self, canvas: tk.Canvas,
             pos: geo.Point,
@@ -99,16 +129,7 @@ class Enemy(RectSprite):
             color: str | None = None,
             player: Player,
     ):
-        """Initialise un ennemi.
-
-        Args:
-            canvas: Canvas où est dessiné l'objet.
-            pos: Position du centre de l'objet.
-            width: Largeur.
-            height: Hauteur.
-            speed: Déplacement effectué par l'ennemi à chaque tick.
-            color: Couleur de remplissage.
-        """
+        """"""
         colordefault = Config.get_instance()["Enemy"]["Color"]["Fill"]
         _color = color if color is not None else colordefault
 
@@ -117,7 +138,11 @@ class Enemy(RectSprite):
         self.player = player
 
     def start_move(self) -> None:
-        """La logique du déplacement des ennemis."""
+        """##La logique du déplacement des ennemis.
+
+        Note:
+            - Collider sert à détecter les collisions avec le joueur.
+            """
         # Bouge le rectangle dans la direction indiquée.
         self.canvas.move(self.sprite, *self.speed)
         self.update_pos()
@@ -137,7 +162,18 @@ class Enemy(RectSprite):
 
 
 class Player(RectSprite):
+    """#Classe pour le joueur.
 
+    Attributs:
+        - canvas: Canvas où est dessiné l'objet.
+        - bounds: Limites du canvas.
+        - width: Largeur.
+        - height: Hauteur.
+        - color: Couleur.
+        - timer_widget: Widget du timer.
+        - endgame : Fonction à appeler à la fin de la partie.
+        - score: Score du joueur.
+        """
     def __init__(
             self, canvas: tk.Canvas,
             border: float | None = None,
@@ -148,16 +184,7 @@ class Player(RectSprite):
             timer_widget : tk.Label,
             endgame: Callable
         ):
-        """Initialise le modèle du joueur.
-
-        Args:
-            canvas: Canvas où est dessiné l'objet.
-            width: Largeur.
-            height: Hauteur.
-            color: Couleur de remplissage.
-            timer_widget: Label où est affiché le score
-            endgame: Fonction à appeler quand le joueur meurt
-        """
+        """"""
         config = Config.get_instance()
         def if_given(value, default):
             return value if value is not None else default
@@ -189,7 +216,14 @@ class Player(RectSprite):
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
 
     def wall_collision(self, bordersize: float = None) -> bool:
-        """Détecte une collision avec les murs."""
+        """##Détecte une collision avec les murs.
+
+        Args:
+            - bordersize: Taille de la bordure.
+
+        Returns:
+            - True si il y a collision, False sinon.
+            """
         if bordersize is None:
             bordersize = self.border
 
@@ -204,7 +238,11 @@ class Player(RectSprite):
                 or not bordersize < self.p1.x < self.p2.x < cwidth)
 
     def _move(self, event: tk.Event) -> None:
-        """Permet au joueur de se déplacer"""
+        """##Permet au joueur de se déplacer
+
+        Args:
+            - event: Événement de déplacement.
+        """
         #  Arrête le déplacement si le joueur touche un mur.
         if not self.wall_collision():
             self.canvas.moveto(
@@ -217,10 +255,17 @@ class Player(RectSprite):
 
 
 def collider(object1: RectSprite | Player, object2: RectSprite) -> bool:
-    """Vérifie une collision entre deux objets.
-    
-    Si un des objets est le joueur, il doit être le premier argument
-    
+    """##Vérifie une collision entre deux objets.
+
+    Args:
+        - object1: Premier objet.
+        - object2: Deuxième objet.
+
+    Note:
+        - Si un des objets est le joueur, il doit être le premier argument.
+
+    Returns:
+        - True si il y a collision, False sinon.
     """
     overlaps = object1.canvas.find_overlapping(*object1.p1, *object1.p2)
     ret =  object2.sprite in overlaps
@@ -230,14 +275,24 @@ def collider(object1: RectSprite | Player, object2: RectSprite) -> bool:
 
 
 class Score:
-    """Contrôle l'état du score"""
+    """#Contrôle l'état du score
+
+    Attributs:
+        - canvas: Canvas où est dessiné l'objet.
+        - label: Label du score.
+        - value: Valeur du score.
+        - started: Booléen indiquant si le timer est lancé.
+        - loop: Boucle du timer.
+        """
     def __init__(self, canvas: tk.Canvas, label: tk.Label):
+        """"""
         self.value = 0
         self.started = False
         self.canvas = canvas
         self.label = label
 
     def start(self):
+        """##Démarre le timer."""
         if not self.started:
             def update(self: Score):
                 self.value += 1
@@ -252,6 +307,16 @@ class Score:
     
     @staticmethod
     def to_readable(value: int) -> str:
+        """##Convertit un nombre de secondes en une chaîne de caractères lisible.
+
+        Args:
+            - value: Nombre de secondes.
+
+        Returns:
+            - Chaîne de caractères lisible.
+        """
+        minutes, seconds = divmod(value, 60)
+        return f"{minutes:02d}:{seconds:02d}"
         return f'{int(value / 60):02}:{int(value % 60):02}'
 
     def __str__(self) -> str:
