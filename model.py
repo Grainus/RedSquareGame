@@ -17,7 +17,7 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
-"""Module contenant les classes de gestion des sprites.
+"""#Module contenant les classes de gestion des sprites.
 
 Classes:
     - RectSprite: Classe de base des sprites rectangulaires.
@@ -278,11 +278,11 @@ class Score:
     """#Contrôle l'état du score
 
     Attributs:
-        canvas: Canvas où est dessiné l'objet.
-        label: Label du score.
-        value: Valeur du score.
-        started : Booléen indiquant si le timer est lancé.
-        loop : Boucle du timer.
+        - canvas: Canvas où est dessiné l'objet.
+        - label: Label du score.
+        - value: Valeur du score.
+        - started: Booléen indiquant si le timer est lancé.
+        - loop: Boucle du timer.
         """
     def __init__(self, canvas: tk.Canvas, label: tk.Label):
         """"""

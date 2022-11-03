@@ -18,16 +18,17 @@
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 """#Module de la vue
+Ce module contient les classes et fonctions nécessaires à la création de la vue
 
-##Ce module contient les classes et fonctions nécessaires à la création de la vue
-Telque:
+Classe:
     - View : Classe abstraite de la vue
     - MenuView : Classe de la vue du menu
     - GameView : Classe de la vue du jeu
     - HighscoreView : Classe de la vue des highscores
 
-##Et des fonctions de vue
-Telque:
+Et des fonctions de vue
+
+Fonctions:
     - create_timer_widget : Fonction de création du widget du timer
 
 Notes:
@@ -93,12 +94,10 @@ class MenuView(View):
         - on_quit (Callable): Fonction à appeler lors du clic sur le bouton Quitter
         - on_options (Callable): Fonction à appeler lors du clic sur le bouton Options
         - on_highscores (Callable): Fonction à appeler lors du clic sur le bouton Highscores
-
         - btn_width (int): Largeur des boutons
         - btn_height (int): Hauteur des boutons
         - logo_width (int): Largeur du logo
         - logo_height (int): Hauteur du logo
-
         - title_logo (tk.Label): Label du logo
         - label_title (tk.Label): Label du titre
         - btn_new_game (tk.Button): Bouton Nouvelle partie
@@ -228,7 +227,7 @@ class GameView(View):
 
 
 class HighscoreView(View):
-    """" #Classe de la vue des highscores
+    """#Classe de la vue des highscores
 
     Cette classe est une classe fille de la classe View. Elle contient les méthodes
     et attributs spécifiques à la vue des highscores.

@@ -67,8 +67,7 @@ class Controller(ABC):
         self.frame = frame
 
     def on_quit(self) -> None:
-        """##Fonction appelée lors de l'appui sur le bouton Quitter
-        afin de quitter le jeu
+        """##Fonction appelée lors de l'appui sur le bouton Quitter afin de quitter le jeu
         """
         self.root.destroy()
 
@@ -110,14 +109,12 @@ class MenuController(Controller):
         self.view.draw()
 
     def on_options(self) -> None:
-        """##Fonction appelée lors de l'appui sur le bouton Options
-        afin d'afficher la vue des options
+        """##Fonction appelée lors de l'appui sur le bouton Options afin d'afficher la vue des options
         """
         pass
 
     def on_highscores(self) -> None:
-        """##Fonction appelée lors de l'appui sur le bouton Highscores
-        afin d'afficher le tableau des highscores
+        """##Fonction appelée lors de l'appui sur le bouton Highscores afin d'afficher le tableau des highscores
         """
         self.frame.destroy()
         frame = tk.Frame(self.root)
@@ -125,8 +122,7 @@ class MenuController(Controller):
         highscore_controller.start()
 
     def new_game(self) -> None:
-        """##Fonction appelée lors de l'appui sur le bouton Nouvelle Partie
-        afin de démarrer une nouvelle partie
+        """##Fonction appelée lors de l'appui sur le bouton Nouvelle Partie afin de démarrer une nouvelle partie
         """
         self.frame.destroy()
         frame = tk.Frame(self.root)
@@ -137,9 +133,8 @@ class MenuController(Controller):
 class GameController(Controller):
     """#Controlleur du jeu
 
-    Cette classe gère le jeu. Elle est une sous-classe de Controller.
-    Sa responsabilité est de gérer les événements du jeu ainsi que les
-    interactions entre les différents objets du jeu.
+    Cette classe gère le jeu. Elle est une sous-classe de Controller. Sa responsabilité est de gérer les événements du
+    jeu ainsi que les interactions entre les différents objets du jeu.
 
     Attributs:
         - view (GameView): La vue du jeu
@@ -159,7 +154,7 @@ class GameController(Controller):
         Cette fonction initialise les objets du jeu et les affiche
         Elle est appelée lors de l'appui sur le bouton Nouvelle Partie
 
-        Elle initialise les objets suivants:
+        Initalise:
             - Le joueur
             - Les ennemis
             - Le timer
@@ -226,8 +221,7 @@ class GameController(Controller):
         
 
     def on_game_end(self) -> None:
-        """##Fonction appelée lorsque la partie est terminée afin d'afficher
-        le menu de score et de sauvegarder le score """
+        """##Fonction appelée lorsque la partie est terminée afin d'afficher le menu de score et de sauvegarder le score """
         self.frame.destroy()
         print("You died")
         print(f"Your score: {self.player.score.value}")
