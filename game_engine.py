@@ -17,7 +17,7 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
-"""Module principal du jeu du carré rouge.
+"""#Module principal du jeu du carré rouge.
 
 Ce module contient la classe Root qui est la fenêtre principale du jeu.
 Elle est aussi responsable de lancer le controlleur de menu et de lancer
@@ -36,7 +36,7 @@ __docformat__ = "google"
 
 
 class Root(tk.Tk):
-    """Creation de la classe root
+    """#Creation de la classe root
 
     Attributs:
         menu (MenuController): Controlleur du menu
