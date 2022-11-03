@@ -43,9 +43,10 @@ __docformat__ = "google"
 
 
 class Controller(ABC):
-    def __init__(self, root: Root):
+    def __init__(self, root: Root, frame: tk.Frame):
         """Initialisation du controlleur"""
         self.root = root
+        self.frame = frame
 
     def on_quit(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Quitter
@@ -55,14 +56,22 @@ class Controller(ABC):
 
 
 class MenuController(Controller):
-    def __init__(self, root: Root, game_controller: GameController):
+    def __init__(self, root: Root):
         """Initialisation du controlleur du menu"""
-        super().__init__(root)
+        config = Config.get_instance()
+        frame = tk.Frame(
+                root,
+                width=config["Game"]["Size"]["Width"],
+                height=config["Game"]["Size"]["Height"],
+        )
+        
+        super().__init__(root, frame)
+        self.frame.place(x=0, y=0)
         self.view = MenuView(
-                root, self.new_game, self.on_quit,
+                root, self.frame,
+                self.new_game, self.on_quit,
                 self.on_options, self.on_highscores
         )
-        self.game_controller = game_controller
 
     def start(self) -> None:
         """Fonction appelée pour démarrer le menu"""
@@ -75,23 +84,26 @@ class MenuController(Controller):
         """Fonction appelée lors de l'appui sur le bouton Highscores
         afin d'afficher le tableau des highscores
         """
-        self.root.menu_frame.destroy()
-        highscore_controller = HighscoreController(self.root)
+        self.frame.destroy()
+        frame = tk.Frame(self.root)
+        highscore_controller = HighscoreController(self.root, frame)
         highscore_controller.start()
 
     def new_game(self) -> None:
         """Fonction appelée lors de l'appui sur le bouton Nouvelle Partie
         afin de démarrer une nouvelle partie
         """
-        self.root.menu_frame.destroy()
-        self.game_controller.initialize()
+        self.frame.destroy()
+        frame = tk.Frame(self.root)
+        game_controller = GameController(self.root, frame)
+        game_controller.initialize()
 
 
 class GameController(Controller):
-    def __init__(self, root: Root):
+    def __init__(self, root: Root, frame: tk.Frame):
         """Initialisation du controlleur du jeu"""
-        super().__init__(root)
-        self.view = GameView(root)
+        super().__init__(root, frame)
+        self.view = GameView(root, frame)
 
     def initialize(self) -> None:
         """Fonction appelée pour démarrer une nouvelle partie"""
@@ -99,10 +111,10 @@ class GameController(Controller):
 
         width = self.root.winfo_screenwidth()
         height = self.root.winfo_screenheight()
-        self.root.game_frame.place(anchor=tk.CENTER)
+        self.frame.place(anchor=tk.CENTER)
         self.view.draw()
         canvas = tk.Canvas(
-            self.root.game_frame,
+            self.frame,
             width=width,
             height=height,
             background=config["Game"]["Color"]["Fill"],
@@ -110,7 +122,7 @@ class GameController(Controller):
         timer_widget = create_timer_widget(canvas)
 
         canvas.pack()
-        self.root.game_frame.update()
+        self.frame.update()
         
         # Crée le joueur
         self.player = Player(
@@ -151,17 +163,17 @@ class GameController(Controller):
         
 
     def on_game_end(self) -> None:
-        self.root.game_frame.destroy()
+        self.frame.destroy()
         print("You died")
         print(f"Your score: {self.player.score.value}")
         #self.root.score_controller.start()
 
 
 class HighscoreController(Controller):
-    def __init__(self, root: Root):
+    def __init__(self, root: Root, frame: tk.Frame):
         """Initialisation du controlleur du tableau des highscores"""
-        super().__init__(root)
-        self.view = HighscoreView(root, self.on_quit)
+        super().__init__(root, frame)
+        self.view = HighscoreView(root, frame, self.on_quit)
 
     def start(self) -> None:
         """Fonction appelée pour démarrer le tableau des highscores"""

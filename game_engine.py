@@ -35,20 +35,8 @@ class Root(tk.Tk):
         """Initialisation du root"""
         super().__init__()
         self.title("Jeu du carré rouge")
-        config = Config.get_instance()
 
-        self.menu_frame = tk.Frame(
-                self,
-                width=config["Game"]["Size"]["Width"],
-                height=config["Game"]["Size"]["Height"],
-        )
-        self.menu_frame.place(x=0, y=0)
-
-        self.game_frame = tk.Frame(self)
-        self.highscore_frame = tk.Frame(self)
-
-        self.game_controller = GameController(self)
-        self.menu = MenuController(self, self.game_controller)
+        self.menu = MenuController(self)
 
 
 if __name__ == "__main__":
