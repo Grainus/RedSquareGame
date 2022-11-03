@@ -31,7 +31,7 @@ import tkinter as tk
 from view import MenuView, GameView, HighscoreView, OptionsView, GameOverView
 import c31Geometry.c31Geometry2 as geo
 from config import Config
-from model import Player, Enemy, Difficulty
+from model import Player, Enemy
 from view import create_timer_widget
 
 if TYPE_CHECKING:
@@ -40,6 +40,7 @@ if TYPE_CHECKING:
 __docformat__ = "google"
 
 from view import create_timer_widget
+
 
 class Controller(ABC):
     def __init__(self, root: Root, frame: tk.Frame):
@@ -52,7 +53,6 @@ class Controller(ABC):
         afin de quitter le jeu
         """
         self.root.destroy()
-
 
 
 class MenuController(Controller):
@@ -78,8 +78,9 @@ class MenuController(Controller):
 
     def on_options(self) -> None:
         """Fonction appelée pour démarrer le menu d'options"""
-        self.root.menu_frame.pack_forget()
-        options_controller = OptionsController(self.root)
+        self.frame.pack_forget()
+        frame = tk.Frame(self.root)
+        options_controller = OptionsController(self.root, frame)
         options_controller.start()
 
     def on_highscores(self) -> None:
@@ -169,6 +170,8 @@ class GameController(Controller):
         self.frame.destroy()
         print("You died")
         print(f"Your score: {self.player.score.value}")
+        game_over = OptionsController(self.root, self.frame)
+        game_over.start()
         #self.root.score_controller.start()
 
 
@@ -186,31 +189,35 @@ class HighscoreController(Controller):
         self.view.draw()
 
     def on_menu(self) -> None:
-        self.root.highscore_frame.pack_forget()
-        self.root.menu_frame.pack()
+        self.frame.destroy()
+
 
 class OptionsController(Controller):
-    def __init__(self, root: Root):
+    def __init__(self, root: Root, frame: tk.Frame):
         """Initialisation du controlleur des options"""
-        super().__init__(root)
-        self.view = OptionsView(root, self.on_quit,self.on_menu)
+        super().__init__(root, frame)
+        self.view = OptionsView(root, frame, self.on_quit, self.on_menu)
 
     def start(self) -> None:
         self.view.draw()
 
     def on_menu(self) -> None:
-        self.root.options_frame.pack_forget()
-        self.root.menu_frame.pack()
+        self.frame.pack_forget()
+
 
 class GameOverController(Controller):
-    def __init__(self, root: Root):
+    def __init__(self, root: Root, frame: tk.Frame):
         """Initialisation du controlleur du menu game over"""
-        super().__init__(root)
-        self.view = GameOverView(root, self.on_quit,self.on_menu)
+        super().__init__(root, frame)
+        self.view = GameOverView(
+            root, self.frame,
+            self.on_quit,
+            self.on_menu
+        )
 
     def start(self) -> None:
         self.view.draw()
 
     def on_menu(self) -> None:
-        self.root.options_frame.pack_forget()
-        self.root.menu_frame.pack()
+        self.frame.pack_forget()
+        self.frame.pack()

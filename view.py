@@ -179,7 +179,7 @@ class HighscoreView(View):
         )
         self.highscore_canvas.pack()
         self.highscore_canvas.create_text(
-            225, 20,
+            225, 35,
             text="Highscores",
             font=("Arial", 50)
         )
@@ -215,20 +215,17 @@ class HighscoreView(View):
         )
 
         # Initialization des boutons
-        self.btn_menu = tk.Button(
-            self.highscore_canvas,
-            image=self.menu_photo,
-            width=self.btn_width, height=self.btn_height,
-            borderwidth=0,
-            command=self.on_menu
-        )
-        self.btn_quit = tk.Button(
-            self.highscore_canvas,
-            image=self.quit_photo,
-            width=self.btn_width, height=self.btn_height,
-            borderwidth=0,
-            command=self.on_quit
-        )
+        def create_btn(image: PhotoImage, cmd: Callable) -> tk.Button:
+            return  tk.Button(
+                    self.highscore_canvas,
+                    image=image,
+                    width=self.btn_width, height=self.btn_height,
+                    borderwidth=0,
+                    command=cmd
+            )
+    
+        self.btn_menu = create_btn(self.menu_photo, self.on_menu)
+        self.btn_quit = create_btn(self.quit_photo, self.on_quit)
         
         # Positionnement des widgets
         self.btn_menu.place(
@@ -245,12 +242,16 @@ class HighscoreView(View):
         self.frame.pack()
 
 class OptionsView(View):
-    def __init__(self, root: Root, on_quit: Callable,on_menu:Callable):
+    def __init__(
+                self, root: Root, frame: tk.Frame,
+                on_quit: Callable,
+                on_menu:Callable
+        ):
         """ Initialisation de la vue des options """
-        super().__init__(root)
+        super().__init__(root, frame)
         self.on_quit = on_quit
         self.on_menu = on_menu
-        self.options_canvas = tk.Canvas(self.root.options_frame, width=450, height=450)
+        self.options_canvas = tk.Canvas(self.frame, width=450, height=450)
         self.options_canvas.pack()
         self.options_canvas.create_text(225, 35, text="Options", font=("Arial", 50))
 
@@ -283,78 +284,56 @@ class OptionsView(View):
         )
 
         # Initialization des boutons
-        self.btn_menu = tk.Button(
-            self.options_canvas,
-            image=self.menu_photo,
-            width=self.btn_width, height=self.btn_height,
-            borderwidth=0,
-            command=self.on_menu
-        )
-        self.btn_quit = tk.Button(
-            self.options_canvas,
-            image=self.quit_photo,
-            width=self.btn_width, height=self.btn_height,
-            borderwidth=0,
-            command=self.on_quit
-        )
-        self.btn_easy = tk.Button(
-            self.options_canvas,
-            image=self.easy_photo,
-            width=self.diff_width, height=self.diff_height,
-            borderwidth=0,
-            command=self.easy
-        )
-        self.btn_medium = tk.Button(
-            self.options_canvas,
-            image=self.medium_photo,
-            width=self.diff_width, height=self.diff_height,
-            borderwidth=0,
-            command=self.medium
-        )
-        self.btn_hard = tk.Button(
-            self.options_canvas,
-            image=self.hard_photo,
-            width=self.diff_width, height=self.diff_height,
-            borderwidth=0,
-            command=self.hard
-        )
+        def create_btn(image: PhotoImage, cmd: Callable) -> tk.Button:
+            return tk.Button(
+                    self.options_canvas,
+                    image=image,
+                    width=self.btn_width, height=self.btn_height,
+                    borderwidth=0,
+                    command=cmd
+            )
+            
+        def diff_btn(image: PhotoImage, diff: Difficulty) -> tk.Button:
+            def change_diff():
+                config = Config.get_instance()
+                config["Game"]["Difficulty"]["Level"] = str(diff)
+                config.save()
+            
+            return tk.Button(
+                    self.options_canvas,
+                    image=image,
+                    width=self.diff_width, height=self.diff_height,
+                    borderwidth=0,
+                    command=change_diff
+            )
+        
+        self.btn_menu = create_btn(self.menu_photo, self.on_menu)
+        self.btn_quit = create_btn(self.quit_photo, self.on_quit)
+        self.btn_easy = diff_btn(self.easy_photo, Difficulty.EASY)
+        self.btn_medium = diff_btn(self.medium_photo, Difficulty.MEDIUM)
+        self.btn_hard = diff_btn(self.hard_photo, Difficulty.HARD)
         
         # Positionnement des widgets
         self.btn_menu.place(
             x=(450 - (self.btn_width*2)) / 2,
-            y=450-self.btn_height
+            y=450 - self.btn_height
         )
         self.btn_quit.place(
             x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450-self.btn_height
+            y=450 - self.btn_height
         )
-        self.btn_easy.place(x=(450 - self.diff_width) / 2,y=450/2-(self.diff_height*2))
-        self.btn_medium.place(x=(450 - self.diff_width) / 2,y=450/2-self.diff_height)
+        self.btn_easy.place(
+            x=(450 - self.diff_width) / 2,
+            y=450/2 - (self.diff_height*2)
+        )
+        self.btn_medium.place(
+            x=(450 - self.diff_width) / 2,
+            y=450/2 - self.diff_height
+        )
         self.btn_hard.place(x=(450 - self.diff_width) / 2,y=450/2)
 
     def draw(self):
-        self.root.options_frame.pack()
-
-    def easy(self) -> None:
-        """Fonction appellé quand l'utilisateur change la difficulté à facile"""
-        config = Config.get_instance()
-        config["Game"]["Difficulty"]["Level"] = str(Difficulty.EASY)
-        config.save()
-
-    def medium(self) -> None:
-        """Fonction appellé quand l'utilisateur change la difficulté à medium"""
-        config = Config.get_instance()
-        config["Game"]["Difficulty"]["Level"] = str(Difficulty.MEDIUM)
-        config.save()
-
-
-    def hard(self) -> None:
-        """Fonction appellé quand l'utilisateur change la difficulté à difficile"""
-        config = Config.get_instance()
-        config["Game"]["Difficulty"]["Level"] = str(Difficulty.HARD)
-        config.save()
-
-
+        self.frame.pack()
 
 
 def create_timer_widget(canvas: tk.Canvas) -> tk.Label:
@@ -368,17 +347,29 @@ def create_timer_widget(canvas: tk.Canvas) -> tk.Label:
     return label
 
 class GameOverView(View):
-    def __init__(self, root: Root, on_quit: Callable,on_menu:Callable,on_input:Callable):
-        super().__init__(root)
-        self.on_quit = on_quit
-        self.on_menu = on_menu
-        self.game_over_canvas = tk.Canvas(self.root.options_frame, width=450, height=450)
+    def __init__(
+                self, root: Root, frame: tk.Frame,
+                on_quit: Callable,
+                on_menu:Callable,
+                on_input:Callable
+        ):
+        super().__init__(root, frame)
+        size = Config.get_instance()["Game"]["Size"]
+        self.game_over_canvas = tk.Canvas(
+            self.frame,
+            width=size["Width"], height=size["Height"]
+        )
         self.game_over_canvas.pack()
-        self.game_over_canvas.create_text(225, 50, text="Game\nOver", font=("Arial", 50))
+        self.game_over_canvas.create_text(
+            225, 50,
+            text="Game\nOver",
+            font=("Arial", 50)
+        )
 
         # Dimensions des widgets
         self.btn_height = 100
         self.btn_width = 200
+        
         
         currentdir = os.path.dirname(__file__)
         graphics = os.path.join(currentdir, "Graphics")
@@ -393,6 +384,7 @@ class GameOverView(View):
         )
         
         # Initialization des boutons
+        
         self.btn_menu = tk.Button(
             self.game_over_canvas,
             image=self.menu_photo,
@@ -419,4 +411,4 @@ class GameOverView(View):
         )
     
     def draw(self):
-        self.root.game_over_frame.pack()
+        self.pack()
