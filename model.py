@@ -17,8 +17,17 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
-"""TODO: DOCSTRING"""
+"""Module contenant les classes de gestion des sprites.
 
+Classes:
+    - RectSprite: Classe de base des sprites rectangulaires.
+    - Player: Classe du joueur.
+    - Enemy: Classe des ennemis.
+    - Score: Classe du score.
+
+Fonction:
+    - collider: Vérifie une collision entre deux objets.
+"""
 # Documentation
 from __future__ import annotations
 from typing import Callable
@@ -211,6 +220,9 @@ class Player(RectSprite):
 
         Args:
             - bordersize: Taille de la bordure.
+
+        Returns:
+            - True si il y a collision, False sinon.
             """
         if bordersize is None:
             bordersize = self.border
@@ -251,6 +263,9 @@ def collider(object1: RectSprite | Player, object2: RectSprite) -> bool:
 
     Note:
         - Si un des objets est le joueur, il doit être le premier argument.
+
+    Returns:
+        - True si il y a collision, False sinon.
     """
     overlaps = object1.canvas.find_overlapping(*object1.p1, *object1.p2)
     ret =  object2.sprite in overlaps
@@ -296,11 +311,13 @@ class Score:
 
         Args:
             - value: Nombre de secondes.
+
+        Returns:
+            - Chaîne de caractères lisible.
         """
         minutes, seconds = divmod(value, 60)
         return f"{minutes:02d}:{seconds:02d}"
         return f'{int(value / 60):02}:{int(value % 60):02}'
 
     def __str__(self) -> str:
-        """"##Renvoie une chaîne de caractères lisible."""
         return Score.to_readable(self.value)
