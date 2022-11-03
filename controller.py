@@ -72,7 +72,6 @@ class MenuController(Controller):
                 self.new_game, self.on_quit,
                 self.on_options, self.on_highscores
         )
-
     def start(self) -> None:
         """Fonction appelée pour démarrer le menu"""
         self.view.draw()
