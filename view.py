@@ -239,15 +239,14 @@ class HighscoreView(View):
         self.frame.pack()
 
 class OptionsView(View):
-    def __init__(self, root: Root, on_quit: Callable,on_menu:Callable,on_difficulty:Callable):
+    def __init__(self, root: Root, on_quit: Callable,on_menu:Callable):
         """ Initialisation de la vue des options """
         super().__init__(root)
         self.on_quit = on_quit
         self.on_menu = on_menu
-        self.on_difficulty = on_difficulty
         self.options_canvas = tk.Canvas(self.root.options_frame, width=450, height=450)
         self.options_canvas.pack()
-        self.options_canvas.create_text(225, 20, text="Options", font=("Arial", 50))
+        self.options_canvas.create_text(225, 35, text="Options", font=("Arial", 50))
 
         # Dimensions des widgets
         self.btn_height = 100
@@ -295,21 +294,21 @@ class OptionsView(View):
             image=self.easy_photo,
             width=self.diff_width, height=self.diff_height,
             borderwidth=0,
-            command=self.on_difficulty(Difficulty.EASY)
+            command=self.easy
         )
         self.btn_medium = tk.Button(
             self.options_canvas,
             image=self.medium_photo,
             width=self.diff_width, height=self.diff_height,
             borderwidth=0,
-            command=self.on_difficulty(Difficulty.MEDIUM)
+            command=self.medium
         )
         self.btn_hard = tk.Button(
             self.options_canvas,
             image=self.hard_photo,
             width=self.diff_width, height=self.diff_height,
             borderwidth=0,
-            command=self.on_difficulty(Difficulty.HARD)
+            command=self.hard
         )
         self.btn_menu.place(
             x=(450 - (self.btn_width*2)) / 2,
@@ -326,6 +325,23 @@ class OptionsView(View):
     def draw(self):
         self.root.options_frame.pack()
 
+    def easy(self) -> None:
+        """Fonction appellé quand l'utilisateur change la difficulté à facile"""
+        config = Config.get_instance()
+        config["Game"]["Difficulty"]["Level"] = str(Difficulty.EASY)
+        config.save()
+
+    def medium(self) -> None:
+        """Fonction appellé quand l'utilisateur change la difficulté à medium"""
+        config = Config.get_instance()
+        config["Game"]["Difficulty"]["Level"] = str(Difficulty.MEDIUM)
+        config.save()
+
+    def hard(self) -> None:
+        """Fonction appellé quand l'utilisateur change la difficulté à difficile"""
+        config = Config.get_instance()
+        config["Game"]["Difficulty"]["Level"] = str(Difficulty.HARD)
+        config.save()
 
 
 

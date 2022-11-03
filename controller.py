@@ -192,16 +192,11 @@ class OptionsController(Controller):
     def __init__(self, root: Root):
         """Initialisation du controlleur des options"""
         super().__init__(root)
-        self.view = OptionsView(root, self.on_quit,self.on_menu,self.on_difficulty)
+        self.view = OptionsView(root, self.on_quit,self.on_menu)
 
     def start(self) -> None:
         self.view.draw()
 
     def on_menu(self) -> None:
-        self.root.highscore_frame.pack_forget()
+        self.root.options_frame.pack_forget()
         self.root.menu_frame.pack()
-
-    def on_difficulty(self,difficulty:Difficulty) -> None:
-        """Fonction appellé quand l'utilisateur change la difficulté"""
-        config = Config.get_instance()
-        
