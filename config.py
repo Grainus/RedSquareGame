@@ -109,7 +109,7 @@ class Config(metaclass=Multiton):
             **kwargs: Arguments passés à `json.dump`.
         """
         defaults = Config.get_instance('defaults').config
-        diffs = deep_compare(defaults, self.config)
+        diffs = deep_compare(self.config, defaults)
         file = file if file is not None else self.filepath
         if not isinstance(file, str):
             json.dump(diffs, file, **kwargs)
