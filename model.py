@@ -19,6 +19,10 @@
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
 """TODO: DOCSTRING"""
 
+# Documentation
+from __future__ import annotations
+from typing import Callable
+
 # Modules standards
 from functools import partial
 from enum import Enum
@@ -93,6 +97,7 @@ class Enemy(RectSprite):
             speed: geo.Vecteur,
             *, # Prochains sont keyword-only
             color: str | None = None,
+            player: Player,
     ):
         """Initialise un ennemi.
 
@@ -109,10 +114,9 @@ class Enemy(RectSprite):
 
         super().__init__(canvas, pos, width, height, _color)
         self.speed = speed
+        self.player = player
 
-        self.animate_enemy_bounce()
-
-    def animate_enemy_bounce(self) -> None:
+    def start_move(self) -> None:
         """La logique du déplacement des ennemis."""
         # Bouge le rectangle dans la direction indiquée.
         self.canvas.move(self.sprite, *self.speed)
@@ -128,7 +132,8 @@ class Enemy(RectSprite):
         if not 0 < self.p1.x < self.p2.x < cwidth:
             self.speed = -self.speed.conjugate()
 
-        self.canvas.after(20, self.animate_enemy_bounce)
+        self.canvas.after(20, self.start_move)
+        collider(self.player, self)
 
 
 class Player(RectSprite):
@@ -140,17 +145,18 @@ class Player(RectSprite):
             height: float | None = None,
             color: str | None = None,
             *,  # Prochains sont keyword-only
-            enemy: Enemy,  # TESTING
-            timer_widget : tk.Label  # TESTING
-    ):
+            timer_widget : tk.Label,
+            endgame: Callable
+        ):
         """Initialise le modèle du joueur.
 
         Args:
             canvas: Canvas où est dessiné l'objet.
-            # pos: Position du centre de l'objet. <- TODO: à supprimer ?
             width: Largeur.
             height: Hauteur.
             color: Couleur de remplissage.
+            timer_widget: Label où est affiché le score
+            endgame: Fonction à appeler quand le joueur meurt
         """
         config = Config.get_instance()
         def if_given(value, default):
@@ -161,7 +167,7 @@ class Player(RectSprite):
         _height = if_given(height, config["Player"]["Size"]["Height"])
         _color = if_given(color, config["Player"]["Color"]["Fill"])
         
-        self.enemy = enemy  # TESTING
+        self.endgame = endgame
         cwidth, cheight = canvas.winfo_width(), canvas.winfo_height()
         pos = geo.Point(cwidth / 2, cheight / 2)
 
@@ -181,12 +187,6 @@ class Player(RectSprite):
 
         #  Lorsque le joueur clique sur le carre rouge fonction move().
         canvas.tag_bind(self.sprite, "<B1-Motion>", self._move)
-        canvas.tag_bind(self.sprite, "<Button-1>", self._start_timer)
-
-    def _start_timer(self, _):
-        self.canvas.tag_unbind(self.sprite, "<Button-1>")
-        self.score.start()
-
 
     def wall_collision(self, bordersize: float = None) -> bool:
         """Détecte une collision avec les murs."""
@@ -213,22 +213,25 @@ class Player(RectSprite):
                 event.y - self.height/2
             )
         else:
-            print("""Game Over.""")
-        collider(self, self.enemy)  # TESTING
+            self.endgame()
 
 
-def collider(object1: RectSprite, object2: RectSprite) -> bool:
-    """Vérifie une collision entre deux objets."""
+def collider(object1: RectSprite | Player, object2: RectSprite) -> bool:
+    """Vérifie une collision entre deux objets.
+    
+    Si un des objets est le joueur, il doit être le premier argument
+    
+    """
     overlaps = object1.canvas.find_overlapping(*object1.p1, *object1.p2)
-    if object2.sprite in overlaps:  # TESTING
-        print("collide")  # TESTING
-    return object2.sprite in overlaps
+    ret =  object2.sprite in overlaps
+    if ret and isinstance(object1, Player):
+        object1.endgame()
+    return ret
 
 
 class Score:
-    """Contrôle l'état du score 
-    """
-    def __init__(self, canvas, label):
+    """Contrôle l'état du score"""
+    def __init__(self, canvas: tk.Canvas, label: tk.Label):
         self.value = 0
         self.started = False
         self.canvas = canvas
@@ -236,7 +239,7 @@ class Score:
 
     def start(self):
         if not self.started:
-            def update(self):
+            def update(self: Score):
                 self.value += 1
                 self.label.config(text=self)
             self.loop = geo.LoopEvent(
