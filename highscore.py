@@ -18,7 +18,7 @@ class HighScore:
 
     @staticmethod
     def connect() -> sql.Connection:
-        try
+        try:
             return sql.connect(HighScore.database, uri=True)
         except sql.OperationalError:
             return HighScore.create_db()
@@ -35,7 +35,7 @@ class HighScore:
         raise NotImplementedError
       
     @staticmethod
-    def get_scores() -> list[tuple[tuple[str, int], Callable]:
+    def get_scores() -> list[tuple[tuple[str, int], Callable]]:
         """Retourne une liste de tuples contenant les scores
         (nom et temps) ainsi qu'une fonction qui supprime le score
         """
@@ -49,6 +49,7 @@ class HighScore:
                 ),
                 callback
             )
+            for _ in range(20)
         ]
 
     @staticmethod
