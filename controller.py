@@ -301,3 +301,11 @@ class HighscoreController(Controller):
     def start(self) -> None:
         """##Fonction appelée pour démarrer le tableau des highscores"""
         self.view.draw()
+
+        self.view.btn_menu.bind("<Button-1>", self.on_menu)
+
+    def on_menu(self, _) -> None:
+        """##Fonction appelée lorsque le joueur appuie sur le bouton Menu afin de revenir au menu"""
+        self.view.destroy()
+        self.root.controller = MenuController(self.root)
+        self.root.controller.start()

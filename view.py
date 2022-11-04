@@ -50,6 +50,7 @@ if TYPE_CHECKING:
 
 from model import Score
 from config import Config
+from highscore import HighScore
 
 __docformat__ = "google"
 
@@ -246,31 +247,44 @@ class HighscoreView(View):
             width=450, height=450
         )
         self.highscore_canvas.pack()
-        self.highscore_canvas.create_text(
-            225, 20,
+        self.highscore_canvas.label = tk.Label(
+            self.highscore_canvas,
             text="Highscores",
             font=("Arial", 20)
         )
+        self.highscore_canvas.label.place(anchor="center", relx=0.5, rely=0.1)
 
-        listeScore = []  # todo : get the highscores from the database
+        self.highscore_canvas.listBox = tk.Listbox(
+            self.highscore_canvas,
+            width=30, height=15
+        )
+        scrollbar = tk.Scrollbar(
+            self.highscore_canvas.listBox,
+            orient="vertical",
+            command=self.highscore_canvas.listBox.yview
+        )
 
-        i = listeScore.__len__()
+        self.highscore_canvas.listBox.config(yscrollcommand=scrollbar.set)
+        self.highscore_canvas.listBox.place(
+            anchor="center", relx=0.5, rely=0.45
+        )
 
-        if i > 15:
-            i = 15
-        for j in range(i):
-            self.highscore_canvas.create_text(
-                    225, 50 + (j*20),
-                    text=listeScore[j],
-                    font=("Arial", 10)
-            )
+        scrollbar.place(
+            anchor="center", relx=0.9, rely=0.5, relheight=1
+        )
+
+        listeScore = HighScore.get_scores()
+
+        for i in listeScore:
+            self.highscore_canvas.listBox.insert("end", i)
+
+        # Put a scrolling box for the score underneath the canvas's text
 
         self.btn_menu = tk.Button(
             self.highscore_canvas,
             text="Menu",
             width=20, height=2,
             borderwidth=0,
-            command=self.on_quit, # todo : change this to go back to the menu
             background = "blue"
         )
         self.btn_menu.place(x=150, y=350)
