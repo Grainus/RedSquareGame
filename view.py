@@ -241,6 +241,7 @@ class HighscoreView(View):
     def __init__(self, root: Root, frame: tk.Frame, on_quit: Callable):
         """"""
         super().__init__(root, frame)
+
         self.on_quit = on_quit
         self.highscore_canvas = tk.Canvas(
             self.frame,
@@ -256,7 +257,7 @@ class HighscoreView(View):
 
         self.highscore_canvas.listBox = tk.Listbox(
             self.highscore_canvas,
-            width=30, height=15
+            width=30, height=15, selectmode="single",
         )
         scrollbar = tk.Scrollbar(
             self.highscore_canvas.listBox,
@@ -273,10 +274,12 @@ class HighscoreView(View):
             anchor="center", relx=0.9, rely=0.5, relheight=1
         )
 
-        listeScore = HighScore.get_scores()
-
-        for i in listeScore:
-            self.highscore_canvas.listBox.insert("end", i)
+        self.callbacks: list[Callable[[], None]] = []
+        for score, callback in HighScore.get_scores():
+            self.highscore_canvas.listBox.insert(
+                    "end", f"{score[0]}: {score[1]}"
+            )
+            self.callbacks.append(callback)
 
         # Put a scrolling box for the score underneath the canvas's text
 
@@ -298,10 +301,33 @@ class HighscoreView(View):
             background="red"
         )
         self.btn_quit.place(x=150, y=400)
+        self.initialize()
 
     def draw(self):
         """##Fonction appelée pour dessiner les highscores"""
         self.frame.pack()
+
+    def initialize(self):
+        """##Fonction appelée pour initialiser les highscores"""
+        # Event listener for each element inside the listbox
+        self.highscore_canvas.listBox.bind(
+            "<<ListboxSelect>>", self.on_select
+        )
+
+    def on_select(self, event):
+        """##Fonction appelée lors de la sélection d'un élément dans la liste.
+
+        Elle doit pouvoir supprimer un element de la liste ainsi que de se supprimer
+        elle meme grace a sa fonction partielle. """
+        # Get the index of the selected item
+        if self.highscore_canvas.listBox.curselection():
+            index = self.highscore_canvas.listBox.curselection()[0]
+            # Get the value of the selected item
+            value = self.highscore_canvas.listBox.get(index)
+            # Delete the selected item from the listbox
+            self.highscore_canvas.listBox.delete(index)
+            # Delete the selected item from the file
+            self.callbacks[index]()
 
 class GameEndView(View):
     """#Classe de la vue de fin de jeu
