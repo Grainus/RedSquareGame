@@ -37,7 +37,7 @@ from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
-from view import MenuView, GameView, HighscoreView
+from view import MenuView, GameView, HighscoreView, GameEndView
 import c31Geometry.c31Geometry2 as geo
 from config import Config
 
@@ -218,14 +218,64 @@ class GameController(Controller):
         
         for enemy in self.enemies:
             enemy.start_move()
-        
 
     def on_game_end(self) -> None:
-        """##Fonction appelée lorsque la partie est terminée afin d'afficher le menu de score et de sauvegarder le score """
+        """##Fonction appelée lorsque la partie est terminée afin d'afficher le menu de score et de sauvegarder le
+        score """
         self.frame.destroy()
-        print("You died")
-        print(f"Your score: {self.player.score.value}")
-        #self.root.score_controller.start()
+        self.root.controller = GameEndController(self.root, self.player.score.value)
+
+
+class GameEndController(Controller):
+    """#Controlleur de fin de partie
+    
+    Cette classe gère la fin de partie. Elle est une sous-classe de Controller. Sa responsabilité est de gérer les événements
+    de fin de partie ainsi que les interactions entre les différents objets de fin de partie.
+    Tel:
+    - Afficher le menu de fin de partie
+    - Sauvegarder le score, si le joueur entre un nom et appuie sur entrer.
+        - Afficher le tableau des highscores
+    - Afficher le menu principal, si le boutton est pressé.
+    - Afficher le menu des options, si le boutton est pressé.
+
+    Attributs:
+        - view (GameEndView): La vue de fin de partie
+        - root (Root): La fenêtre principale du jeu
+        - frame (tk.Frame): Le frame dans lequel le controlleur est affiché
+        - score (int): Le score du joueur
+    """
+    def __init__(self, root: Root, score: int):
+        """"""
+        super().__init__(root, tk.Frame(root))
+        self.score = score
+        self.view = GameEndView(root, score)
+        self.root.title("Game Over")
+        self.view.draw()
+        self.initialize()
+
+    def initialize(self) -> None:
+        """##Fonction appelée pour initialiser le controlleur de fin de partie
+
+        Cette fonction initialise les événements du controlleur de fin de partie
+        """
+        self.view.nameEntry.bind("<Return>", self.on_submit)
+        self.view.nameEntry.focus_set()
+        self.view.btn_menu.bind("<Button-1>", self.on_menu)
+
+    def on_submit(self, _) -> None:
+        """##Fonction appelée lorsque le joueur appuie sur Entrée pour valider son nom"""
+        name = self.view.nameEntry.get()  # Prend le nom du joueur
+        if name:  # Si le nom n'est pas vide
+            self.view.destroy()
+            # Todo: Save score
+            self.root.HighscoreController = HighscoreController(self.root, self.frame)
+            self.root.HighscoreController.start()
+
+    def on_menu(self, _) -> None:
+        """##Fonction appelée lorsque le joueur appuie sur le bouton Menu afin de revenir au menu"""
+        self.view.destroy()
+        self.root.controller = MenuController(self.root)
+        self.root.controller.start()
 
 
 class HighscoreController(Controller):

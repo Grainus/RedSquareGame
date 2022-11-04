@@ -49,6 +49,7 @@ if TYPE_CHECKING:
     from game_engine import Root
 
 from model import Score
+from config import Config
 
 __docformat__ = "google"
 
@@ -286,6 +287,82 @@ class HighscoreView(View):
 
     def draw(self):
         """##Fonction appelée pour dessiner les highscores"""
+        self.frame.pack()
+
+class GameEndView(View):
+    """#Classe de la vue de fin de jeu
+
+    Cette classe est une classe fille de la classe View. Elle contient les méthodes
+    et attributs spécifiques à la vue de fin de jeu.
+
+    On y créera aussi les attributs spécifiques à la vue de fin de jeu
+    Bouton:
+        - btn_menu (tk.Button): Bouton pour revenir au menu
+        - btn_quit (tk.Button): Bouton pour quitter le jeu
+    Entry:
+        - entry (tk.Entry): Entry pour entrer son nom
+
+    Attributs:
+        - root (Root): Instance du root
+        - frame (tk.Frame): Frame de la vue
+        - on_quit (Callable): Fonction à appeler lors du clic sur le bouton Quitter
+    """
+    def __init__(self, root: Root, scorevalue: int):
+        """"""
+        super().__init__(root, tk.Frame(root))
+        self.scoreValue = scorevalue
+        size = Config.get_instance()["Game"]["Size"]
+        self.game_over_canvas = tk.Canvas(
+            self.frame,
+            width=size["Width"], height=size["Height"]
+        )
+        self.game_over_canvas.pack()
+        self.game_over_canvas.create_text(
+            225, 20,
+            text="Game Over - Vous avez perdu",
+            font=("Arial", 20)
+        )
+        self.game_over_canvas.create_text(
+            225, 70,
+            text="Score :" + str(self.scoreValue),
+            font=("Arial", 15)
+        )
+
+        self.game_over_canvas.create_text(
+            225, 95,
+            text= "Quel est votre nom ? (Appuyez sur entrer pour confirmer)",
+            font=("Arial", 10)
+        )
+
+        self.nameEntry = tk.Entry(self.game_over_canvas)
+        self.nameEntry.place(x=150, y=120)
+        self.nameEntry.focus_set()
+
+        self.btn_menu = tk.Button(
+            self.game_over_canvas,
+            text="Menu",
+            width=20, height=2,
+            borderwidth=0,
+            background = "white", border=1,
+            activebackground="blue",
+            foreground="blue",
+        )
+        self.btn_menu.place(x=150, y=350)
+
+        self.btn_quit = tk.Button(
+            self.game_over_canvas,
+            text="Quitter",
+            width=20, height=2,
+            borderwidth=0,
+            command=self.root.destroy,
+            background="white", border=1,
+            activebackground="white",
+            foreground="red"
+        )
+        self.btn_quit.place(x=150, y=400)
+
+    def draw(self):
+        """##Fonction appelée pour dessiner la vue de fin de jeu"""
         self.frame.pack()
 
 
