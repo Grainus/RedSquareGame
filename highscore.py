@@ -1,14 +1,12 @@
 """Permet d'enregistrer des scores à un fichier."""
 # Documentation
 from typing import Callable
+from functools import partial
 
 # Modules standard
 import sqlite3 as sql
 import os.path
 
-## TESTING
-import random
-names = ("Maisha", "Schneider", "Deborah"  "Burgess", "Benny", "eaver", "Kean", "Brown", "Laibah", "Rasmussen", "Jay-Jay", "Mahoney", "Lulu", "Rivers", "Kairo", "Poole", "Abdul", "Valenzuela", "Hakim", "Plant")
 
 class HighScore:
     database = os.path.join(
@@ -18,40 +16,75 @@ class HighScore:
 
     @staticmethod
     def connect() -> sql.Connection:
-        try:
-            return sql.connect(HighScore.database, uri=True)
-        except sql.OperationalError:
-            return HighScore.create_db()
+        """Alias sémantique de create_db"""
+        return HighScore.create_db()
 
     @staticmethod
     def create_db() -> sql.Connection:
-        raise NotImplementedError
+        """Crée la base de donnée si elle n'est pas présente."""
+        con = sql.connect(HighScore.database)
+
+        con.execute(f"""
+            CREATE TABLE IF NOT EXISTS HighScores (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                UserName TEXT,
+                Score INTEGER,
+                Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )"""
+        )
+        con.commit()
+
+        return con
 
     @staticmethod
-    def save_score(name: str, score: int):
+    def save_score(name: str, score: int) -> None:
+        con = HighScore.connect()
+        con.cursor().execute(f"""
+            INSERT INTO HighScores (UserName, Score)
+                VALUES (?, ?) 
+            """, (name, score)
+        )
+
+        con.commit()
+        con.close()
+
+
+    @staticmethod
+    def get_scores(
+            order: str = "Score"
+    ) -> list[tuple[tuple[str, int], Callable[[], None]]]:
+        """Retourne une liste de tuples contenant les scores (nom et
+        temps) ainsi qu'une fonction qui supprime le score.
+
+        Args:
+            order: Colonne à utiliser pour l'ordre des scores. Par
+              défaut, les scores les plus hauts sont en premier.
+        """
         con = HighScore.connect()
         cur = con.cursor()
-      
-        raise NotImplementedError
-      
-    @staticmethod
-    def get_scores() -> list[tuple[tuple[str, int], Callable]]:
-        """Retourne une liste de tuples contenant les scores
-        (nom et temps) ainsi qu'une fonction qui supprime le score
-        """
-        def callback():
-            pass
+
+        exc = cur.execute(f"""
+                SELECT* FROM HighScores
+                ORDER BY {order} DESC
+                """
+        )
+
+        result = exc.fetchall()
+        # TODO: fancy zip() or itertools
         return [
             (
-                (
-                    random.choice(names),
-                    random.randint(0, 100)
-                ),
-                callback
-            )
-            for _ in range(20)
+                tuple(res[1:3]),
+                partial(HighScore.delete_score, res[0])
+            )  # type: ignore  # Je sais ce que je fais
+            for res in result
         ]
 
     @staticmethod
     def delete_score(id) -> None:
-        raise NotImplementedError
+        con = HighScore.connect()
+        con.cursor().execute(
+                "DELETE FROM HighScores WHERE ID = ?", (id,)
+        )
+
+        con.commit()
+        con.close()
