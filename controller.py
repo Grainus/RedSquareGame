@@ -220,7 +220,8 @@ class GameController(Controller):
             enemy.start_move()
 
     def on_game_end(self) -> None:
-        """##Fonction appelée lorsque la partie est terminée afin d'afficher le menu de score et de sauvegarder le score """
+        """##Fonction appelée lorsque la partie est terminée afin d'afficher le menu de score et de sauvegarder le
+        score """
         self.frame.destroy()
         self.root.controller = GameEndController(self.root, self.player.score.value)
 
