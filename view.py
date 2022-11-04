@@ -48,7 +48,7 @@ from tkinter import PhotoImage
 if TYPE_CHECKING:
     from game_engine import Root
 
-from model import Score
+from model import Score, Difficulty
 from config import Config
 from highscore import HighScore
 
@@ -285,20 +285,45 @@ class HighscoreView(View):
         listeScore = HighScore.get_scores()
 
         for i in listeScore:
-            self.highscore_canvas.listBox.insert("end", i)
+            self.highscore_canvas.listBox.insert("end", f"{i[0][0]} :  {Score.to_readable(i[0][1])}")
 
         # Put a scrolling box for the score underneath the canvas's text
 
-        self.btn_menu = tk.Button(
-            self.highscore_canvas,
-            text="Menu",
-            width=20, height=2,
-            borderwidth=0,
-            background = "blue"
+        # Dimensions des widgets
+        self.btn_height = 100
+        self.btn_width = 200
+
+        currentdir = os.path.dirname(__file__)
+        graphics = os.path.join(currentdir, "Graphics")
+        buttons = os.path.join(graphics, "Buttons")
+
+        self.quit_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButton.png")
+        )
+        self.menu_photo = PhotoImage(
+            file=os.path.join(buttons, "menuButton.png")
+        )
+        # Initialization des boutons
+        def create_btn(image: PhotoImage, cmd: Callable) -> tk.Button:
+            return tk.Button(
+                    self.highscore_canvas,
+                    image=image,
+                    width=self.btn_width, height=self.btn_height,
+                    borderwidth=0,
+                    command=cmd
+            )
+
+        self.btn_menu = create_btn(self.menu_photo, self.on_menu)
+        self.btn_quit = create_btn(self.quit_photo, self.on_quit)
+        
+        # Positionnement des widgets
+        self.btn_menu.place(
+            x=(450 - (self.btn_width*2)) / 2,
+            y=450 - self.btn_height
         )
         self.btn_quit.place(
             x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450- self.btn_height
+            y=450 - self.btn_height
         )
 
     def draw(self):
@@ -354,28 +379,42 @@ class GameEndView(View):
         self.nameEntry.place(x=150, y=120)
         self.nameEntry.focus_set()
 
-        self.btn_menu = tk.Button(
-            self.game_over_canvas,
-            text="Menu",
-            width=20, height=2,
-            borderwidth=0,
-            background = "white", border=1,
-            activebackground="blue",
-            foreground="blue",
-        )
-        self.btn_menu.place(x=150, y=350)
+        # Dimensions des widgets
+        self.btn_height = 100
+        self.btn_width = 200
 
-        self.btn_quit = tk.Button(
-            self.game_over_canvas,
-            text="Quitter",
-            width=20, height=2,
-            borderwidth=0,
-            command=self.root.destroy,
-            background="white", border=1,
-            activebackground="white",
-            foreground="red"
+        currentdir = os.path.dirname(__file__)
+        graphics = os.path.join(currentdir, "Graphics")
+        buttons = os.path.join(graphics, "Buttons")
+
+        self.quit_photo = PhotoImage(
+            file=os.path.join(buttons, "quitButton.png")
         )
-        self.btn_quit.place(x=150, y=400)
+        self.menu_photo = PhotoImage(
+            file=os.path.join(buttons, "menuButton.png")
+        )
+        # Initialization des boutons
+        def create_btn(image: PhotoImage, cmd: Callable) -> tk.Button:
+            return tk.Button(
+                    self.game_over_canvas,
+                    image=image,
+                    width=self.btn_width, height=self.btn_height,
+                    borderwidth=0,
+                    command=cmd
+            )
+
+        self.btn_menu = create_btn(self.menu_photo, self.on_menu)
+        self.btn_quit = create_btn(self.quit_photo, self.on_quit)
+        
+        # Positionnement des widgets
+        self.btn_menu.place(
+            x=(450 - (self.btn_width*2)) / 2,
+            y=450 - self.btn_height
+        )
+        self.btn_quit.place(
+            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
+            y=450 - self.btn_height
+        )
 
     def draw(self):
         """##Fonction appelée pour dessiner la vue de fin de jeu"""

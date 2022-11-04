@@ -37,13 +37,17 @@ from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
-from view import MenuView, GameView, HighscoreView, OptionsView, GameOverView, GameEndView
+from view import MenuView, GameView, HighscoreView, GameEndView
 import c31Geometry.c31Geometry2 as geo
 from config import Config
 from highscore import HighScore
 
 if TYPE_CHECKING:
     from game_engine import Root
+
+from model import Player, Enemy
+
+from view import create_timer_widget
 
 __docformat__ = "google"
 
@@ -107,7 +111,6 @@ class MenuController(Controller):
         self.view.draw()
 
     def on_options(self) -> None:
-        """Fonction appelée pour démarrer le menu d'options"""
         """##Fonction appelée lors de l'appui sur le bouton Options afin d'afficher la vue des options
         """
         self.frame.pack_forget()
@@ -314,3 +317,15 @@ class HighscoreController(Controller):
         self.view.destroy()
         self.root.controller = MenuController(self.root)
         self.root.controller.start()
+
+class OptionsController(Controller):
+    def __init__(self, root: Root, frame: tk.Frame):
+        """Initialisation du controlleur des options"""
+        super().__init__(root, frame)
+        self.view = OptionsView(root, frame, self.on_quit, self.on_menu)
+
+    def start(self) -> None:
+        self.view.draw()
+
+    def on_menu(self) -> None:
+        self.frame.pack_forget()
