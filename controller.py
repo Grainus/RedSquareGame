@@ -265,10 +265,11 @@ class GameEndController(Controller):
     def on_submit(self, _) -> None:
         """##Fonction appelée lorsque le joueur appuie sur Entrée pour valider son nom"""
         name = self.view.nameEntry.get()  # Get the name from the entry
-        self.view.destroy()
-        # Todo: Save score
-        self.root.HighscoreController = HighscoreController(self.root, self.frame)
-        self.root.HighscoreController.start()
+        if name != "":
+            self.view.destroy()
+            # Todo: Save score
+            self.root.HighscoreController = HighscoreController(self.root, self.frame)
+            self.root.HighscoreController.start()
 
     def on_menu(self, _) -> None:
         """##Fonction appelée lorsque le joueur appuie sur le bouton Menu afin de revenir au menu"""
