@@ -328,7 +328,7 @@ class GameEndView(View):
 
         self.game_over_canvas.create_text(
             225, 70,
-            text= "Quel est votre nom ?",
+            text= "Quel est votre nom ? (Appuyez sur entrer pour confirmer)",
             font=("Arial", 10)
             )
 
