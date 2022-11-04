@@ -184,31 +184,27 @@ class HighscoreView(View):
             font=("Arial", 50)
         )
 
+        # Dimensions des widgets
+        self.btn_height = 100
+        self.btn_width = 200
+        self.score_width = 300
+
         scores = HighScore.get_scores()
         self.score_labels = []
         counter = 0
         for score, callback in scores[:10]:
             text = f"{score[0]}: {Score.to_readable(score[1])}"
-            self.score_labels[counter] = tk.Label(self.highscore_canvas,text=text,onclick=callback)
+            self.score_labels[counter] = tk.Button(
+                self.highscore_canvas,
+                text=text,
+                command=callback,
+                width=self.score_width)
             self.score_labels[counter].pack()
             counter+=1
 
+        
 
-        # Dimensions des widgets
-        self.btn_height = 100
-        self.btn_width = 200
-
-        i = listeScore.__len__()
-
-        if i > 15:
-            i = 15
-        for j in range(i):
-            self.highscore_canvas.create_text(
-                    225, 50 + (j*20),
-                    text=listeScore[j],
-                    font=("Arial", 10)
-            )
-
+        
         currentdir = os.path.dirname(__file__)
         graphics = os.path.join(currentdir, "Graphics")
         buttons = os.path.join(graphics, "Buttons")
@@ -372,6 +368,9 @@ class GameOverView(View):
             text="Game\nOver",
             font=("Arial", 50)
         )
+
+        score = tk.StringVar()
+        score_entry = tk.Entry(self.game_over_canvas)
 
         # Dimensions des widgets
         self.btn_height = 100
