@@ -49,6 +49,7 @@ if TYPE_CHECKING:
     from game_engine import Root
 
 from model import Score
+from config import Config
 
 __docformat__ = "google"
 
