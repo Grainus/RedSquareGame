@@ -184,7 +184,14 @@ class HighscoreView(View):
             font=("Arial", 50)
         )
 
-        listeScore = []  # todo : get the highscores from the database
+        scores = HighScore.get_scores()
+        self.score_labels = []
+        counter = 0
+        for score, callback in scores[:10]:
+            text = f"{score[0]}: {Score.to_readable(score[1])}"
+            self.score_labels[counter] = tk.Label(self.highscore_canvas,text=text,onclick=callback)
+            self.score_labels[counter].pack()
+            counter+=1
 
 
         # Dimensions des widgets
