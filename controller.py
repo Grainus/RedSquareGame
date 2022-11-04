@@ -40,6 +40,7 @@ import tkinter as tk
 from view import MenuView, GameView, HighscoreView, GameEndView
 import c31Geometry.c31Geometry2 as geo
 from config import Config
+from highscore import HighScore
 
 if TYPE_CHECKING:
     from game_engine import Root
@@ -267,7 +268,7 @@ class GameEndController(Controller):
         name = self.view.nameEntry.get()  # Prend le nom du joueur
         if name:  # Si le nom n'est pas vide
             self.view.destroy()
-            # Todo: Save score
+            HighScore.save_score(name, self.score)
             self.root.HighscoreController = HighscoreController(self.root, self.frame)
             self.root.HighscoreController.start()
 
@@ -302,9 +303,13 @@ class HighscoreController(Controller):
         self.view.draw()
 
         self.view.btn_menu.bind("<Button-1>", self.on_menu)
+        self.view.highscore_canvas.listBox.bind("<Double-Button-1>", self.on_double_click)
 
     def on_menu(self, _) -> None:
         """##Fonction appelée lorsque le joueur appuie sur le bouton Menu afin de revenir au menu"""
         self.view.destroy()
         self.root.controller = MenuController(self.root)
         self.root.controller.start()
+
+    def on_double_click(self, _) -> None:
+        """##Fonction appelée lorsque le joueur appuie sur un des score afin de le supprimer"""
