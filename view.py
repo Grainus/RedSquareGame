@@ -306,10 +306,10 @@ class GameEndView(View):
         - frame (tk.Frame): Frame de la vue
         - on_quit (Callable): Fonction à appeler lors du clic sur le bouton Quitter
     """
-    def __init__(self, root: Root, scoreValue : int):
+    def __init__(self, root: Root, scorevalue: int):
         """"""
         super().__init__(root, tk.Frame(root))
-        self.scoreValue = scoreValue
+        self.scoreValue = scorevalue
         self.game_over_canvas = tk.Canvas(
             self.frame,
             width=450, height=450
@@ -321,19 +321,19 @@ class GameEndView(View):
             font=("Arial", 20)
         )
         self.game_over_canvas.create_text(
-            225, 50,
+            225, 70,
             text="Score :" + str(self.scoreValue),
-            font=("Arial", 10)
+            font=("Arial", 15)
         )
 
         self.game_over_canvas.create_text(
-            225, 70,
+            225, 95,
             text= "Quel est votre nom ? (Appuyez sur entrer pour confirmer)",
             font=("Arial", 10)
             )
 
         self.nameEntry = tk.Entry(self.game_over_canvas)
-        self.nameEntry.place(x=150, y=100)
+        self.nameEntry.place(x=150, y=120)
         self.nameEntry.focus_set()
 
         self.btn_menu = tk.Button(
@@ -341,7 +341,9 @@ class GameEndView(View):
             text="Menu",
             width=20, height=2,
             borderwidth=0,
-            background = "blue"
+            background = "white", border=1,
+            activebackground="blue",
+            foreground="blue",
         )
         self.btn_menu.place(x=150, y=350)
 
@@ -351,7 +353,9 @@ class GameEndView(View):
             width=20, height=2,
             borderwidth=0,
             command=self.root.destroy,
-            background="red"
+            background="white", border=1,
+            activebackground="white",
+            foreground="red"
         )
         self.btn_quit.place(x=150, y=400)
 
