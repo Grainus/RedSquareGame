@@ -37,7 +37,7 @@ from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
-from view import MenuView, GameView, HighscoreView,GameEndView
+from view import MenuView, GameView, HighscoreView, GameEndView
 import c31Geometry.c31Geometry2 as geo
 from config import Config
 
@@ -266,7 +266,7 @@ class GameEndController(Controller):
     def on_submit(self, _) -> None:
         """##Fonction appelée lorsque le joueur appuie sur Entrée pour valider son nom"""
         name = self.view.nameEntry.get()  # Get the name from the entry
-        if name != "":
+        if name:
             self.view.destroy()
             # Todo: Save score
             self.root.HighscoreController = HighscoreController(self.root, self.frame)

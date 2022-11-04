@@ -310,9 +310,10 @@ class GameEndView(View):
         """"""
         super().__init__(root, tk.Frame(root))
         self.scoreValue = scorevalue
+        size = Config.get_instance()["Game"]["Size"]
         self.game_over_canvas = tk.Canvas(
             self.frame,
-            width=450, height=450
+            width=size["Width"], height=size["Height"]
         )
         self.game_over_canvas.pack()
         self.game_over_canvas.create_text(
@@ -330,7 +331,7 @@ class GameEndView(View):
             225, 95,
             text= "Quel est votre nom ? (Appuyez sur entrer pour confirmer)",
             font=("Arial", 10)
-            )
+        )
 
         self.nameEntry = tk.Entry(self.game_over_canvas)
         self.nameEntry.place(x=150, y=120)
