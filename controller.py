@@ -258,15 +258,14 @@ class GameEndController(Controller):
 
         Cette fonction initialise les événements du controlleur de fin de partie
         """
-        # Event listener to get back the string from nameEntry inside the view
         self.view.nameEntry.bind("<Return>", self.on_submit)
         self.view.nameEntry.focus_set()
         self.view.btn_menu.bind("<Button-1>", self.on_menu)
 
     def on_submit(self, _) -> None:
         """##Fonction appelée lorsque le joueur appuie sur Entrée pour valider son nom"""
-        name = self.view.nameEntry.get()  # Get the name from the entry
-        if name:
+        name = self.view.nameEntry.get()  # Prend le nom du joueur
+        if name:  # Si le nom n'est pas vide
             self.view.destroy()
             # Todo: Save score
             self.root.HighscoreController = HighscoreController(self.root, self.frame)
