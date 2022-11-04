@@ -241,7 +241,6 @@ class HighscoreView(View):
     def __init__(self, root: Root, frame: tk.Frame, on_quit: Callable):
         """"""
         super().__init__(root, frame)
-        self.listeScore = HighScore.get_scores()
 
         self.on_quit = on_quit
         self.highscore_canvas = tk.Canvas(
@@ -275,10 +274,12 @@ class HighscoreView(View):
             anchor="center", relx=0.9, rely=0.5, relheight=1
         )
 
-        #  self.listeScore[1][1]()
-
-        for i in self.listeScore:
-            self.highscore_canvas.listBox.insert("end", i[0])
+        self.callbacks: list[Callable[[], None]] = []
+        for score, callback in HighScore.get_scores():
+            self.highscore_canvas.listBox.insert(
+                    "end", f"{score[0]}: {score[1]}"
+            )
+            self.callbacks.append(callback)
 
         # Put a scrolling box for the score underneath the canvas's text
 
@@ -326,7 +327,7 @@ class HighscoreView(View):
             # Delete the selected item from the listbox
             self.highscore_canvas.listBox.delete(index)
             # Delete the selected item from the file
-            self.listeScore[index][1]()
+            self.callbacks[index]()
 
 class GameEndView(View):
     """#Classe de la vue de fin de jeu
