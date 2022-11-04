@@ -17,7 +17,23 @@
 # DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D’UN CONTRAT,
 # D’UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION,
 # OU AVEC D’AUTRES ÉLÉMENTS DU LOGICIEL.
-"""TODO: DOCSTRING"""
+"""#Module de la vue
+Ce module contient les classes et fonctions nécessaires à la création de la vue
+
+Classe:
+    - View : Classe abstraite de la vue
+    - MenuView : Classe de la vue du menu
+    - GameView : Classe de la vue du jeu
+    - HighscoreView : Classe de la vue des highscores
+
+Et des fonctions de vue
+
+Fonctions:
+    - create_timer_widget : Fonction de création du widget du timer
+
+Notes:
+    - Les classes de la vue sont des classes filles de la classe abstraite View
+"""
 
 # Type hinting
 from __future__ import annotations
@@ -32,28 +48,65 @@ from tkinter import PhotoImage
 if TYPE_CHECKING:
     from game_engine import Root
 
-# Modules de projet
-from model import Score, Difficulty
+from model import Score
 from config import Config
+from highscore import HighScore
 
 __docformat__ = "google"
 
 
 class View(ABC):
+    """#Classe abstraite de la vue
+
+    Cette classe est une classe abstraite qui contient les attributs et méthodes
+    communes à toutes les vues du jeu.
+
+    Attributs:
+        - root (Root): Instance du root
+        - frame (tk.Frame): Frame de la vue
+        """
     def __init__(self, root: Root, frame: tk.Frame):
         self.root = root
         self.frame = frame
 
     def set_listen(self, eventname: str, command: Callable) -> None:
-        """Fonction permettant de lier un événement à une fonction"""
+        """##Fonction permettant de lier un événement à une fonction
+
+        Args:
+            - eventname (str): Nom de l'événement
+            - command (Callable): Fonction à appeler
+            """
         self.root.bind(eventname, command)
 
     def destroy(self):
-        """Fonction appelée pour détruire la vue"""
+        """##Fonction appelée pour détruire la vue"""
         self.frame.destroy()
 
 
 class MenuView(View):
+    """#Classe de la vue du menu
+
+    Cette classe est une classe fille de la classe View qui contient les attributs et méthodes
+    spécifiques à la vue du menu du jeu.
+
+    Attributs:
+        - root (Root): Instance du root
+        - frame (tk.Frame): Frame de la vue
+        - on_new_game (Callable): Fonction à appeler lors du clic sur le bouton Nouvelle partie
+        - on_quit (Callable): Fonction à appeler lors du clic sur le bouton Quitter
+        - on_options (Callable): Fonction à appeler lors du clic sur le bouton Options
+        - on_highscores (Callable): Fonction à appeler lors du clic sur le bouton Highscores
+        - btn_width (int): Largeur des boutons
+        - btn_height (int): Hauteur des boutons
+        - logo_width (int): Largeur du logo
+        - logo_height (int): Hauteur du logo
+        - title_logo (tk.Label): Label du logo
+        - label_title (tk.Label): Label du titre
+        - btn_new_game (tk.Button): Bouton Nouvelle partie
+        - btn_quit (tk.Button): Bouton Quitter
+        - btn_options (tk.Button): Bouton Options
+        - btn_highscores (tk.Button): Bouton Highscores
+        """
     def __init__(
             self, root: Root, frame: tk.Frame,
             on_new_game: Callable,
@@ -61,7 +114,7 @@ class MenuView(View):
             on_options: Callable,
             on_highscores: Callable
     ):
-        """Initialisation de la vue du menu"""
+        """"""
         # Initialise la classe parente (View) pour les éléments communs
         super().__init__(root, frame)
 
@@ -110,7 +163,16 @@ class MenuView(View):
         )
         
         def create_btn(image: PhotoImage, cmd: Callable) -> tk.Button:
-            return  tk.Button(
+            """##Fonction de création d'un bouton
+
+            Args:
+                - image (PhotoImage): Image du bouton
+                - cmd (Callable): Fonction à appeler lors du clic sur le bouton
+
+            Retourne:
+                - tk.Button: Bouton créé
+            """
+            return tk.Button(
                     self.frame,
                     image=image,
                     width=self.btn_width, height=self.btn_height,
@@ -135,8 +197,7 @@ class MenuView(View):
         )
 
     def draw(self) -> None:
-        """Fonction appelée pour dessiner le menu"""
-        
+        """##Fonction appelée pour dessiner le menu"""
         self.title_logo.place(x=(450-self.logo_width)/2, y=0)
         self.btn_new_game.place(x=(450-self.btn_width)/2, y=self.logo_height)
         self.btn_quit.place(
@@ -154,20 +215,37 @@ class MenuView(View):
         
         
 class GameView(View):
-    # todo : the whole thing here ! :)
+    """"#Classe de la vue du jeu
+
+    Cette classe est une classe fille de la classe View. Elle contient les méthodes
+    et attributs spécifiques à la vue du jeu.
+
+    Attributs:
+        - root (Root): Instance du root
+        - frame (tk.Frame): Frame de la vue
+        - on_quit (Callable): Fonction à appeler lors du clic sur le bouton Quitter"""
     def draw(self):
-        """Fonction appelée pour dessiner le jeu"""
+        """##Fonction appelée pour dessiner le jeu"""
         self.frame.pack()
 
 
 class HighscoreView(View):
+    """#Classe de la vue des highscores
+
+    Cette classe est une classe fille de la classe View. Elle contient les méthodes
+    et attributs spécifiques à la vue des highscores.
+
+    Attributs:
+        - root (Root): Instance du root
+        - frame (tk.Frame): Frame de la vue
+        - on_quit (Callable): Fonction à appeler lors du clic sur le bouton Quitter"""
     def __init__(
                 self, root: Root,
                 frame: tk.Frame,
                 on_quit: Callable,
                 on_menu: Callable
         ):
-        """Initialisation de la vue des highscores"""
+        """"""
         super().__init__(root, frame)
         size = Config.get_instance()["Game"]["Size"]
         
@@ -178,62 +256,45 @@ class HighscoreView(View):
             width=size["Width"], height=size["Height"]
         )
         self.highscore_canvas.pack()
-        self.highscore_canvas.create_text(
-            225, 35,
+        self.highscore_canvas.label = tk.Label(
+            self.highscore_canvas,
             text="Highscores",
             font=("Arial", 50)
         )
+        self.highscore_canvas.label.place(anchor="center", relx=0.5, rely=0.1)
 
-        # Dimensions des widgets
-        self.btn_height = 100
-        self.btn_width = 200
-        self.score_width = 300
-
-        scores = HighScore.get_scores()
-        self.score_labels = []
-        counter = 0
-        for score, callback in scores[:10]:
-            text = f"{score[0]}: {Score.to_readable(score[1])}"
-            self.score_labels[counter] = tk.Button(
-                self.highscore_canvas,
-                text=text,
-                command=callback,
-                width=self.score_width)
-            self.score_labels[counter].pack()
-            counter+=1
-
-        
-
-        
-        currentdir = os.path.dirname(__file__)
-        graphics = os.path.join(currentdir, "Graphics")
-        buttons = os.path.join(graphics, "Buttons")
-
-        # Photos des widgets
-        self.quit_photo = PhotoImage(
-            file=os.path.join(buttons, "quitButton.png")
+        self.highscore_canvas.listBox = tk.Listbox(
+            self.highscore_canvas,
+            width=30, height=15
         )
-        self.menu_photo = PhotoImage(
-            file=os.path.join(buttons, "menuButton.png")
+        scrollbar = tk.Scrollbar(
+            self.highscore_canvas.listBox,
+            orient="vertical",
+            command=self.highscore_canvas.listBox.yview
         )
 
-        # Initialization des boutons
-        def create_btn(image: PhotoImage, cmd: Callable) -> tk.Button:
-            return  tk.Button(
-                    self.highscore_canvas,
-                    image=image,
-                    width=self.btn_width, height=self.btn_height,
-                    borderwidth=0,
-                    command=cmd
-            )
-    
-        self.btn_menu = create_btn(self.menu_photo, self.on_menu)
-        self.btn_quit = create_btn(self.quit_photo, self.on_quit)
-        
-        # Positionnement des widgets
-        self.btn_menu.place(
-            x=(450 - (self.btn_width*2)) / 2,
-            y=450- self.btn_height
+        self.highscore_canvas.listBox.config(yscrollcommand=scrollbar.set)
+        self.highscore_canvas.listBox.place(
+            anchor="center", relx=0.5, rely=0.45
+        )
+
+        scrollbar.place(
+            anchor="center", relx=0.9, rely=0.5, relheight=1
+        )
+
+        listeScore = HighScore.get_scores()
+
+        for i in listeScore:
+            self.highscore_canvas.listBox.insert("end", i)
+
+        # Put a scrolling box for the score underneath the canvas's text
+
+        self.btn_menu = tk.Button(
+            self.highscore_canvas,
+            text="Menu",
+            width=20, height=2,
+            borderwidth=0,
+            background = "blue"
         )
         self.btn_quit.place(
             x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
@@ -241,7 +302,83 @@ class HighscoreView(View):
         )
 
     def draw(self):
-        """Fonction appelée pour dessiner les highscores"""
+        """##Fonction appelée pour dessiner les highscores"""
+        self.frame.pack()
+
+class GameEndView(View):
+    """#Classe de la vue de fin de jeu
+
+    Cette classe est une classe fille de la classe View. Elle contient les méthodes
+    et attributs spécifiques à la vue de fin de jeu.
+
+    On y créera aussi les attributs spécifiques à la vue de fin de jeu
+    Bouton:
+        - btn_menu (tk.Button): Bouton pour revenir au menu
+        - btn_quit (tk.Button): Bouton pour quitter le jeu
+    Entry:
+        - entry (tk.Entry): Entry pour entrer son nom
+
+    Attributs:
+        - root (Root): Instance du root
+        - frame (tk.Frame): Frame de la vue
+        - on_quit (Callable): Fonction à appeler lors du clic sur le bouton Quitter
+    """
+    def __init__(self, root: Root, scorevalue: int):
+        """"""
+        super().__init__(root, tk.Frame(root))
+        self.scoreValue = scorevalue
+        size = Config.get_instance()["Game"]["Size"]
+        self.game_over_canvas = tk.Canvas(
+            self.frame,
+            width=size["Width"], height=size["Height"]
+        )
+        self.game_over_canvas.pack()
+        self.game_over_canvas.create_text(
+            225, 20,
+            text="Game Over - Vous avez perdu",
+            font=("Arial", 20)
+        )
+        self.game_over_canvas.create_text(
+            225, 70,
+            text="Score :" + str(self.scoreValue),
+            font=("Arial", 15)
+        )
+
+        self.game_over_canvas.create_text(
+            225, 95,
+            text= "Quel est votre nom ? (Appuyez sur entrer pour confirmer)",
+            font=("Arial", 10)
+        )
+
+        self.nameEntry = tk.Entry(self.game_over_canvas)
+        self.nameEntry.place(x=150, y=120)
+        self.nameEntry.focus_set()
+
+        self.btn_menu = tk.Button(
+            self.game_over_canvas,
+            text="Menu",
+            width=20, height=2,
+            borderwidth=0,
+            background = "white", border=1,
+            activebackground="blue",
+            foreground="blue",
+        )
+        self.btn_menu.place(x=150, y=350)
+
+        self.btn_quit = tk.Button(
+            self.game_over_canvas,
+            text="Quitter",
+            width=20, height=2,
+            borderwidth=0,
+            command=self.root.destroy,
+            background="white", border=1,
+            activebackground="white",
+            foreground="red"
+        )
+        self.btn_quit.place(x=150, y=400)
+
+    def draw(self):
+        """##Fonction appelée pour dessiner la vue de fin de jeu"""
         self.frame.pack()
 
 class OptionsView(View):
@@ -340,7 +477,14 @@ class OptionsView(View):
 
 
 def create_timer_widget(canvas: tk.Canvas) -> tk.Label:
-    """Créé la vue du widget et retourne son label"""
+    """#Créé la vue du widget et retourne son label
+
+    Args:
+        - canvas (tk.Canvas): Canvas sur lequel dessiner le widget
+
+    Retourne:
+        - tk.Label: Label du widget
+        """
     label = tk.Label(
         canvas, font=('Comic Sans MS', 18),
         text=Score.to_readable(0), width=5, height=1,
