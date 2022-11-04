@@ -40,6 +40,7 @@ import tkinter as tk
 from view import MenuView, GameView, HighscoreView, GameEndView
 import c31Geometry.c31Geometry2 as geo
 from config import Config
+from highscore import HighScore
 
 if TYPE_CHECKING:
     from game_engine import Root
@@ -267,7 +268,7 @@ class GameEndController(Controller):
         name = self.view.nameEntry.get()  # Prend le nom du joueur
         if name:  # Si le nom n'est pas vide
             self.view.destroy()
-            # Todo: Save score
+            HighScore.save_score(name, self.score)
             self.root.HighscoreController = HighscoreController(self.root, self.frame)
             self.root.HighscoreController.start()
 

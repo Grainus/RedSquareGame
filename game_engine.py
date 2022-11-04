@@ -25,12 +25,7 @@ la boucle principale du jeu."""
 
 import tkinter as tk
 
-from controller import (
-        MenuController,
-        GameController,
-        HighscoreController
-)
-from config import Config
+from controller import MenuController
 
 __docformat__ = "google"
 
