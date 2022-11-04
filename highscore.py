@@ -6,6 +6,9 @@ from typing import Callable
 import sqlite3 as sql
 import os.path
 
+## TESTING
+import random
+names = ("Maisha", "Schneider", "Deborah"  "Burgess", "Benny", "eaver", "Kean", "Brown", "Laibah", "Rasmussen", "Jay-Jay", "Mahoney", "Lulu", "Rivers", "Kairo", "Poole", "Abdul", "Valenzuela", "Hakim", "Plant")
 
 class HighScore:
     database = os.path.join(
@@ -36,7 +39,17 @@ class HighScore:
         """Retourne une liste de tuples contenant les scores
         (nom et temps) ainsi qu'une fonction qui supprime le score
         """
-        raise NotImplementedError
+        def callback():
+            pass
+        return [
+            (
+                (
+                    random.choice(names),
+                    random.randint(0, 100)
+                ),
+                callback
+            )
+        ]
 
     @staticmethod
     def delete_score(id) -> None:
