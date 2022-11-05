@@ -311,12 +311,17 @@ class HighscoreController(Controller):
         self.view.draw()
 
         self.view.btn_menu.bind("<Button-1>", self.on_menu)
+        self.view.highscore_canvas.listBox.bind("<Double-Button-1>", self.on_double_click)
 
     def on_menu(self, _) -> None:
         """##Fonction appelée lorsque le joueur appuie sur le bouton Menu afin de revenir au menu"""
         self.view.destroy()
         self.root.controller = MenuController(self.root)
         self.root.controller.start()
+
+    def on_double_click(self, _) -> None:
+        """##Fonction appelée lorsque le joueur appuie sur un des score afin de le supprimer"""
+
 
 class OptionsController(Controller):
     def __init__(self, root: Root, frame: tk.Frame):
