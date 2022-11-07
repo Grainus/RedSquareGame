@@ -292,8 +292,8 @@ class HighscoreView(View):
         # Put a scrolling box for the score underneath the canvas's text
 
         # Dimensions des widgets
-        self.btn_height = 100
-        self.btn_width = 200
+        self.btn_height = size["Height"] / 4,5
+        self.btn_width = 2 * self.btn_height
 
         currentdir = os.path.dirname(__file__)
         graphics = os.path.join(currentdir, "Graphics")
@@ -403,12 +403,12 @@ class GameEndView(View):
         )
 
         self.nameEntry = tk.Entry(self.game_over_canvas)
-        self.nameEntry.place(x=150, y=120)
+        self.nameEntry.place(relx=1/3, rely=1/3.75)
         self.nameEntry.focus_set()
 
         # Dimensions des widgets
-        self.btn_height = 100
-        self.btn_width = 200
+        self.btn_height = size["Height"] / 4,5
+        self.btn_width = 2 * self.btn_height
 
         currentdir = os.path.dirname(__file__)
         graphics = os.path.join(currentdir, "Graphics")
@@ -435,12 +435,12 @@ class GameEndView(View):
         
         # Positionnement des widgets
         self.btn_menu.place(
-            x=(450 - (self.btn_width*2)) / 2,
-            y=450 - self.btn_height
+            x=(size["Width"] - (self.btn_width*2)) / 2,
+            y=size["Height"] - self.btn_height
         )
         self.btn_quit.place(
-            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450 - self.btn_height
+            x=(size["Width"] - (self.btn_width*2)) / 2 + self.btn_width,
+            y=size["Height"] - self.btn_height
         )
 
     def draw(self):
@@ -455,17 +455,18 @@ class OptionsView(View):
         ):
         """ Initialisation de la vue des options """
         super().__init__(root, frame)
+        size = Config.get_instance()["Game"]["Size"]
         self.on_quit = on_quit
         self.on_menu = on_menu
-        self.options_canvas = tk.Canvas(self.frame, width=450, height=450)
+        self.options_canvas = tk.Canvas(self.frame, width=size["Width"], height=size["Height"])
         self.options_canvas.pack()
         self.options_canvas.create_text(225, 35, text="Options", font=("Arial", 50))
 
         # Dimensions des widgets
-        self.btn_height = 100
-        self.btn_width = 200
-        self.diff_height = 50
-        self.diff_width = 100
+        self.btn_height = size["Height"] / 4.5
+        self.btn_width = self.btn_height * 2
+        self.diff_height = self.btn_height / 2
+        self.diff_width = self.diff_height * 2
 
 
         currentdir = os.path.dirname(__file__)
@@ -502,7 +503,7 @@ class OptionsView(View):
         def diff_btn(image: PhotoImage, diff: Difficulty) -> tk.Button:
             def change_diff():
                 config = Config.get_instance()
-                config["Game"]["Difficulty"]["Level"] = str(diff)
+                config["Game"]["Difficulty"]["Level"] = diff.name
                 config.save()
             
             return tk.Button(
@@ -521,22 +522,25 @@ class OptionsView(View):
         
         # Positionnement des widgets
         self.btn_menu.place(
-            x=(450 - (self.btn_width*2)) / 2,
-            y=450 - self.btn_height
+            x=(size["Width"] - (self.btn_width*2)) / 2,
+            y=size["Height"] - self.btn_height
         )
         self.btn_quit.place(
-            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450 - self.btn_height
+            x=(size["Width"] - (self.btn_width*2)) / 2 + self.btn_width,
+            y=size["Height"] - self.btn_height
         )
         self.btn_easy.place(
-            x=(450 - self.diff_width) / 2,
-            y=450/2 - (self.diff_height*2)
+            x=(size["Width"] - self.diff_width) / 2,
+            y=size["Height"]/2 - (self.diff_height*2)
         )
         self.btn_medium.place(
-            x=(450 - self.diff_width) / 2,
-            y=450/2 - self.diff_height
+            x=(size["Width] - self.diff_width) / 2,
+            y=size["Height"]/2 - self.diff_height
         )
-        self.btn_hard.place(x=(450 - self.diff_width) / 2,y=450/2)
+        self.btn_hard.place(
+            x=(size["Width"] - self.diff_width) / 2,
+            y=size["Height"]/2
+        )
 
     def draw(self):
         self.frame.pack()
@@ -583,8 +587,8 @@ class GameOverView(View):
         score_entry = tk.Entry(self.game_over_canvas)
 
         # Dimensions des widgets
-        self.btn_height = 100
-        self.btn_width = 200
+        self.btn_height = size["Height"] / 4.5
+        self.btn_width = self.btn_height * 2
         
         
         currentdir = os.path.dirname(__file__)
@@ -618,12 +622,12 @@ class GameOverView(View):
         
         # Positionnement des widgets
         self.btn_menu.place(
-            x=(450 - (self.btn_width*2)) / 2,
-            y=450-self.btn_height
+            x=(size["Width"]- (self.btn_width*2)) / 2,
+            y=size["Height"]-self.btn_height
         )
         self.btn_quit.place(
-            x=(450 - (self.btn_width*2)) / 2 + self.btn_width,
-            y=450-self.btn_height
+            x=(size["Width"]- (self.btn_width*2)) / 2 + self.btn_width,
+            y=size["Height"]-self.btn_height
         )
     
     def draw(self):

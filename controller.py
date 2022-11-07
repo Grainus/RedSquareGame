@@ -106,6 +106,7 @@ class MenuController(Controller):
                 self.new_game, self.on_quit,
                 self.on_options, self.on_highscores
         )
+
     def start(self) -> None:
         """##Fonction appelée pour démarrer le menu"""
         self.view.draw()
@@ -177,7 +178,6 @@ class GameController(Controller):
             background=config["Game"]["Color"]["Fill"],
         )
         timer_widget = create_timer_widget(canvas)
-
 
         canvas.pack()
         self.frame.update()
@@ -333,4 +333,4 @@ class OptionsController(Controller):
         self.view.draw()
 
     def on_menu(self) -> None:
-        self.frame.pack_forget()
+        self.frame.destroy()
