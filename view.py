@@ -534,7 +534,7 @@ class OptionsView(View):
             y=size["Height"]/2 - (self.diff_height*2)
         )
         self.btn_medium.place(
-            x=(size["Width] - self.diff_width) / 2,
+            x=(size["Width"] - self.diff_width) / 2,
             y=size["Height"]/2 - self.diff_height
         )
         self.btn_hard.place(
