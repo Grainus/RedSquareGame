@@ -23,6 +23,7 @@ Ce module contient la classe Root qui est la fenêtre principale du jeu.
 Elle est aussi responsable de lancer le controlleur de menu et de lancer
 la boucle principale du jeu."""
 
+# Modules standard
 import tkinter as tk
 
 from controller import MenuController

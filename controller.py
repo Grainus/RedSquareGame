@@ -37,8 +37,14 @@ from abc import ABC  # Abstract Base Class
 import tkinter as tk
 
 # Modules du projet
-from view import MenuView, GameView, HighscoreView, GameEndView
-import c31Geometry.c31Geometry2 as geo
+from view import (
+    MenuView,
+    GameView,
+    OptionsView,
+    HighscoreView,
+    GameEndView,
+)
+import c31Geometry.c31Geometry2 as geo  # type: ignore
 from config import Config
 from highscore import HighScore
 
@@ -50,6 +56,8 @@ from model import Player, Enemy
 from view import create_timer_widget
 
 __docformat__ = "google"
+
+from view import create_timer_widget
 
 
 class Controller(ABC):
@@ -112,12 +120,15 @@ class MenuController(Controller):
     def on_options(self) -> None:
         """##Fonction appelée lors de l'appui sur le bouton Options afin d'afficher la vue des options
         """
-        pass
+        self.frame.pack_forget()
+        frame = tk.Frame(self.root)
+        options_controller = OptionsController(self.root, frame)
+        options_controller.start()
 
     def on_highscores(self) -> None:
         """##Fonction appelée lors de l'appui sur le bouton Highscores afin d'afficher le tableau des highscores
         """
-        self.frame.destroy()
+        self.frame.pack_forget()
         frame = tk.Frame(self.root)
         highscore_controller = HighscoreController(self.root, frame)
         highscore_controller.start()
@@ -224,7 +235,7 @@ class GameController(Controller):
         """##Fonction appelée lorsque la partie est terminée afin d'afficher le menu de score et de sauvegarder le
         score """
         self.frame.destroy()
-        self.root.controller = GameEndController(self.root, self.player.score.value)
+        controller = GameEndController(self.root, self.player.score.value)
 
 
 class GameEndController(Controller):
@@ -249,7 +260,7 @@ class GameEndController(Controller):
         """"""
         super().__init__(root, tk.Frame(root))
         self.score = score
-        self.view = GameEndView(root, score)
+        self.view = GameEndView(root, score, self.on_quit, self.on_menu)
         self.root.title("Game Over")
         self.view.draw()
         self.initialize()
@@ -269,14 +280,14 @@ class GameEndController(Controller):
         if name:  # Si le nom n'est pas vide
             self.view.destroy()
             HighScore.save_score(name, self.score)
-            self.root.HighscoreController = HighscoreController(self.root, self.frame)
-            self.root.HighscoreController.start()
+            highscore = HighscoreController(self.root, self.frame)
+            highscore.start()
 
     def on_menu(self, _) -> None:
         """##Fonction appelée lorsque le joueur appuie sur le bouton Menu afin de revenir au menu"""
         self.view.destroy()
-        self.root.controller = MenuController(self.root)
-        self.root.controller.start()
+        menu = MenuController(self.root)
+        menu.start()
 
 
 class HighscoreController(Controller):
@@ -296,7 +307,10 @@ class HighscoreController(Controller):
     def __init__(self, root: Root, frame: tk.Frame):
         """"""
         super().__init__(root, frame)
-        self.view = HighscoreView(root, frame, self.on_quit)
+        self.view = HighscoreView(
+            root, frame,
+            self.on_quit, self.on_menu
+        )
 
     def start(self) -> None:
         """##Fonction appelée pour démarrer le tableau des highscores"""
@@ -313,3 +327,16 @@ class HighscoreController(Controller):
 
     def on_double_click(self, _) -> None:
         """##Fonction appelée lorsque le joueur appuie sur un des score afin de le supprimer"""
+
+
+class OptionsController(Controller):
+    def __init__(self, root: Root, frame: tk.Frame):
+        """Initialisation du controlleur des options"""
+        super().__init__(root, frame)
+        self.view = OptionsView(root, frame, self.on_quit, self.on_menu)
+
+    def start(self) -> None:
+        self.view.draw()
+
+    def on_menu(self) -> None:
+        self.frame.destroy()
